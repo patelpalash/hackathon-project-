@@ -1,0 +1,420 @@
+{
+  "snapshot": {
+    "dataset_id": "spec-fixture-1",
+    "schedule_revision": 1,
+    "event_revision": 0,
+    "clock_revision": 0
+  },
+  "nodes": [
+    {
+      "id": "FRA_HUB",
+      "name": "Frankfurt hub",
+      "type": "hub",
+      "country": "DE",
+      "timezone": "Europe/Berlin",
+      "latitude": 50.11,
+      "longitude": 8.68,
+      "processing_minutes": 120,
+      "active": true,
+      "provenance": "demo_assumption"
+    },
+    {
+      "id": "KEM_BRANCH",
+      "name": "Kempten branch",
+      "type": "branch",
+      "country": "DE",
+      "timezone": "Europe/Berlin",
+      "latitude": 47.73,
+      "longitude": 10.31,
+      "processing_minutes": 0,
+      "active": true,
+      "provenance": "demo_assumption"
+    },
+    {
+      "id": "MUC_HUB",
+      "name": "Munich hub",
+      "type": "hub",
+      "country": "DE",
+      "timezone": "Europe/Berlin",
+      "latitude": 48.14,
+      "longitude": 11.58,
+      "processing_minutes": 60,
+      "active": true,
+      "provenance": "demo_assumption"
+    },
+    {
+      "id": "STR_HUB",
+      "name": "Strasbourg hub",
+      "type": "hub",
+      "country": "FR",
+      "timezone": "Europe/Paris",
+      "latitude": 48.58,
+      "longitude": 7.75,
+      "processing_minutes": 60,
+      "active": true,
+      "provenance": "demo_assumption"
+    },
+    {
+      "id": "PAR_HUB",
+      "name": "Paris hub",
+      "type": "hub",
+      "country": "FR",
+      "timezone": "Europe/Paris",
+      "latitude": 48.86,
+      "longitude": 2.35,
+      "processing_minutes": 60,
+      "active": true,
+      "provenance": "demo_assumption"
+    },
+    {
+      "id": "HAM_BRANCH",
+      "name": "Hamburg branch",
+      "type": "branch",
+      "country": "DE",
+      "timezone": "Europe/Berlin",
+      "latitude": 53.55,
+      "longitude": 9.99,
+      "processing_minutes": 0,
+      "active": true,
+      "provenance": "demo_assumption"
+    },
+    {
+      "id": "IST_BRANCH",
+      "name": "Istanbul branch",
+      "type": "branch",
+      "country": "TR",
+      "timezone": "Europe/Istanbul",
+      "latitude": 41.01,
+      "longitude": 28.98,
+      "processing_minutes": 60,
+      "active": true,
+      "provenance": "demo_assumption"
+    },
+    {
+      "id": "IST_AIR",
+      "name": "Istanbul airport hand-over",
+      "type": "hand_over",
+      "country": "TR",
+      "timezone": "Europe/Istanbul",
+      "latitude": 41.28,
+      "longitude": 28.75,
+      "processing_minutes": 60,
+      "active": true,
+      "provenance": "demo_assumption"
+    },
+    {
+      "id": "FRA_AIR",
+      "name": "Frankfurt airport hand-over",
+      "type": "hand_over",
+      "country": "DE",
+      "timezone": "Europe/Berlin",
+      "latitude": 50.04,
+      "longitude": 8.57,
+      "processing_minutes": 120,
+      "active": true,
+      "provenance": "demo_assumption"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "L_FRA_KEM",
+      "from_node_id": "FRA_HUB",
+      "to_node_id": "KEM_BRANCH",
+      "mode": "road",
+      "duration_minutes": 360,
+      "active": true,
+      "valid_from": "2026-09-01",
+      "valid_to": "2026-11-15",
+      "departures": [
+        {
+          "id": "L_FRA_KEM_D1",
+          "weekdays": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "local_time": "18:00",
+          "cutoff_minutes": 60
+        }
+      ],
+      "provenance": "demo_assumption"
+    },
+    {
+      "id": "L_FRA_MUC",
+      "from_node_id": "FRA_HUB",
+      "to_node_id": "MUC_HUB",
+      "mode": "road",
+      "duration_minutes": 300,
+      "active": true,
+      "valid_from": "2026-09-01",
+      "valid_to": "2026-11-15",
+      "departures": [
+        {
+          "id": "L_FRA_MUC_D1",
+          "weekdays": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "local_time": "15:00",
+          "cutoff_minutes": 30
+        }
+      ],
+      "provenance": "demo_assumption"
+    },
+    {
+      "id": "L_MUC_KEM",
+      "from_node_id": "MUC_HUB",
+      "to_node_id": "KEM_BRANCH",
+      "mode": "road",
+      "duration_minutes": 120,
+      "active": true,
+      "valid_from": "2026-09-01",
+      "valid_to": "2026-11-15",
+      "departures": [
+        {
+          "id": "L_MUC_KEM_D1",
+          "weekdays": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "local_time": "22:00",
+          "cutoff_minutes": 30
+        }
+      ],
+      "provenance": "demo_assumption"
+    },
+    {
+      "id": "L_FRA_STR",
+      "from_node_id": "FRA_HUB",
+      "to_node_id": "STR_HUB",
+      "mode": "road",
+      "duration_minutes": 180,
+      "active": true,
+      "valid_from": "2026-09-01",
+      "valid_to": "2026-11-15",
+      "departures": [
+        {
+          "id": "L_FRA_STR_D1",
+          "weekdays": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "local_time": "13:00",
+          "cutoff_minutes": 30
+        }
+      ],
+      "provenance": "demo_assumption"
+    },
+    {
+      "id": "L_STR_KEM",
+      "from_node_id": "STR_HUB",
+      "to_node_id": "KEM_BRANCH",
+      "mode": "road",
+      "duration_minutes": 300,
+      "active": true,
+      "valid_from": "2026-09-01",
+      "valid_to": "2026-11-15",
+      "departures": [
+        {
+          "id": "L_STR_KEM_D1",
+          "weekdays": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "local_time": "20:00",
+          "cutoff_minutes": 30
+        }
+      ],
+      "provenance": "demo_assumption"
+    },
+    {
+      "id": "L_FRA_HAM",
+      "from_node_id": "FRA_HUB",
+      "to_node_id": "HAM_BRANCH",
+      "mode": "road",
+      "duration_minutes": 480,
+      "active": true,
+      "valid_from": "2026-09-01",
+      "valid_to": "2026-11-15",
+      "departures": [
+        {
+          "id": "L_FRA_HAM_D1",
+          "weekdays": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "local_time": "20:00",
+          "cutoff_minutes": 30
+        }
+      ],
+      "provenance": "demo_assumption"
+    },
+    {
+      "id": "L_PAR_STR",
+      "from_node_id": "PAR_HUB",
+      "to_node_id": "STR_HUB",
+      "mode": "road",
+      "duration_minutes": 360,
+      "active": true,
+      "valid_from": "2026-09-01",
+      "valid_to": "2026-11-15",
+      "departures": [
+        {
+          "id": "L_PAR_STR_D1",
+          "weekdays": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "local_time": "09:00",
+          "cutoff_minutes": 30
+        }
+      ],
+      "provenance": "demo_assumption"
+    },
+    {
+      "id": "L_IST_AIR",
+      "from_node_id": "IST_BRANCH",
+      "to_node_id": "IST_AIR",
+      "mode": "road",
+      "duration_minutes": 60,
+      "active": true,
+      "valid_from": "2026-09-01",
+      "valid_to": "2026-11-15",
+      "departures": [
+        {
+          "id": "L_IST_AIR_D1",
+          "weekdays": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "local_time": "12:00",
+          "cutoff_minutes": 30
+        }
+      ],
+      "provenance": "demo_assumption"
+    },
+    {
+      "id": "L_IST_FLIGHT",
+      "from_node_id": "IST_AIR",
+      "to_node_id": "FRA_AIR",
+      "mode": "air",
+      "duration_minutes": 180,
+      "active": true,
+      "valid_from": "2026-09-01",
+      "valid_to": "2026-11-15",
+      "departures": [
+        {
+          "id": "L_IST_FLIGHT_D1",
+          "weekdays": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "local_time": "15:00",
+          "cutoff_minutes": 60
+        }
+      ],
+      "provenance": "demo_assumption"
+    },
+    {
+      "id": "L_AIR_HUB",
+      "from_node_id": "FRA_AIR",
+      "to_node_id": "FRA_HUB",
+      "mode": "road",
+      "duration_minutes": 60,
+      "active": true,
+      "valid_from": "2026-09-01",
+      "valid_to": "2026-11-15",
+      "departures": [
+        {
+          "id": "L_AIR_HUB_D1",
+          "weekdays": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "local_time": "21:00",
+          "cutoff_minutes": 30
+        }
+      ],
+      "provenance": "demo_assumption"
+    }
+  ],
+  "calendar_rules": [
+    {
+      "id": "DEMO_SUNDAY_HAM",
+      "lane_id": "L_FRA_HAM",
+      "mode": "road",
+      "timezone": "Europe/Berlin",
+      "weekday": 7,
+      "start_local_time": "00:00",
+      "end_next_day_local_time": "00:00",
+      "action": "pause_travel",
+      "provenance": "demo_assumption"
+    }
+  ],
+  "service_profiles": [
+    {
+      "id": "mixed",
+      "allowed_modes": [
+        "road",
+        "air"
+      ],
+      "max_lanes": 5,
+      "scope": "branch_to_branch"
+    },
+    {
+      "id": "road_only",
+      "allowed_modes": [
+        "road"
+      ],
+      "max_lanes": 5,
+      "scope": "branch_to_branch"
+    }
+  ]
+}

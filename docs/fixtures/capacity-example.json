@@ -1,0 +1,11 @@
+{
+  "source_file": "disposition.csv",
+  "relation": "R01",
+  "destination": "Hamburg",
+  "date": "2024-01-04",
+  "planned_trailers": 4,
+  "needed_trailers": 5,
+  "special_trips": 1,
+  "loading_metres": 55.5,
+  "trailer_capacity_metres": 13.6
+}

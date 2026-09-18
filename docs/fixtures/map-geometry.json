@@ -1,0 +1,231 @@
+{
+  "snapshot": {
+    "dataset_id": "spec-fixture-1",
+    "schedule_revision": 1,
+    "event_revision": 0,
+    "clock_revision": 0
+  },
+  "integrations_revision": 0,
+  "lanes": [
+    {
+      "lane_id": "L_FRA_KEM",
+      "departure_at": null,
+      "geometry_kind": "schematic",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            8.68,
+            50.11
+          ],
+          [
+            10.31,
+            47.73
+          ]
+        ]
+      },
+      "source": "Synthetic facility coordinates",
+      "attribution": "Demo geometry; not verified road routing",
+      "fetched_at": null,
+      "stale": false
+    },
+    {
+      "lane_id": "L_FRA_MUC",
+      "departure_at": null,
+      "geometry_kind": "schematic",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            8.68,
+            50.11
+          ],
+          [
+            11.58,
+            48.14
+          ]
+        ]
+      },
+      "source": "Synthetic facility coordinates",
+      "attribution": "Demo geometry; not verified road routing",
+      "fetched_at": null,
+      "stale": false
+    },
+    {
+      "lane_id": "L_MUC_KEM",
+      "departure_at": null,
+      "geometry_kind": "schematic",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            11.58,
+            48.14
+          ],
+          [
+            10.31,
+            47.73
+          ]
+        ]
+      },
+      "source": "Synthetic facility coordinates",
+      "attribution": "Demo geometry; not verified road routing",
+      "fetched_at": null,
+      "stale": false
+    },
+    {
+      "lane_id": "L_FRA_STR",
+      "departure_at": null,
+      "geometry_kind": "schematic",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            8.68,
+            50.11
+          ],
+          [
+            7.75,
+            48.58
+          ]
+        ]
+      },
+      "source": "Synthetic facility coordinates",
+      "attribution": "Demo geometry; not verified road routing",
+      "fetched_at": null,
+      "stale": false
+    },
+    {
+      "lane_id": "L_STR_KEM",
+      "departure_at": null,
+      "geometry_kind": "schematic",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            7.75,
+            48.58
+          ],
+          [
+            10.31,
+            47.73
+          ]
+        ]
+      },
+      "source": "Synthetic facility coordinates",
+      "attribution": "Demo geometry; not verified road routing",
+      "fetched_at": null,
+      "stale": false
+    },
+    {
+      "lane_id": "L_FRA_HAM",
+      "departure_at": null,
+      "geometry_kind": "schematic",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            8.68,
+            50.11
+          ],
+          [
+            9.99,
+            53.55
+          ]
+        ]
+      },
+      "source": "Synthetic facility coordinates",
+      "attribution": "Demo geometry; not verified road routing",
+      "fetched_at": null,
+      "stale": false
+    },
+    {
+      "lane_id": "L_PAR_STR",
+      "departure_at": null,
+      "geometry_kind": "schematic",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            2.35,
+            48.86
+          ],
+          [
+            7.75,
+            48.58
+          ]
+        ]
+      },
+      "source": "Synthetic facility coordinates",
+      "attribution": "Demo geometry; not verified road routing",
+      "fetched_at": null,
+      "stale": false
+    },
+    {
+      "lane_id": "L_IST_AIR",
+      "departure_at": null,
+      "geometry_kind": "schematic",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            28.98,
+            41.01
+          ],
+          [
+            28.75,
+            41.28
+          ]
+        ]
+      },
+      "source": "Synthetic facility coordinates",
+      "attribution": "Demo geometry; not verified road routing",
+      "fetched_at": null,
+      "stale": false
+    },
+    {
+      "lane_id": "L_IST_FLIGHT",
+      "departure_at": null,
+      "geometry_kind": "schematic",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            28.75,
+            41.28
+          ],
+          [
+            8.57,
+            50.04
+          ]
+        ]
+      },
+      "source": "Synthetic facility coordinates",
+      "attribution": "Demo geometry; not verified road routing",
+      "fetched_at": null,
+      "stale": false
+    },
+    {
+      "lane_id": "L_AIR_HUB",
+      "departure_at": null,
+      "geometry_kind": "schematic",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            8.57,
+            50.04
+          ],
+          [
+            8.68,
+            50.11
+          ]
+        ]
+      },
+      "source": "Synthetic facility coordinates",
+      "attribution": "Demo geometry; not verified road routing",
+      "fetched_at": null,
+      "stale": false
+    }
+  ]
+}

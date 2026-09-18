@@ -1,0 +1,14 @@
+{
+  "api_version": "2.0.0",
+  "snapshot": {
+    "dataset_id": "spec-fixture-1",
+    "schedule_revision": 1,
+    "event_revision": 0,
+    "clock_revision": 0
+  },
+  "simulation_clock": "2026-09-21T07:00:00Z",
+  "demo_mode": true,
+  "mode": "demo",
+  "plans_revision": 0,
+  "integrations_revision": 0
+}

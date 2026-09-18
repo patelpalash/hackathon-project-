@@ -1,0 +1,319 @@
+{
+  "simulation_clock": "2026-09-21T07:00:00Z",
+  "cases": [
+    {
+      "id": "S0_BASELINE",
+      "simulation_clock": "2026-09-21T07:00:00Z",
+      "request": {
+        "origin_id": "FRA_HUB",
+        "destination_id": "KEM_BRANCH",
+        "ready_at": "2026-09-21T08:00:00Z",
+        "service_profile_id": "mixed",
+        "max_results": 3,
+        "arrival_deadline": null
+      },
+      "event_ids": [],
+      "expected_routes": [
+        {
+          "lane_ids": [
+            "L_FRA_KEM"
+          ],
+          "arrival_at": "2026-09-21T22:00:00Z",
+          "total_minutes": 840
+        },
+        {
+          "lane_ids": [
+            "L_FRA_MUC",
+            "L_MUC_KEM"
+          ],
+          "arrival_at": "2026-09-21T22:00:00Z",
+          "total_minutes": 840
+        },
+        {
+          "lane_ids": [
+            "L_FRA_STR",
+            "L_STR_KEM"
+          ],
+          "arrival_at": "2026-09-21T23:00:00Z",
+          "total_minutes": 900
+        }
+      ],
+      "notes": "No events. Direct wins tie on transfer count."
+    },
+    {
+      "id": "S1_TRAFFIC",
+      "simulation_clock": "2026-09-21T07:00:00Z",
+      "request": {
+        "origin_id": "FRA_HUB",
+        "destination_id": "KEM_BRANCH",
+        "ready_at": "2026-09-21T08:00:00Z",
+        "service_profile_id": "mixed",
+        "max_results": 3,
+        "arrival_deadline": null
+      },
+      "event_ids": [
+        "E_TRAFFIC"
+      ],
+      "expected_routes": [
+        {
+          "lane_ids": [
+            "L_FRA_MUC",
+            "L_MUC_KEM"
+          ],
+          "arrival_at": "2026-09-21T22:00:00Z",
+          "total_minutes": 840
+        },
+        {
+          "lane_ids": [
+            "L_FRA_STR",
+            "L_STR_KEM"
+          ],
+          "arrival_at": "2026-09-21T23:00:00Z",
+          "total_minutes": 900
+        },
+        {
+          "lane_ids": [
+            "L_FRA_KEM"
+          ],
+          "arrival_at": "2026-09-22T01:00:00Z",
+          "total_minutes": 1020
+        }
+      ],
+      "notes": "Direct lane receives 180 additional travel minutes."
+    },
+    {
+      "id": "S2_MANAGER_DELAY",
+      "simulation_clock": "2026-09-21T07:00:00Z",
+      "request": {
+        "origin_id": "FRA_HUB",
+        "destination_id": "KEM_BRANCH",
+        "ready_at": "2026-09-21T08:00:00Z",
+        "service_profile_id": "mixed",
+        "max_results": 3,
+        "arrival_deadline": null
+      },
+      "event_ids": [
+        "E_TRAFFIC",
+        "E_MUNICH"
+      ],
+      "expected_routes": [
+        {
+          "lane_ids": [
+            "L_FRA_STR",
+            "L_STR_KEM"
+          ],
+          "arrival_at": "2026-09-21T23:00:00Z",
+          "total_minutes": 900
+        },
+        {
+          "lane_ids": [
+            "L_FRA_KEM"
+          ],
+          "arrival_at": "2026-09-22T01:00:00Z",
+          "total_minutes": 1020
+        },
+        {
+          "lane_ids": [
+            "L_FRA_MUC",
+            "L_MUC_KEM"
+          ],
+          "arrival_at": "2026-09-22T22:00:00Z",
+          "total_minutes": 2280
+        }
+      ],
+      "notes": "Munich handling misses its connection; next day departure."
+    },
+    {
+      "id": "S3_BORDER",
+      "simulation_clock": "2026-09-21T07:00:00Z",
+      "request": {
+        "origin_id": "FRA_HUB",
+        "destination_id": "KEM_BRANCH",
+        "ready_at": "2026-09-21T08:00:00Z",
+        "service_profile_id": "mixed",
+        "max_results": 3,
+        "arrival_deadline": null
+      },
+      "event_ids": [
+        "E_TRAFFIC",
+        "E_MUNICH",
+        "E_BORDER"
+      ],
+      "expected_routes": [
+        {
+          "lane_ids": [
+            "L_FRA_KEM"
+          ],
+          "arrival_at": "2026-09-22T01:00:00Z",
+          "total_minutes": 1020
+        },
+        {
+          "lane_ids": [
+            "L_FRA_MUC",
+            "L_MUC_KEM"
+          ],
+          "arrival_at": "2026-09-22T22:00:00Z",
+          "total_minutes": 2280
+        },
+        {
+          "lane_ids": [
+            "L_FRA_STR",
+            "L_STR_KEM"
+          ],
+          "arrival_at": "2026-09-24T23:00:00Z",
+          "total_minutes": 5220
+        }
+      ],
+      "notes": "Closure skips Strasbourg onward departures until September 24."
+    },
+    {
+      "id": "S4_CUTOFF_EQUAL",
+      "simulation_clock": "2026-09-21T07:00:00Z",
+      "request": {
+        "origin_id": "FRA_HUB",
+        "destination_id": "KEM_BRANCH",
+        "ready_at": "2026-09-21T13:00:00Z",
+        "service_profile_id": "mixed",
+        "max_results": 3,
+        "arrival_deadline": null
+      },
+      "event_ids": [],
+      "expected_routes": [
+        {
+          "lane_ids": [
+            "L_FRA_KEM"
+          ],
+          "arrival_at": "2026-09-21T22:00:00Z",
+          "total_minutes": 540
+        },
+        {
+          "lane_ids": [
+            "L_FRA_MUC",
+            "L_MUC_KEM"
+          ],
+          "arrival_at": "2026-09-22T22:00:00Z",
+          "total_minutes": 1980
+        },
+        {
+          "lane_ids": [
+            "L_FRA_STR",
+            "L_STR_KEM"
+          ],
+          "arrival_at": "2026-09-22T23:00:00Z",
+          "total_minutes": 2040
+        }
+      ],
+      "notes": "Handling ends exactly at direct departure cutoff 15:00Z."
+    },
+    {
+      "id": "S5_CUTOFF_MISSED",
+      "simulation_clock": "2026-09-21T07:00:00Z",
+      "request": {
+        "origin_id": "FRA_HUB",
+        "destination_id": "KEM_BRANCH",
+        "ready_at": "2026-09-21T13:01:00Z",
+        "service_profile_id": "mixed",
+        "max_results": 3,
+        "arrival_deadline": null
+      },
+      "event_ids": [],
+      "expected_routes": [
+        {
+          "lane_ids": [
+            "L_FRA_KEM"
+          ],
+          "arrival_at": "2026-09-22T22:00:00Z",
+          "total_minutes": 1979
+        },
+        {
+          "lane_ids": [
+            "L_FRA_MUC",
+            "L_MUC_KEM"
+          ],
+          "arrival_at": "2026-09-22T22:00:00Z",
+          "total_minutes": 1979
+        },
+        {
+          "lane_ids": [
+            "L_FRA_STR",
+            "L_STR_KEM"
+          ],
+          "arrival_at": "2026-09-22T23:00:00Z",
+          "total_minutes": 2039
+        }
+      ],
+      "notes": "One minute late misses direct departure."
+    },
+    {
+      "id": "S6_SUNDAY_PAUSE",
+      "simulation_clock": "2026-09-21T07:00:00Z",
+      "request": {
+        "origin_id": "FRA_HUB",
+        "destination_id": "HAM_BRANCH",
+        "ready_at": "2026-09-26T08:00:00Z",
+        "service_profile_id": "mixed",
+        "max_results": 3,
+        "arrival_deadline": null
+      },
+      "event_ids": [],
+      "expected_routes": [
+        {
+          "lane_ids": [
+            "L_FRA_HAM"
+          ],
+          "arrival_at": "2026-09-28T02:00:00Z",
+          "total_minutes": 2520
+        }
+      ],
+      "notes": "Saturday 18Z depart; 4h travel, 24h pause, 4h travel; 42h total."
+    },
+    {
+      "id": "S7_AIR_HANDOVER",
+      "simulation_clock": "2026-09-21T05:00:00Z",
+      "request": {
+        "origin_id": "IST_BRANCH",
+        "destination_id": "KEM_BRANCH",
+        "ready_at": "2026-09-21T06:00:00Z",
+        "service_profile_id": "mixed",
+        "max_results": 3,
+        "arrival_deadline": null
+      },
+      "event_ids": [],
+      "expected_routes": [
+        {
+          "lane_ids": [
+            "L_IST_AIR",
+            "L_IST_FLIGHT",
+            "L_AIR_HUB",
+            "L_FRA_KEM"
+          ],
+          "arrival_at": "2026-09-22T22:00:00Z",
+          "total_minutes": 2400
+        },
+        {
+          "lane_ids": [
+            "L_IST_AIR",
+            "L_IST_FLIGHT",
+            "L_AIR_HUB",
+            "L_FRA_MUC",
+            "L_MUC_KEM"
+          ],
+          "arrival_at": "2026-09-22T22:00:00Z",
+          "total_minutes": 2400
+        },
+        {
+          "lane_ids": [
+            "L_IST_AIR",
+            "L_IST_FLIGHT",
+            "L_AIR_HUB",
+            "L_FRA_STR",
+            "L_STR_KEM"
+          ],
+          "arrival_at": "2026-09-22T23:00:00Z",
+          "total_minutes": 2460
+        }
+      ],
+      "notes": "Use clock 2026-09-21T05:00Z for this independent fixture; flight departs 15:00 Istanbul (12Z), arrives 15Z Frankfurt (17 local)."
+    }
+  ]
+}

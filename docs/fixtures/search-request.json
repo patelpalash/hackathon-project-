@@ -1,0 +1,8 @@
+{
+  "origin_id": "FRA_HUB",
+  "destination_id": "KEM_BRANCH",
+  "ready_at": "2026-09-21T08:00:00Z",
+  "service_profile_id": "mixed",
+  "max_results": 3,
+  "arrival_deadline": null
+}

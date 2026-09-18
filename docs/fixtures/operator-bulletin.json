@@ -1,0 +1,26 @@
+{
+  "schema_version": "2.0.0",
+  "events": [
+    {
+      "type": "political",
+      "source_kind": "provider",
+      "external_id": "sample-operator-notice-1",
+      "source_reference": "Synthetic operator bulletin example",
+      "observed_at": "2026-09-21T07:00:00Z",
+      "valid_from": "2026-09-21T07:00:00Z",
+      "valid_until": "2026-09-24T00:00:00Z",
+      "review_due_at": "2026-09-21T12:00:00Z",
+      "target_kind": "lane",
+      "target_id": "L_STR_KEM",
+      "mode": "road",
+      "effect_type": "closure",
+      "effect_minutes": null,
+      "verification_status": "pending",
+      "lifecycle_status": "active",
+      "correlation_key": "E_BORDER",
+      "reason": "Synthetic incident for a reproducible demonstration",
+      "applies_to_departure_at": null,
+      "observation_id": null
+    }
+  ]
+}

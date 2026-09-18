@@ -1,0 +1,363 @@
+{
+  "schema_version": "2.0.0",
+  "search_id": "spec-search-baseline",
+  "snapshot": {
+    "dataset_id": "spec-fixture-1",
+    "schedule_revision": 1,
+    "event_revision": 0,
+    "clock_revision": 0
+  },
+  "scope": "branch_to_branch",
+  "status": "ok",
+  "evaluated_at": "2026-09-21T07:00:00Z",
+  "search_horizon_end": "2026-10-05T08:00:00Z",
+  "routes": [
+    {
+      "id": "7acc13a58f5995ee2cb2f296",
+      "node_ids": [
+        "FRA_HUB",
+        "KEM_BRANCH"
+      ],
+      "lane_ids": [
+        "L_FRA_KEM"
+      ],
+      "departure_times": [
+        "2026-09-21T16:00:00Z"
+      ],
+      "departure_at": "2026-09-21T16:00:00Z",
+      "arrival_at": "2026-09-21T22:00:00Z",
+      "total_minutes": 840,
+      "transfer_count": 0,
+      "segments": [
+        {
+          "id": "segment-1",
+          "type": "handling",
+          "node_id": "FRA_HUB",
+          "lane_id": null,
+          "start_at": "2026-09-21T08:00:00Z",
+          "end_at": "2026-09-21T10:00:00Z",
+          "duration_minutes": 120,
+          "reasons": [
+            {
+              "code": "NODE_HANDLING",
+              "explanation": "Scheduled node handling",
+              "minutes": 120,
+              "event_ids": [],
+              "provenance": "demo_assumption"
+            }
+          ]
+        },
+        {
+          "id": "segment-2",
+          "type": "wait",
+          "node_id": "FRA_HUB",
+          "lane_id": null,
+          "start_at": "2026-09-21T10:00:00Z",
+          "end_at": "2026-09-21T16:00:00Z",
+          "duration_minutes": 360,
+          "reasons": [
+            {
+              "code": "WAIT_DEPARTURE",
+              "explanation": "Wait for scheduled departure",
+              "minutes": 360,
+              "event_ids": [],
+              "provenance": "demo_assumption"
+            }
+          ]
+        },
+        {
+          "id": "segment-3",
+          "type": "travel",
+          "node_id": null,
+          "lane_id": "L_FRA_KEM",
+          "start_at": "2026-09-21T16:00:00Z",
+          "end_at": "2026-09-21T22:00:00Z",
+          "duration_minutes": 360,
+          "reasons": [
+            {
+              "code": "LANE_TRAVEL",
+              "explanation": "Scheduled travel duration",
+              "minutes": 360,
+              "event_ids": [],
+              "provenance": "demo_assumption"
+            }
+          ]
+        }
+      ],
+      "applied_event_ids": [],
+      "assumptions": [
+        "Synthetic schedule; branch-to-branch scope; destination handling excluded."
+      ]
+    },
+    {
+      "id": "0dad151882f41032be3b0e73",
+      "node_ids": [
+        "FRA_HUB",
+        "MUC_HUB",
+        "KEM_BRANCH"
+      ],
+      "lane_ids": [
+        "L_FRA_MUC",
+        "L_MUC_KEM"
+      ],
+      "departure_times": [
+        "2026-09-21T13:00:00Z",
+        "2026-09-21T20:00:00Z"
+      ],
+      "departure_at": "2026-09-21T13:00:00Z",
+      "arrival_at": "2026-09-21T22:00:00Z",
+      "total_minutes": 840,
+      "transfer_count": 1,
+      "segments": [
+        {
+          "id": "segment-1",
+          "type": "handling",
+          "node_id": "FRA_HUB",
+          "lane_id": null,
+          "start_at": "2026-09-21T08:00:00Z",
+          "end_at": "2026-09-21T10:00:00Z",
+          "duration_minutes": 120,
+          "reasons": [
+            {
+              "code": "NODE_HANDLING",
+              "explanation": "Scheduled node handling",
+              "minutes": 120,
+              "event_ids": [],
+              "provenance": "demo_assumption"
+            }
+          ]
+        },
+        {
+          "id": "segment-2",
+          "type": "wait",
+          "node_id": "FRA_HUB",
+          "lane_id": null,
+          "start_at": "2026-09-21T10:00:00Z",
+          "end_at": "2026-09-21T13:00:00Z",
+          "duration_minutes": 180,
+          "reasons": [
+            {
+              "code": "WAIT_DEPARTURE",
+              "explanation": "Wait for scheduled departure",
+              "minutes": 180,
+              "event_ids": [],
+              "provenance": "demo_assumption"
+            }
+          ]
+        },
+        {
+          "id": "segment-3",
+          "type": "travel",
+          "node_id": null,
+          "lane_id": "L_FRA_MUC",
+          "start_at": "2026-09-21T13:00:00Z",
+          "end_at": "2026-09-21T18:00:00Z",
+          "duration_minutes": 300,
+          "reasons": [
+            {
+              "code": "LANE_TRAVEL",
+              "explanation": "Scheduled travel duration",
+              "minutes": 300,
+              "event_ids": [],
+              "provenance": "demo_assumption"
+            }
+          ]
+        },
+        {
+          "id": "segment-4",
+          "type": "handling",
+          "node_id": "MUC_HUB",
+          "lane_id": null,
+          "start_at": "2026-09-21T18:00:00Z",
+          "end_at": "2026-09-21T19:00:00Z",
+          "duration_minutes": 60,
+          "reasons": [
+            {
+              "code": "NODE_HANDLING",
+              "explanation": "Scheduled node handling",
+              "minutes": 60,
+              "event_ids": [],
+              "provenance": "demo_assumption"
+            }
+          ]
+        },
+        {
+          "id": "segment-5",
+          "type": "wait",
+          "node_id": "MUC_HUB",
+          "lane_id": null,
+          "start_at": "2026-09-21T19:00:00Z",
+          "end_at": "2026-09-21T20:00:00Z",
+          "duration_minutes": 60,
+          "reasons": [
+            {
+              "code": "WAIT_DEPARTURE",
+              "explanation": "Wait for scheduled departure",
+              "minutes": 60,
+              "event_ids": [],
+              "provenance": "demo_assumption"
+            }
+          ]
+        },
+        {
+          "id": "segment-6",
+          "type": "travel",
+          "node_id": null,
+          "lane_id": "L_MUC_KEM",
+          "start_at": "2026-09-21T20:00:00Z",
+          "end_at": "2026-09-21T22:00:00Z",
+          "duration_minutes": 120,
+          "reasons": [
+            {
+              "code": "LANE_TRAVEL",
+              "explanation": "Scheduled travel duration",
+              "minutes": 120,
+              "event_ids": [],
+              "provenance": "demo_assumption"
+            }
+          ]
+        }
+      ],
+      "applied_event_ids": [],
+      "assumptions": [
+        "Synthetic schedule; branch-to-branch scope; destination handling excluded."
+      ]
+    },
+    {
+      "id": "6080c3978e7922701ebc8d6c",
+      "node_ids": [
+        "FRA_HUB",
+        "STR_HUB",
+        "KEM_BRANCH"
+      ],
+      "lane_ids": [
+        "L_FRA_STR",
+        "L_STR_KEM"
+      ],
+      "departure_times": [
+        "2026-09-21T11:00:00Z",
+        "2026-09-21T18:00:00Z"
+      ],
+      "departure_at": "2026-09-21T11:00:00Z",
+      "arrival_at": "2026-09-21T23:00:00Z",
+      "total_minutes": 900,
+      "transfer_count": 1,
+      "segments": [
+        {
+          "id": "segment-1",
+          "type": "handling",
+          "node_id": "FRA_HUB",
+          "lane_id": null,
+          "start_at": "2026-09-21T08:00:00Z",
+          "end_at": "2026-09-21T10:00:00Z",
+          "duration_minutes": 120,
+          "reasons": [
+            {
+              "code": "NODE_HANDLING",
+              "explanation": "Scheduled node handling",
+              "minutes": 120,
+              "event_ids": [],
+              "provenance": "demo_assumption"
+            }
+          ]
+        },
+        {
+          "id": "segment-2",
+          "type": "wait",
+          "node_id": "FRA_HUB",
+          "lane_id": null,
+          "start_at": "2026-09-21T10:00:00Z",
+          "end_at": "2026-09-21T11:00:00Z",
+          "duration_minutes": 60,
+          "reasons": [
+            {
+              "code": "WAIT_DEPARTURE",
+              "explanation": "Wait for scheduled departure",
+              "minutes": 60,
+              "event_ids": [],
+              "provenance": "demo_assumption"
+            }
+          ]
+        },
+        {
+          "id": "segment-3",
+          "type": "travel",
+          "node_id": null,
+          "lane_id": "L_FRA_STR",
+          "start_at": "2026-09-21T11:00:00Z",
+          "end_at": "2026-09-21T14:00:00Z",
+          "duration_minutes": 180,
+          "reasons": [
+            {
+              "code": "LANE_TRAVEL",
+              "explanation": "Scheduled travel duration",
+              "minutes": 180,
+              "event_ids": [],
+              "provenance": "demo_assumption"
+            }
+          ]
+        },
+        {
+          "id": "segment-4",
+          "type": "handling",
+          "node_id": "STR_HUB",
+          "lane_id": null,
+          "start_at": "2026-09-21T14:00:00Z",
+          "end_at": "2026-09-21T15:00:00Z",
+          "duration_minutes": 60,
+          "reasons": [
+            {
+              "code": "NODE_HANDLING",
+              "explanation": "Scheduled node handling",
+              "minutes": 60,
+              "event_ids": [],
+              "provenance": "demo_assumption"
+            }
+          ]
+        },
+        {
+          "id": "segment-5",
+          "type": "wait",
+          "node_id": "STR_HUB",
+          "lane_id": null,
+          "start_at": "2026-09-21T15:00:00Z",
+          "end_at": "2026-09-21T18:00:00Z",
+          "duration_minutes": 180,
+          "reasons": [
+            {
+              "code": "WAIT_DEPARTURE",
+              "explanation": "Wait for scheduled departure",
+              "minutes": 180,
+              "event_ids": [],
+              "provenance": "demo_assumption"
+            }
+          ]
+        },
+        {
+          "id": "segment-6",
+          "type": "travel",
+          "node_id": null,
+          "lane_id": "L_STR_KEM",
+          "start_at": "2026-09-21T18:00:00Z",
+          "end_at": "2026-09-21T23:00:00Z",
+          "duration_minutes": 300,
+          "reasons": [
+            {
+              "code": "LANE_TRAVEL",
+              "explanation": "Scheduled travel duration",
+              "minutes": 300,
+              "event_ids": [],
+              "provenance": "demo_assumption"
+            }
+          ]
+        }
+      ],
+      "applied_event_ids": [],
+      "assumptions": [
+        "Synthetic schedule; branch-to-branch scope; destination handling excluded."
+      ]
+    }
+  ],
+  "warnings": [],
+  "diagnostics": []
+}
