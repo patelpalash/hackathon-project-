@@ -30,7 +30,7 @@ testpaths = ["backend/tests"]
 pythonpath = ["."]
 
 [tool.vercel]
-entrypoint = "backend.app.main:app"
+entrypoint = "api/index.py:app"
 
 
 [tool.setuptools.packages.find]
