@@ -84,6 +84,7 @@ class PlanService:
 
         self.repo.save_plan(plan, increment_plans_revision=True)
         self.repo.record_receipt(mutation_id, {"search_id": search_id, "route_id": route_id, "name": name}, plan.model_dump())
+        self.repo.conn.commit()
         return plan
 
     def recompute_all_plans(self) -> int:
@@ -311,7 +312,6 @@ class PlanService:
 
         self.repo.insert_decision(decision)
         self.repo.save_plan(plan, increment_plans_revision=True)
-        self.repo.conn.commit()
 
         resp = {"plan": plan.model_dump(), "decision": decision.model_dump(), "mutation_id": mutation_id}
         self.repo.record_receipt(mutation_id, {

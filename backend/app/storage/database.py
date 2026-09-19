@@ -173,6 +173,16 @@ CREATE TABLE IF NOT EXISTS provider_observations (
     stale INTEGER NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS provider_statuses (
+    name TEXT PRIMARY KEY,
+    status TEXT NOT NULL,
+    last_poll_at TEXT,
+    last_successful_poll_at TEXT,
+    consecutive_errors INTEGER NOT NULL,
+    error_message TEXT,
+    mode TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS lane_geometries (
     lane_id TEXT NOT NULL,
     departure_at TEXT,

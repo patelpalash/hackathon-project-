@@ -33,7 +33,7 @@ async def test_network_and_data_summary(api_client: httpx.AsyncClient):
     assert ds["capacity_example"]["relation"] == "R01"
 
 @pytest.mark.asyncio
-async def test_search_and_plan_decision_flow(api_client: httpx.AsyncClient):
+async def test_search_and_plan_decision_flow(api_client: httpx.AsyncClient, temp_db):
     # 1. State
     r_state = await api_client.get("/api/state")
     state = r_state.json()
@@ -67,6 +67,7 @@ async def test_search_and_plan_decision_flow(api_client: httpx.AsyncClient):
     assert r_plan.status_code == 201
     plan = r_plan.json()
     plan_id = plan["plan_id"]
+    assert not temp_db["conn"].in_transaction  # plan and idempotency receipt survive a restart
     assert plan["status"] == "stable"
     assert plan["selected_itinerary"]["arrival_at"] == "2026-09-21T22:00:00Z"
 
@@ -118,6 +119,11 @@ async def test_search_and_plan_decision_flow(api_client: httpx.AsyncClient):
     decs_list = r_decs.json()["decisions"]
     assert len(decs_list) == 1
     assert decs_list[0]["review_evidence"]["reviewed_snapshot"] == cur_snap
+
+    reset = await api_client.post("/api/demo/reset", json={"confirm": "RESET_DEMO"})
+    assert reset.status_code == 200
+    assert (await api_client.get("/api/plans")).json()["plans"] == []
+    assert (await api_client.get("/api/events")).json()["events"] == []
 
 @pytest.mark.asyncio
 async def test_error_envelopes(api_client: httpx.AsyncClient):
@@ -174,3 +180,40 @@ async def test_map_geometry_and_integrations(api_client: httpx.AsyncClient):
     r_obs = await api_client.get("/api/integrations/observations")
     assert r_obs.status_code == 200
     assert "observations" in r_obs.json()
+
+
+@pytest.mark.asyncio
+async def test_event_effect_and_identity_validation(api_client: httpx.AsyncClient):
+    snapshot = (await api_client.get("/api/state")).json()["snapshot"]
+    event = {
+        "type": "traffic", "source_kind": "manager", "external_id": "report-1",
+        "source_reference": "Dispatcher", "observed_at": "2026-09-21T07:00:00Z",
+        "valid_from": "2026-09-21T08:00:00Z", "valid_until": "2026-09-22T08:00:00Z",
+        "review_due_at": None, "target_kind": "lane", "target_id": "L_FRA_KEM",
+        "mode": "road", "effect_type": "additional_travel_minutes",
+        "effect_minutes": None, "verification_status": "accepted",
+        "lifecycle_status": "active", "correlation_key": "report-1",
+        "reason": "Confirmed traffic delay", "applies_to_departure_at": None,
+        "observation_id": None,
+    }
+    invalid = await api_client.post("/api/events", json={
+        "mutation_id": "invalid-effect", "expected_snapshot": snapshot, "event": event,
+    })
+    assert invalid.status_code == 422
+    assert invalid.json()["error"]["code"] == "VALIDATION_ERROR"
+
+    event["effect_minutes"] = 30
+    created = await api_client.post("/api/events", json={
+        "mutation_id": "valid-effect", "expected_snapshot": snapshot, "event": event,
+    })
+    assert created.status_code == 201
+    current_snapshot = created.json()["snapshot"]
+    revised = {**event, "external_id": "different-report"}
+    rejected = await api_client.post(
+        f"/api/events/{created.json()['event']['id']}/revisions", json={
+            "mutation_id": "changed-identity", "expected_snapshot": current_snapshot,
+            "expected_version": 1, "event": revised,
+        },
+    )
+    assert rejected.status_code == 422
+    assert rejected.json()["error"]["code"] == "VALIDATION_ERROR"

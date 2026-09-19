@@ -1,5 +1,6 @@
 """Repository implementing durable transactions, snapshot checking and idempotency."""
 import sqlite3
+import os
 import json
 import hashlib
 import uuid
@@ -563,13 +564,44 @@ class Repository:
     def get_integrations(self) -> Integrations:
         snap = self.get_snapshot()
         state = self.get_state()
-        # Default providers status
-        providers = [
-            ProviderStatus(name="open_meteo", status="ok", consecutive_errors=0, mode=state.mode),
-            ProviderStatus(name="tomtom", status="not_configured", consecutive_errors=0, error_message="TOMTOM_API_KEY not configured", mode=state.mode),
-            ProviderStatus(name="operator_bulletins", status="disabled", consecutive_errors=0, mode=state.mode),
-        ]
+        stored = {}
+        for row in self.conn.execute("SELECT * FROM provider_statuses;"):
+            stored[row["name"]] = ProviderStatus(
+                name=row["name"], status=row["status"],
+                last_poll_at=row["last_poll_at"],
+                last_successful_poll_at=row["last_successful_poll_at"],
+                consecutive_errors=row["consecutive_errors"],
+                error_message=row["error_message"], mode=row["mode"],
+            )
+        providers = []
+        for name in ("open_meteo", "tomtom", "operator_bulletins"):
+            if name in stored:
+                providers.append(stored[name])
+                continue
+            if state.mode == "demo":
+                initial_status = "disabled"
+            elif name == "tomtom" and not os.environ.get("TOMTOM_API_KEY"):
+                initial_status = "not_configured"
+            elif name == "operator_bulletins" and not os.environ.get("OPERATOR_BULLETIN_FEED"):
+                initial_status = "disabled"
+            else:
+                initial_status = "stale"
+            providers.append(ProviderStatus(name=name, status=initial_status,
+                                            consecutive_errors=0, mode=state.mode))
         return Integrations(snapshot=snap, integrations_revision=state.integrations_revision, providers=providers)
+
+    def store_provider_status(self, status: ProviderStatus):
+        self.conn.execute("""
+            INSERT INTO provider_statuses (name, status, last_poll_at, last_successful_poll_at,
+                consecutive_errors, error_message, mode)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(name) DO UPDATE SET
+                status = excluded.status, last_poll_at = excluded.last_poll_at,
+                last_successful_poll_at = excluded.last_successful_poll_at,
+                consecutive_errors = excluded.consecutive_errors,
+                error_message = excluded.error_message, mode = excluded.mode;
+        """, (status.name, status.status, status.last_poll_at, status.last_successful_poll_at,
+              status.consecutive_errors, status.error_message, status.mode))
 
     def get_observations(self, limit: int = 100) -> list[Observation]:
         obs = []
@@ -593,15 +625,15 @@ class Repository:
             )
         return obs
 
-    def store_observation(self, obs: Observation):
-        self.conn.execute(
+    def store_observation(self, obs: Observation) -> bool:
+        cursor = self.conn.execute(
             """
             INSERT INTO provider_observations (
                 id, provider, target_kind, target_id, intended_departure_at,
                 observed_at, fetched_at, valid_from, valid_until, metrics_json,
                 raw_digest, attribution, stale
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ON CONFLICT(id) DO UPDATE SET stale = excluded.stale;
+            ON CONFLICT(id) DO NOTHING;
             """,
             (
                 obs.id,
@@ -619,6 +651,7 @@ class Repository:
                 1 if obs.stale else 0,
             ),
         )
+        return cursor.rowcount > 0
 
     def get_data_summary(self) -> DataSummary:
         sources = []
