@@ -7,7 +7,7 @@
     },
     {
       "title": "Next eligible movement",
-      "detail": "The CSVs contain no departure timetable. The prototype resumes at the next eligible instant, not a guaranteed booked departure. Hub handling and calendar constraints remain active."
+      "detail": "User-entered services can specify weekdays, local departure time, timezone and a readiness cutoff buffer after handling. Missed services roll forward; Sunday, holiday and facility-closure restrictions apply. No configured timetable means next eligible movement with carrier availability unverified. Timetables are assumptions until supplied by an operational source."
     },
     {
       "title": "Dynamic intermediate hubs",
@@ -35,7 +35,7 @@
     },
     {
       "title": "Scenario and manager workflow",
-      "detail": "TomTom supplies traffic-aware routes, current flow tiles and sampled nearby incidents when a backend key is configured. Incident sampling does not cover every road segment. Future map previews hide current traffic. Scenario Studio traffic and political/hub closures are simulations. Planner estimates refresh every 2 minutes while active; saved decisions still require human approval. No login or production dispatch integration is provided."
+      "detail": "TomTom supplies traffic-aware routes, current flow tiles and sampled nearby incidents when a backend key is configured. Incident sampling does not cover every road segment. Future map previews hide current traffic. Scenario Studio traffic and political/hub closures are simulations. Planner estimates refresh every 2 minutes while active; saved decisions still require human approval. No login or production dispatch integration is provided. Approvals use quote IDs and recalculate against current cached provider data. Changed route, restrictions, source, deadline feasibility, ETA of at least 15 minutes or cost of at least 5% requires a new review. The accepted snapshot is preserved."
     },
     {
       "title": "Prototype storage",
@@ -44,6 +44,14 @@
     {
       "title": "Optimization and historical comparisons",
       "detail": "Fastest, lowest cost or balanced ranking considers deadline-feasible options first. Balanced uses transport cost plus €50 per transit hour as an explicit ranking assumption. Signed savings compare the selected plan with a direct route under the same conditions. Historical daily costs are normalized by loading metres and allocated to this shipment. Reference lanes via the assumed central hub are labelled when the selected route is unmatched. CSVs do not contain actual arrival timestamps, so historical time savings cannot be measured. Quotes expire after 5 minutes."
+    },
+    {
+      "title": "Actual delivery feedback",
+      "detail": "Delivered shipments with a manager-approved snapshot can record user-reported actual departure, arrival and transport cost. Per-shipment errors are signed; aggregate metrics require five completed non-demo observations. On-time percentage separately requires five supplied deadlines. Demo outcomes are excluded; these are reported outcomes, not independently verified telemetry."
+    },
+    {
+      "title": "Isolated judge walkthrough",
+      "detail": "Each demo creates its own scenario store and a labelled demo shipment. It replays captured OSRM geometry for Karlsruhe, Nürnberg and Dresden with illustrative timings and a fixed Tuesday departure. A simulated 180-minute direct-connection delay demonstrates alternatives. No live weather or traffic is used in this demo. Starting another demo preserves existing data."
     }
   ]
 }

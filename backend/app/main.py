@@ -113,6 +113,7 @@ class DelayReq(BaseModel):
 
 
 class ShipmentReq(BaseModel):
+    demo_session: Optional[str] = None
     optimization: Literal["fastest","cost","balanced"] = "fastest"
     truck: TruckReq = Field(default_factory=TruckReq)
     selected_path: Optional[list[str]] = None
@@ -256,14 +257,14 @@ def create_shipment(req: ShipmentReq):
 
 @app.post("/api/shipments/{sid}/schedule")
 @serialized
-def schedule_shipment(sid: str, option: int = 0, force: bool = False):
-    s, warn = S["ships"].schedule(sid, option, force)
-    if s is None:
-        raise HTTPException(404, "unknown shipment")
-    if warn and not force:
-        return {"scheduled": False, "warning": warn, "shipment": {k: v for k, v in s.items() if k not in {"options", "accepted_plan"}}}
-    _audit("shipment_scheduled", f"{sid}: scheduled via option {option}{' (forced past warning)' if force else ''}")
-    return {"scheduled": True, "shipment": {k: v for k, v in s.items() if k not in {"options", "accepted_plan"}}}
+def schedule_shipment(sid: str, option: int = 0, force: bool = False, quote_id: str = "", reason: str = ""):
+    if len(reason.strip())<3 or not quote_id: raise ValueError("Manager reason and reviewed quote ID are required; use the control room")
+    ship=S["ships"].get(sid)
+    if not ship: raise HTTPException(404,"Unknown shipment")
+    if not 0<=option<len(ship["options"]): raise ValueError("Invalid option")
+    decision(DecisionReq(shipment_id=sid,action="accept",option=option,revision=ship["options"][option]["revision"],quote_id=quote_id,reason=reason,acknowledge_deadline=force))
+    return {"scheduled":True,"shipment":S["ships"].get(sid)}
+
 
 
 @app.post("/api/shipments/{sid}/status")
@@ -282,6 +283,7 @@ def savings():
     total = {"money_eur": 0, "fuel_l": 0, "time_min": 0, "optimized": 0}
     per = []
     for s in S["ships"].list():
+        if s.get("data_kind")=="demo": continue
         chosen = s.get("accepted_plan") or {}
         comparison = chosen.get("comparison")
         if not comparison: continue  # legacy plans need recalculation; never invent savings
@@ -389,6 +391,7 @@ class DecisionReq(BaseModel):
     action: Literal["accept","keep","defer"]
     option: int = Field(default=0, ge=0)
     revision: int
+    quote_id: str = Field(min_length=1)
     reason: str = Field(min_length=3, max_length=1000)
     acknowledge_deadline: bool = False
 
@@ -452,17 +455,19 @@ def replan_shipment(sid: str):
 @serialized
 def decision(req: DecisionReq):
     with LOCK:
-        if req.revision!=S["operations"].data["revision"]: raise HTTPException(409,"Conditions changed. Recalculate before deciding.")
         s=S["ships"].get(req.shipment_id)
         if not s: raise HTTPException(404,"Unknown shipment")
+        ops=S["ships"].context_for(s)["operations"]
+        if req.revision!=ops.data["revision"]: raise HTTPException(409,"Conditions changed. Recalculate before deciding.")
         if req.option>=len(s["options"]): raise ValueError("Invalid option")
         option=s["options"][req.option]
         if option.get("revision",-1)!=req.revision: raise HTTPException(409,"Recalculate shipment options first")
+        if req.quote_id!=option.get("quote_id"): raise HTTPException(409,"Quote replaced. Recalculate and review again.")
         previous_route=list(s["route"])
         if req.action=="accept":
-            _, warning=S["ships"].schedule(req.shipment_id,req.option,req.acknowledge_deadline)
+            _, warning=S["ships"].schedule(req.shipment_id,req.option,req.acknowledge_deadline,req.quote_id)
             if warning: raise HTTPException(409,warning)
-        row=S["operations"].put("decisions",{**req.model_dump(),"path":option["path"],"eta":option["eta"],"previous_route":previous_route})
+        row=S["operations"].put("decisions",{**req.model_dump(),"path":s["route"],"eta":s["current_eta"],"reviewed_path":option["path"],"reviewed_eta":option["eta"],"data_kind":s.get("data_kind","user"),"previous_route":previous_route})
         _audit("manager_decision",f"{req.shipment_id}: {req.action} — {req.reason}","MANAGER INPUT")
         return row
 
@@ -499,3 +504,81 @@ def traffic_tile(z:int,x:int,y:int):
     tile=S["providers"].tomtom.tile(z,x,y)
     if tile is None: raise HTTPException(502,"Traffic tiles temporarily unavailable")
     return Response(content=tile,media_type="image/png",headers={"Cache-Control":"private, max-age=120"})
+
+
+class ServiceReq(BaseModel):
+    origin: str
+    destination: str
+    weekdays: list[int] = Field(min_length=1,max_length=7)
+    departure_time: str = Field(pattern=r"^(?:[01]\d|2[0-3]):[0-5]\d$")
+    timezone: str = "Europe/Berlin"
+    cutoff_minutes: int = Field(default=30,ge=0,le=1440)
+    @model_validator(mode="after")
+    def valid_service(self):
+        from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+        if self.origin==self.destination or any(d not in range(7) for d in self.weekdays): raise ValueError("Invalid service endpoints or weekdays")
+        try: ZoneInfo(self.timezone)
+        except ZoneInfoNotFoundError: raise ValueError("Unknown timezone")
+        return self
+
+@app.get("/api/services")
+def services(): return {"services":S["operations"].snapshot()["schedules"]}
+
+@app.post("/api/services")
+@serialized
+def save_service(req:ServiceReq):
+    _node(req.origin); _node(req.destination)
+    row=S["operations"].put("schedules",{**req.model_dump(),"source":"USER-ENTERED TIMETABLE / availability unverified"})
+    _audit("service_added",f"{req.origin} → {req.destination} {req.departure_time}","MANAGER INPUT")
+    return row
+
+@app.delete("/api/services/{rid}")
+@serialized
+def delete_service(rid:str):
+    S["operations"].remove("schedules",rid)
+    return {"ok":True}
+
+class OutcomeReq(BaseModel):
+    actual_departure: AwareDatetime
+    actual_arrival: AwareDatetime
+    actual_cost_eur: float = Field(ge=0,allow_inf_nan=False)
+    @model_validator(mode="after")
+    def chronology(self):
+        if self.actual_arrival<self.actual_departure: raise ValueError("Actual arrival must follow departure")
+        return self
+
+@app.post("/api/shipments/{sid}/outcome")
+@serialized
+def outcome(sid:str,req:OutcomeReq):
+    if not S["ships"].get(sid): raise HTTPException(404,"Unknown shipment")
+    ship=S["ships"].record_outcome(sid,req.model_dump(mode="json"))
+    _audit("actual_outcome",f"{sid}: actual delivery outcome recorded","MANAGER INPUT")
+    return ship
+
+@app.get("/api/performance")
+def performance():
+    rows=[s["actual"] for s in S["ships"].list() if s.get("actual") and s.get("data_kind")!="demo"]
+    deadlines=[r for r in rows if r["on_time"] is not None]
+    enough=len(rows)>=5
+    return {"samples":len(rows),"minimum_samples":5,"status":"MEASURED" if enough else "INSUFFICIENT_DATA","arrival_mae_minutes":round(sum(abs(r["arrival_error_minutes"]) for r in rows)/len(rows),1) if enough else None,"cost_error_eur":round(sum(r["cost_error_eur"] for r in rows)/len(rows),2) if enough else None,"on_time_pct":round(100*sum(r["on_time"] for r in deadlines)/len(deadlines),1) if len(deadlines)>=5 else None,"deadline_samples":len(deadlines),"source":"User-reported completed deliveries; demo outcomes excluded"}
+
+@app.post("/api/demo/start")
+@serialized
+def start_demo():
+    import uuid
+    session=uuid.uuid4().hex[:12]
+    ops=Operations(Path(os.environ.get("STORE_DIR","store"))/"demo"/session)
+    ops.save()
+    ship=S["ships"].create({"origin":"R16","destination":"R21","planned_departure":"2026-09-22T06:00:00+00:00","required_delivery":"2026-09-24T18:00:00+00:00","weight_kg":12000,"value_eur":180000,"demo_session":session,"container":"JUDGE DEMO"})
+    _audit("demo_started",ship["id"],"DEMO")
+    return ship
+
+@app.post("/api/demo/{sid}/disruption")
+@serialized
+def demo_disruption(sid:str):
+    s=S["ships"].get(sid)
+    if not s or not s.get("demo_session"): raise HTTPException(404,"Unknown demo shipment")
+    ops=S["ships"].context_for(s)["operations"]
+    if not any(e["id"]=="demo-traffic" for e in ops.data["events"]):
+        ops.put("events",{"kind":"traffic","origin":"R16","destination":"R21","start":"2026-09-22T00:00:00+00:00","end":"2026-09-24T00:00:00+00:00","minutes":180,"reason":"DEMO: direct-connection congestion, +180 minutes"},"demo-traffic")
+    return S["ships"].replan(sid)

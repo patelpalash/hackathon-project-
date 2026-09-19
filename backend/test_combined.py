@@ -101,7 +101,7 @@ def test_traffic_recompute_and_manager_decision(client):
     new_direct=next(o for o in refreshed["options"] if len(o["path"])==2)
     assert new_direct["total_minutes"]-old_direct["total_minutes"]==180
     option=len(refreshed["options"])-1
-    decision={"shipment_id":sid,"action":"accept","option":option,"revision":refreshed["options"][option]["revision"],"reason":"Reviewed route impact"}
+    decision={"shipment_id":sid,"action":"accept","option":option,"revision":refreshed["options"][option]["revision"],"quote_id":refreshed["options"][option]["quote_id"],"reason":"Reviewed route impact"}
     assert client.post("/api/decisions",json={**decision,"revision":-1}).status_code==409
     r=client.post("/api/decisions",json=decision); assert r.status_code==200,r.text
     saved=client.get(f"/api/shipments/{sid}").json()
@@ -113,8 +113,9 @@ def test_forced_schedule_persists_selected_option(client):
     from app import shipments
     body={"origin":"R16","destination":"R21","planned_departure":"2026-09-22T06:00:00Z","required_delivery":"2026-09-22T06:01:00Z"}
     ship=client.post("/api/shipments",json=body).json(); sid=ship["id"]; i=len(ship["options"])-1
-    assert client.post(f"/api/shipments/{sid}/schedule?option={i}").json()["scheduled"] is False
-    r=client.post(f"/api/shipments/{sid}/schedule?option={i}&force=true"); assert r.json()["scheduled"]
+    params={"option":i,"quote_id":ship["options"][i]["quote_id"],"reason":"Manager reviewed deadline"}
+    assert client.post(f"/api/shipments/{sid}/schedule",params=params).status_code==409
+    r=client.post(f"/api/shipments/{sid}/schedule",params={**params,"force":True}); assert r.json()["scheduled"]
     saved=json.loads(Path(shipments.STORE).read_text())[sid]
     assert saved["current_eta"]==ship["options"][i]["eta"] and saved["selected_option"]==i
 
@@ -150,3 +151,63 @@ def test_live_forecast_threshold_and_timestamp(monkeypatch):
     rows=Forecasts().fetch([(49,9)],[at])
     assert rows[0]["source"]=="Open-Meteo forecast" and rows[0]["status"]=="FORECAST"
     assert rows[0]["delay_minutes"]==120 and rows[0]["valid_at"]==at.isoformat()
+
+
+def test_timetable_cutoff_weekend_and_holiday():
+    from app.schedules import next_departure
+    service={"origin":"A","destination":"B","weekdays":[0,1,2,3,4,5,6],"departure_time":"18:00","timezone":"Europe/Berlin","cutoff_minutes":30,"source":"TEST"}
+    ready=dt("2026-09-19T17:31:00+02:00")
+    departure,_=next_departure(ready,"A","B",[service],{"2026-09-21":"Test holiday"})
+    assert departure.astimezone(BERLIN).isoformat()=="2026-09-22T18:00:00+02:00"
+    departure,_=next_departure(dt("2026-09-22T17:30:00+02:00"),"A","B",[service],{})
+    assert departure.astimezone(BERLIN).isoformat()=="2026-09-22T18:00:00+02:00"
+
+
+def test_live_change_rejects_approval_without_manual_revision(client,monkeypatch):
+    from app import main
+    payload={"origin":"R16","destination":"R21","planned_departure":"2026-09-22T06:00:00Z","required_delivery":"2026-09-25T18:00:00Z"}
+    ship=client.post("/api/shipments",json=payload).json(); sid=ship["id"]
+    option=ship["options"][0]
+    before=json.dumps(ship["accepted_plan"],sort_keys=True)
+    base=main.S["providers"].routing.leg
+    monkeypatch.setattr(main.S["providers"].routing,"leg",lambda *args:{**base(*args),"duration_minutes":base(*args)["duration_minutes"]+45})
+    decision={"shipment_id":sid,"action":"accept","option":0,"revision":option["revision"],"quote_id":option["quote_id"],"reason":"Reviewed live quote"}
+    result=client.post("/api/decisions",json=decision)
+    assert result.status_code==422,result.text
+    assert "Live conditions changed" in result.text
+    saved=client.get(f"/api/shipments/{sid}").json()
+    assert json.dumps(saved["accepted_plan"],sort_keys=True)==before
+    assert client.post("/api/decisions",json=decision).status_code==409
+
+
+def test_demo_isolation_approval_and_actual_exclusion(client):
+    initial=client.get("/api/operations").json()
+    ship=client.post("/api/demo/start").json(); sid=ship["id"]
+    baseline=ship["accepted_plan"]
+    changed=client.post(f"/api/demo/{sid}/disruption").json()
+    assert client.get("/api/operations").json()==initial
+    assert changed["accepted_plan"]==baseline and changed["plan_change"]["material"]
+    assert changed["options"][0]["total_minutes"]<next(o for o in changed["options"] if len(o["path"])==2)["total_minutes"]
+    o=changed["options"][0]
+    result=client.post("/api/decisions",json={"shipment_id":sid,"action":"accept","option":0,"revision":o["revision"],"quote_id":o["quote_id"],"reason":"Approve demo alternative"})
+    assert result.status_code==200,result.text
+    client.post(f"/api/shipments/{sid}/status?status=DELIVERED")
+    outcome=client.post(f"/api/shipments/{sid}/outcome",json={"actual_departure":"2026-09-22T06:00:00Z","actual_arrival":o["eta"],"actual_cost_eur":o["cost"]["transport_eur"]-10})
+    assert outcome.status_code==200,outcome.text
+    assert outcome.json()["actual"]["cost_error_eur"]==-10
+    assert client.get("/api/performance").json()["samples"]==0
+    assert not any(r["id"]==sid for r in client.get("/api/savings").json()["per_shipment"])
+
+
+def test_schedule_timeline_and_signed_savings(client):
+    service={"origin":"R16","destination":"R21","weekdays":[0,1,2,3,4],"departure_time":"18:00","timezone":"Europe/Berlin","cutoff_minutes":30}
+    assert client.post("/api/services",json=service).status_code==200
+    payload={"origin":"R16","destination":"R21","planned_departure":"2026-09-22T06:00:00Z","required_delivery":"2026-09-25T18:00:00Z"}
+    ship=client.post("/api/shipments",json=payload).json()
+    direct=next(o for o in ship["options"] if len(o["path"])==2)
+    wait=next(step for step in direct["steps"] if step["type"]=="schedule_wait")
+    assert dt(wait["end"]).astimezone(BERLIN).hour==18
+    assert sum(step["minutes"] for step in direct["steps"])==direct["total_minutes"]
+    for option in ship["options"]:
+        assert option["comparison"]["money_saved_eur"]==direct["cost"]["transport_eur"]-option["cost"]["transport_eur"]
+    assert any(o["comparison"]["money_saved_eur"]<0 for o in ship["options"])

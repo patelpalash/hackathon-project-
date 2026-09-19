@@ -1,5 +1,6 @@
 import os
 import sys
+import shutil
 from pathlib import Path
 from fastapi import HTTPException
 from fastapi.staticfiles import StaticFiles
@@ -13,10 +14,22 @@ BACKEND_DIR = ROOT_DIR / "backend"
 if str(BACKEND_DIR) not in sys.path:
     sys.path.insert(0, str(BACKEND_DIR))
 
+# Ensure DATA_DIR is configured
 if "DATA_DIR" not in os.environ:
     os.environ["DATA_DIR"] = str(ROOT_DIR / "data" / "raw")
 
-# Import the FastAPI instance
+# On Vercel / serverless, filesystem is read-only except /tmp
+if os.environ.get("VERCEL"):
+    tmp_store = Path("/tmp/store")
+    os.environ["STORE_DIR"] = str(tmp_store)
+    # Seed /tmp/store from backend/store if available
+    seed_store = BACKEND_DIR / "store"
+    if seed_store.exists() and not tmp_store.exists():
+        tmp_store.mkdir(parents=True, exist_ok=True)
+        for item in seed_store.glob("*.json"):
+            shutil.copy2(item, tmp_store / item.name)
+
+# Import the FastAPI instance from backend
 from backend.app.main import app
 
 # Mount compiled frontend SPA

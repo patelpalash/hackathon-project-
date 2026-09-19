@@ -14,9 +14,10 @@ def parse(value):
     return result.astimezone(timezone.utc)
 
 class Operations:
-    def __init__(self):
-        self.path = Path(os.environ.get("STORE_DIR", "store")) / "operations.json"
+    def __init__(self, directory=None):
+        self.path = Path(directory or os.environ.get("STORE_DIR", "store")) / "operations.json"
         self.data = json.loads(self.path.read_text()) if self.path.exists() else {"weather": [], "events": [], "decisions": [], "revision": 0}
+        self.data.setdefault("schedules", [])
     def save(self):
         self.path.parent.mkdir(parents=True, exist_ok=True)
         tmp = self.path.with_suffix(".tmp")

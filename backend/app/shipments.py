@@ -9,6 +9,8 @@ from __future__ import annotations
 import json
 import os
 import uuid
+from copy import deepcopy
+from .review import change_summary
 from datetime import datetime, timedelta, timezone
 
 from .cost import journey_cost, cost_per_kg
@@ -72,7 +74,8 @@ def plan(ctx, origin, destination, depart_utc, weight_kg, required_delivery, val
         risk["level"]="HIGH" if risk["score"]>=55 else "MEDIUM" if risk["score"]>=25 else "LOW"
         known=all(a+"-"+b in net["edges"] for a,b in zip(path,path[1:]))
         options.append({**jr,"label":f"Via {hub['name']}" if hub else "Direct road estimate","kind":"dataset_lane" if known else "estimate",
-                        "intermediate_hub":hub,"recommendation_note":"Planning recommendation only; departure schedules and carrier availability are not supplied.",
+                        "intermediate_hub":hub,"recommendation_note":"User-entered timetable applied; capacity is unverified." if jr.get("scheduled_services") else "Next eligible movement estimate — departure availability unverified.",
+                        "is_demo":ctx.get("is_demo",False), "vehicle_constraints":"Truck profile requested" if "TomTom" in jr["data_sources"]["transport"] else "Vehicle restrictions unverified by fallback routing",
                         "cost":{"transport_eur":c["transport_eur"],"fuel_l":c["fuel_l"],"fuel_eur":c["fuel_eur"],"distance_km":round(c["km"],1),"cost_per_kg":cost_per_kg(c["transport_eur"],weight_kg)},
                         "risk":risk,"ldm":ldm,"historical":_hist_summary(hist),"revision":operations.data["revision"]})
     from .optimization import decorate
@@ -123,17 +126,24 @@ class Shipments:
         for o, d, w, v, dep, req, seg in samples:
             self.create({"origin": o, "destination": d, "weight_kg": w, "value_eur": v,
                          "planned_departure": dep.isoformat(), "required_delivery": req.isoformat(),
-                         "customer_segment": seg, "container": f"C{uuid.uuid4().hex[:5].upper()}"})
+                         "data_kind":"demo", "customer_segment": seg, "container": f"C{uuid.uuid4().hex[:5].upper()}"})
+
+    def context_for(self, ship):
+        if ship.get("demo_session"):
+            from .demo import context
+            return context(self.ctx,ship["demo_session"])
+        return self.ctx
 
     def create(self, p):
         sid = "SHP-" + uuid.uuid4().hex[:6].upper()
         dep = datetime.fromisoformat(p["planned_departure"].replace("Z", "+00:00")).astimezone(timezone.utc)
-        opts = plan(self.ctx, p["origin"], p["destination"], dep, p.get("weight_kg", 0),
+        opts = plan(self.context_for(p), p["origin"], p["destination"], dep, p.get("weight_kg", 0),
                     p.get("required_delivery"), p.get("value_eur", 0), p.get("optimization","fastest"),p.get("truck"))
         chosen = next((i for i,o in enumerate(opts) if o["path"] == p.get("selected_path")), 0)
         if p.get("selected_path") and opts[chosen]["path"] != p["selected_path"]: raise ValueError("Selected route is no longer available. Recalculate first.")
         rec = opts[chosen]
         ship = {
+            "data_kind":"demo" if p.get("demo_session") or p.get("data_kind")=="demo" else "user", "demo_session":p.get("demo_session"),
             "optimization": p.get("optimization","fastest"), "truck": p.get("truck"),
             "id": sid, "origin": p["origin"], "destination": p["destination"],
             "current_location": p["origin"], "route": rec["path"],
@@ -147,29 +157,38 @@ class Shipments:
             "cost_per_kg": rec["cost"]["cost_per_kg"], "risk_level": rec["risk"]["level"],
             "customer_segment": p.get("customer_segment"),
             "alert": None if rec["risk"]["deadline_ok"] else "Delivery deadline at risk",
-            "options": opts, "selected_option": chosen, "accepted_plan": rec, "created_at": datetime.now(timezone.utc).isoformat(),
+            "options": opts, "selected_option": chosen, "accepted_plan": deepcopy(rec), "created_at": datetime.now(timezone.utc).isoformat(),
         }
         ship["delay_minutes"] = _delay(rec["eta"], p.get("required_delivery"))
         self.data[sid] = ship
         _save(self.data)
         return ship
 
-    def schedule(self, sid, option_index=0, force=False):
+    def schedule(self, sid, option_index=0, force=False, quote_id=None):
         s = self.data.get(sid)
         if not s:
             return None, "unknown shipment"
         if s["status"] in {"IN TRANSIT", "DELIVERED"}: raise ValueError("Scheduling changes are supported before dispatch only")
         if not 0 <= option_index < len(s["options"]): raise ValueError("Invalid route option")
         opt = s["options"][option_index]
-        if opt.get("revision", -1) != self.ctx["operations"].data["revision"]: raise ValueError("Conditions changed. Recalculate the shipment before scheduling.")
+        if quote_id is not None and quote_id!=opt.get("quote_id"): raise ValueError("This quote was replaced. Recalculate and review again.")
+        ctx=self.context_for(s)
+        if opt.get("revision", -1) != ctx["operations"].data["revision"]: raise ValueError("Conditions changed. Recalculate the shipment before scheduling.")
         if opt.get("valid_until") and datetime.fromisoformat(opt["valid_until"]) < datetime.now(timezone.utc): raise ValueError("Live quote expired. Recalculate before scheduling.")
+        fresh=plan(ctx,s["origin"],s["destination"],datetime.fromisoformat(s["planned_departure"].replace("Z","+00:00")),s["weight_kg"],s.get("required_delivery"),s.get("value_eur",0),s.get("optimization","fastest"),s.get("truck"))
+        candidate=next((o for o in fresh if o["path"]==opt["path"]),None)
+        if candidate is None or change_summary(opt,candidate)["material"]:
+            s["options"]=fresh
+            s["plan_change"]=change_summary(s.get("accepted_plan"),fresh[0])
+            _save(self.data)
+            raise ValueError("Live conditions changed during approval. Recalculate and review the updated options; saved plan was retained.")
         if not opt["risk"]["deadline_ok"] and not force:
             # feasibility warning BEFORE committing
             return s, f"WARNING: selected route misses delivery window (ETA {opt['eta']}). Schedule anyway or pick another route."
-        s.update({"status": "SCHEDULED", "scheduled_departure": s["planned_departure"],
+        s.update({"status": "SCHEDULED", "scheduled_departure": next((step["start"] for step in opt["steps"] if step["type"]=="drive"),s["planned_departure"]),
                   "route": opt["path"], "current_eta": opt["eta"],
                   "est_cost_eur": opt["cost"]["transport_eur"], "est_fuel_l": opt["cost"]["fuel_l"],
-                  "risk_level": opt["risk"]["level"], "selected_option": option_index, "accepted_plan": opt,
+                  "risk_level": opt["risk"]["level"], "selected_option": option_index, "accepted_plan": deepcopy(opt), "approved_at":datetime.now(timezone.utc).isoformat(), "plan_change":None,
                   "next_hub": opt["path"][1], "distance_km": opt["cost"]["distance_km"], "cost_per_kg": opt["cost"]["cost_per_kg"],
                   "delay_minutes": _delay(opt["eta"],s.get("required_delivery")), "alert": None if opt["risk"]["deadline_ok"] else "Delivery deadline at risk"})
         _save(self.data)
@@ -179,7 +198,8 @@ class Shipments:
         s=self.data[sid]
         if s["status"] in ("IN TRANSIT","DELIVERED"):
             raise ValueError("Prototype replanning is supported before dispatch only")
-        s["options"]=plan(self.ctx,s["origin"],s["destination"],datetime.fromisoformat(s["planned_departure"].replace("Z","+00:00")),s["weight_kg"],s.get("required_delivery"),s.get("value_eur",0),s.get("optimization","fastest"),s.get("truck"))
+        s["options"]=plan(self.context_for(s),s["origin"],s["destination"],datetime.fromisoformat(s["planned_departure"].replace("Z","+00:00")),s["weight_kg"],s.get("required_delivery"),s.get("value_eur",0),s.get("optimization","fastest"),s.get("truck"))
+        s["plan_change"]=change_summary(s.get("accepted_plan"),s["options"][0])
         _save(self.data)
         return s
 
@@ -187,7 +207,23 @@ class Shipments:
         if status not in {"PLANNED","SCHEDULED","IN TRANSIT","DELAYED","DELIVERED"}: raise ValueError("Invalid shipment status")
         s = self.data.get(sid)
         if s:
+            if status in {"SCHEDULED","IN TRANSIT"} and not s.get("approved_at"): raise ValueError("A manager must approve a plan first")
             s["status"] = status; _save(self.data)
+        return s
+
+    def record_outcome(self, sid, outcome):
+        s=self.data[sid]
+        if s["status"]!="DELIVERED": raise ValueError("Mark the shipment delivered before recording actual results")
+        if not s.get("approved_at"): raise ValueError("Actual comparison requires a manager-approved plan")
+        baseline=s["accepted_plan"]
+        departure=datetime.fromisoformat(outcome["actual_departure"])
+        arrival=datetime.fromisoformat(outcome["actual_arrival"])
+        if arrival<departure: raise ValueError("Actual arrival must follow actual departure")
+        if s.get("data_kind")!="demo" and arrival>datetime.now(timezone.utc): raise ValueError("Actual arrival cannot be in the future")
+        error=round((arrival-datetime.fromisoformat(baseline["eta"])).total_seconds()/60)
+        actual={**outcome,"recorded_at":datetime.now(timezone.utc).isoformat(),"arrival_error_minutes":error,"cost_error_eur":round(outcome["actual_cost_eur"]-baseline["cost"]["transport_eur"],2),"on_time":arrival<=datetime.fromisoformat(s["required_delivery"]) if s.get("required_delivery") else None,"source":"DEMO OUTCOME" if s.get("data_kind")=="demo" else "USER-REPORTED ACTUAL","accepted_quote_id":baseline.get("quote_id")}
+        s.setdefault("outcome_history",[]).append(deepcopy(actual))
+        s["actual"]=actual; _save(self.data)
         return s
 
     def list(self):

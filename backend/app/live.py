@@ -28,7 +28,9 @@ class Forecasts:
                 r=httpx.get("https://api.open-meteo.com/v1/forecast",params={"latitude":",".join(str(k[0]) for k in missing),"longitude":",".join(str(k[1]) for k in missing),"hourly":"temperature_2m,precipitation,snowfall,visibility,wind_speed_10m,weather_code","forecast_days":16,"past_days":1,"timezone":"UTC","timeformat":"unixtime"},timeout=5)
                 r.raise_for_status(); payload=r.json(); payload=payload if isinstance(payload,list) else [payload]
                 if len(payload)!=len(missing): raise ValueError("Incomplete forecast response")
-                for k,item in zip(missing,payload): self.cache[k]=(time.time(),item["hourly"])
+                for k,item in zip(missing,payload):
+                    if not item.get("hourly",{}).get("time"): raise ValueError("Empty forecast")
+                    self.cache[k]=(time.time(),item["hourly"])
                 self.last_success=now().isoformat(); self.error=None
             except Exception as e: self.error=type(e).__name__; self.retry_after=time.time()+60
         rows=[]
@@ -48,16 +50,19 @@ class Forecasts:
 
 class TomTom:
     def __init__(self):
-        self.key=os.environ.get("TOMTOM_API_KEY",""); self.cache={}; self.last_success=None; self.error=None
+        self.key=os.environ.get("TOMTOM_API_KEY",""); self.cache={}; self.last_success=None; self.error=None; self.retry_after={}
     def get(self, url, params, ttl=120):
-        if not self.key: return None
+        if not self.key or time.time()<self.retry_after.get(url,0): return None
         ck=(url,str(sorted(params.items())))
         if ck in self.cache and time.time()-self.cache[ck][0]<ttl:return self.cache[ck][1]
         try:
             r=httpx.get(url,params={**params,"key":self.key},timeout=5);r.raise_for_status()
-            payload=r.json(); self.cache[ck]=(time.time(),payload);self.last_success=now().isoformat();self.error=None
+            payload=r.json()
+            if len(self.cache)>1200: self.cache.clear()
+            self.retry_after.pop(url,None)
+            self.cache[ck]=(time.time(),payload);self.last_success=now().isoformat();self.error=None
             return payload
-        except Exception as e:self.error=type(e).__name__;return None
+        except Exception as e:self.error=type(e).__name__;self.retry_after[url]=time.time()+30;return None
     def route(self,a,b,depart,truck):
         if not self.key:return None
         if depart<now()-timedelta(minutes=5):return None
@@ -85,7 +90,7 @@ class TomTom:
                 props=item["properties"];items[props["id"]]={"id":props["id"],"geometry":item["geometry"],"description":"; ".join(e["description"] for e in props.get("events",[])),"delay_minutes":round((props.get("delay") or 0)/60,1),"source":"TomTom","from":props.get("from"),"to":props.get("to"),"end":props.get("endTime")}
         return {"status":"ERROR" if failed else "LIVE","items":list(items.values()),"fetched_at":self.last_success}
     def tile(self,z,x,y):
-        if not self.key: return None
+        if not self.key or time.time()<self.retry_after.get("tiles",0): return None
         ck=("tile",z,x,y);cached=self.cache.get(ck)
         if cached and time.time()-cached[0]<120:return cached[1]
         try:
@@ -93,6 +98,6 @@ class TomTom:
             self.cache[ck]=(time.time(),r.content)
             if len(self.cache)>1200:self.cache={ck:self.cache[ck]}
             return r.content
-        except Exception as e:self.error=type(e).__name__;return None
+        except Exception as e:self.error=type(e).__name__;self.retry_after["tiles"]=time.time()+30;return None
 
 DEFAULT_TRUCK={"height_m":4.0,"width_m":2.55,"length_m":16.5,"gross_weight_kg":40000}
