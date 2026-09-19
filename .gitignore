@@ -10,7 +10,7 @@ __pycache__/
 venv/
 # Frontend packages and build output
 frontend/node_modules/
-frontend/dist/
+# frontend/dist/ included for Vercel deployment
 # Credentials
 .env
 .env.*
