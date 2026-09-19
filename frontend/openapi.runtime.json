@@ -1,0 +1,3428 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Transit Planner Prototype API",
+    "description": "Frozen hackathon contract. All listed object properties are required.",
+    "version": "2.0.0"
+  },
+  "paths": {
+    "/api/health": {
+      "get": {
+        "summary": "Get Health",
+        "operationId": "get_health_api_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/state": {
+      "get": {
+        "summary": "Get State",
+        "operationId": "get_state_api_state_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/State"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/network": {
+      "get": {
+        "summary": "Get Network",
+        "operationId": "get_network_api_network_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Network"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/data-summary": {
+      "get": {
+        "summary": "Get Data Summary",
+        "operationId": "get_data_summary_api_data_summary_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataSummary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/routes/search": {
+      "post": {
+        "summary": "Post Search",
+        "operationId": "post_search_api_routes_search_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/lanes/{lane_id}": {
+      "patch": {
+        "summary": "Patch Lane",
+        "operationId": "patch_lane_api_lanes__lane_id__patch",
+        "parameters": [
+          {
+            "name": "lane_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Lane Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LaneUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LaneMutationResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/nodes/{node_id}": {
+      "patch": {
+        "summary": "Patch Node",
+        "operationId": "patch_node_api_nodes__node_id__patch",
+        "parameters": [
+          {
+            "name": "node_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Node Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NodeUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NodeMutationResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/events": {
+      "get": {
+        "summary": "Get Events",
+        "operationId": "get_events_api_events_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventList"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Post Event",
+        "operationId": "post_event_api_events_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEvent"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventMutationResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/events/{event_id}/revisions": {
+      "post": {
+        "summary": "Post Event Revision",
+        "operationId": "post_event_revision_api_events__event_id__revisions_post",
+        "parameters": [
+          {
+            "name": "event_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Event Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviseEvent"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventMutationResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/plans": {
+      "get": {
+        "summary": "Get Plans",
+        "operationId": "get_plans_api_plans_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanList"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Post Plan",
+        "operationId": "post_plan_api_plans_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePlan"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/plans/{plan_id}": {
+      "get": {
+        "summary": "Get Plan View",
+        "operationId": "get_plan_view_api_plans__plan_id__get",
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Plan Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/plans/{plan_id}/decisions": {
+      "get": {
+        "summary": "Get Decisions",
+        "operationId": "get_decisions_api_plans__plan_id__decisions_get",
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Plan Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DecisionList"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Post Decision",
+        "operationId": "post_decision_api_plans__plan_id__decisions_post",
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Plan Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DecisionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DecisionResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/demo/presets": {
+      "post": {
+        "summary": "Post Preset",
+        "operationId": "post_preset_api_demo_presets_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplyPreset"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventMutationResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/demo/clock": {
+      "post": {
+        "summary": "Post Clock",
+        "operationId": "post_clock_api_demo_clock_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvanceClock"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/State"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/demo/reset": {
+      "post": {
+        "summary": "Post Reset",
+        "operationId": "post_reset_api_demo_reset_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/State"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/map/geometry": {
+      "get": {
+        "summary": "Get Map Geometry",
+        "operationId": "get_map_geometry_api_map_geometry_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MapGeometry"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/integrations": {
+      "get": {
+        "summary": "Get Integrations",
+        "operationId": "get_integrations_api_integrations_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Integrations"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/integrations/observations": {
+      "get": {
+        "summary": "Get Observations",
+        "operationId": "get_observations_api_integrations_observations_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObservationList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/integrations/refresh": {
+      "post": {
+        "summary": "Post Integrations Refresh",
+        "operationId": "post_integrations_refresh_api_integrations_refresh_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshIntegrations"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefreshResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/{path}": {
+      "put": {
+        "summary": "Api 404 Catchall",
+        "operationId": "api_404_catchall_api__path__put",
+        "parameters": [
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Path"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Api 404 Catchall",
+        "operationId": "api_404_catchall_api__path__put",
+        "parameters": [
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Path"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Api 404 Catchall",
+        "operationId": "api_404_catchall_api__path__put",
+        "parameters": [
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Path"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Api 404 Catchall",
+        "operationId": "api_404_catchall_api__path__put",
+        "parameters": [
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Path"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Api 404 Catchall",
+        "operationId": "api_404_catchall_api__path__put",
+        "parameters": [
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Path"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AdvanceClock": {
+        "properties": {
+          "mutation_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Mutation Id"
+          },
+          "expected_snapshot": {
+            "$ref": "#/components/schemas/Snapshot"
+          },
+          "target_clock": {
+            "type": "string",
+            "title": "Target Clock"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mutation_id",
+          "expected_snapshot",
+          "target_clock"
+        ],
+        "title": "AdvanceClock"
+      },
+      "ApplyPreset": {
+        "properties": {
+          "mutation_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Mutation Id"
+          },
+          "expected_snapshot": {
+            "$ref": "#/components/schemas/Snapshot"
+          },
+          "preset_id": {
+            "type": "string",
+            "enum": [
+              "traffic_direct",
+              "handling_munich",
+              "closure_strasbourg"
+            ],
+            "title": "Preset Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mutation_id",
+          "expected_snapshot",
+          "preset_id"
+        ],
+        "title": "ApplyPreset"
+      },
+      "CalendarRule": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Id"
+          },
+          "lane_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Lane Id"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "road",
+              "air"
+            ],
+            "title": "Mode"
+          },
+          "timezone": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Timezone"
+          },
+          "weekday": {
+            "type": "integer",
+            "maximum": 7.0,
+            "minimum": 1.0,
+            "title": "Weekday"
+          },
+          "start_local_time": {
+            "type": "string",
+            "pattern": "^\\d{2}:\\d{2}$",
+            "title": "Start Local Time"
+          },
+          "end_next_day_local_time": {
+            "type": "string",
+            "pattern": "^\\d{2}:\\d{2}$",
+            "title": "End Next Day Local Time"
+          },
+          "action": {
+            "type": "string",
+            "const": "pause_travel",
+            "title": "Action"
+          },
+          "provenance": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Provenance"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "lane_id",
+          "mode",
+          "timezone",
+          "weekday",
+          "start_local_time",
+          "end_next_day_local_time",
+          "action",
+          "provenance"
+        ],
+        "title": "CalendarRule"
+      },
+      "CapacityExample": {
+        "properties": {
+          "source_file": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Source File"
+          },
+          "relation": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Relation"
+          },
+          "destination": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Destination"
+          },
+          "date": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "title": "Date"
+          },
+          "planned_trailers": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Planned Trailers"
+          },
+          "needed_trailers": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Needed Trailers"
+          },
+          "special_trips": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Special Trips"
+          },
+          "loading_metres": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Loading Metres"
+          },
+          "trailer_capacity_metres": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Trailer Capacity Metres"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "source_file",
+          "relation",
+          "destination",
+          "date",
+          "planned_trailers",
+          "needed_trailers",
+          "special_trips",
+          "loading_metres",
+          "trailer_capacity_metres"
+        ],
+        "title": "CapacityExample"
+      },
+      "CreateEvent": {
+        "properties": {
+          "mutation_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Mutation Id"
+          },
+          "expected_snapshot": {
+            "$ref": "#/components/schemas/Snapshot"
+          },
+          "event": {
+            "$ref": "#/components/schemas/EventInput"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mutation_id",
+          "expected_snapshot",
+          "event"
+        ],
+        "title": "CreateEvent"
+      },
+      "CreatePlan": {
+        "properties": {
+          "mutation_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Mutation Id"
+          },
+          "expected_snapshot": {
+            "$ref": "#/components/schemas/Snapshot"
+          },
+          "search_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Search Id"
+          },
+          "route_id": {
+            "type": "string",
+            "maxLength": 24,
+            "minLength": 24,
+            "title": "Route Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Name"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mutation_id",
+          "expected_snapshot",
+          "search_id",
+          "route_id",
+          "name"
+        ],
+        "title": "CreatePlan"
+      },
+      "DataSummary": {
+        "properties": {
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/SourceSummary"
+            },
+            "type": "array",
+            "title": "Sources"
+          },
+          "assumptions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Assumptions"
+          },
+          "import_complete": {
+            "type": "boolean",
+            "title": "Import Complete"
+          },
+          "capacity_example": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CapacityExample"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "import_complete"
+        ],
+        "title": "DataSummary"
+      },
+      "Decision": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Id"
+          },
+          "plan_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Plan Id"
+          },
+          "actor": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Actor"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "accept_route",
+              "keep_selected",
+              "defer"
+            ],
+            "title": "Action"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 3,
+            "title": "Reason"
+          },
+          "selected_route_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selected Route Id"
+          },
+          "superseded_route_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Superseded Route Id"
+          },
+          "decided_at": {
+            "type": "string",
+            "title": "Decided At"
+          },
+          "review_evidence": {
+            "$ref": "#/components/schemas/ReviewEvidence"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "plan_id",
+          "actor",
+          "action",
+          "reason",
+          "decided_at",
+          "review_evidence"
+        ],
+        "title": "Decision"
+      },
+      "DecisionList": {
+        "properties": {
+          "plan_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Plan Id"
+          },
+          "decisions": {
+            "items": {
+              "$ref": "#/components/schemas/Decision"
+            },
+            "type": "array",
+            "title": "Decisions"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "plan_id"
+        ],
+        "title": "DecisionList"
+      },
+      "DecisionRequest": {
+        "properties": {
+          "mutation_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Mutation Id"
+          },
+          "expected_snapshot": {
+            "$ref": "#/components/schemas/Snapshot"
+          },
+          "expected_plan_revision": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Expected Plan Revision"
+          },
+          "actor": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Actor"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "accept_route",
+              "keep_selected",
+              "defer"
+            ],
+            "title": "Action"
+          },
+          "route_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Route Id"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 3,
+            "title": "Reason"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mutation_id",
+          "expected_snapshot",
+          "expected_plan_revision",
+          "actor",
+          "action",
+          "reason"
+        ],
+        "title": "DecisionRequest"
+      },
+      "DecisionResult": {
+        "properties": {
+          "plan": {
+            "$ref": "#/components/schemas/PlanView"
+          },
+          "decision": {
+            "$ref": "#/components/schemas/Decision"
+          },
+          "mutation_id": {
+            "type": "string",
+            "title": "Mutation Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "plan",
+          "decision",
+          "mutation_id"
+        ],
+        "title": "DecisionResult"
+      },
+      "DepartureRule": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Id"
+          },
+          "weekdays": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "maxItems": 7,
+            "minItems": 1,
+            "title": "Weekdays"
+          },
+          "local_time": {
+            "type": "string",
+            "pattern": "^\\d{2}:\\d{2}$",
+            "title": "Local Time"
+          },
+          "cutoff_minutes": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Cutoff Minutes"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "weekdays",
+          "local_time",
+          "cutoff_minutes"
+        ],
+        "title": "DepartureRule"
+      },
+      "Diagnostic": {
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": [
+              "connectivity",
+              "closure",
+              "calendar",
+              "cutoff",
+              "profile",
+              "limit"
+            ],
+            "title": "Category"
+          },
+          "code": {
+            "type": "string",
+            "enum": [
+              "CLOSED_LANE",
+              "CANCELLED_DEPARTURE",
+              "INACTIVE_LANE",
+              "OUTSIDE_VALIDITY",
+              "HORIZON_EXCEEDED",
+              "DISCONNECTED",
+              "MISSED_CUTOFF",
+              "PROFILE_REJECTED",
+              "SEARCH_LIMIT"
+            ],
+            "title": "Code"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "target_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "category",
+          "code",
+          "message"
+        ],
+        "title": "Diagnostic"
+      },
+      "Event": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "traffic",
+              "weather",
+              "political",
+              "operational"
+            ],
+            "title": "Type"
+          },
+          "source_kind": {
+            "type": "string",
+            "enum": [
+              "manager",
+              "demo_feed",
+              "provider"
+            ],
+            "title": "Source Kind"
+          },
+          "external_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "External Id"
+          },
+          "source_reference": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Source Reference"
+          },
+          "observed_at": {
+            "type": "string",
+            "title": "Observed At"
+          },
+          "valid_from": {
+            "type": "string",
+            "title": "Valid From"
+          },
+          "valid_until": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Valid Until"
+          },
+          "review_due_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Review Due At"
+          },
+          "target_kind": {
+            "type": "string",
+            "enum": [
+              "node",
+              "lane"
+            ],
+            "title": "Target Kind"
+          },
+          "target_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Target Id"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "road",
+              "air"
+            ],
+            "title": "Mode"
+          },
+          "effect_type": {
+            "type": "string",
+            "enum": [
+              "additional_travel_minutes",
+              "additional_handling_minutes",
+              "closure",
+              "departure_cancellation"
+            ],
+            "title": "Effect Type"
+          },
+          "effect_minutes": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Effect Minutes"
+          },
+          "verification_status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "accepted"
+            ],
+            "title": "Verification Status"
+          },
+          "lifecycle_status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "withdrawn"
+            ],
+            "title": "Lifecycle Status"
+          },
+          "correlation_key": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Correlation Key"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 3,
+            "title": "Reason"
+          },
+          "applies_to_departure_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Applies To Departure At"
+          },
+          "observation_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Observation Id"
+          },
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Id"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Version"
+          },
+          "reported_by": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Reported By"
+          },
+          "received_at": {
+            "type": "string",
+            "title": "Received At"
+          },
+          "review_overdue": {
+            "type": "boolean",
+            "title": "Review Overdue"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "source_kind",
+          "external_id",
+          "source_reference",
+          "observed_at",
+          "valid_from",
+          "target_kind",
+          "target_id",
+          "mode",
+          "effect_type",
+          "verification_status",
+          "lifecycle_status",
+          "correlation_key",
+          "reason",
+          "id",
+          "version",
+          "reported_by",
+          "received_at",
+          "review_overdue"
+        ],
+        "title": "Event"
+      },
+      "EventInput": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "traffic",
+              "weather",
+              "political",
+              "operational"
+            ],
+            "title": "Type"
+          },
+          "source_kind": {
+            "type": "string",
+            "enum": [
+              "manager",
+              "demo_feed",
+              "provider"
+            ],
+            "title": "Source Kind"
+          },
+          "external_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "External Id"
+          },
+          "source_reference": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Source Reference"
+          },
+          "observed_at": {
+            "type": "string",
+            "title": "Observed At"
+          },
+          "valid_from": {
+            "type": "string",
+            "title": "Valid From"
+          },
+          "valid_until": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Valid Until"
+          },
+          "review_due_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Review Due At"
+          },
+          "target_kind": {
+            "type": "string",
+            "enum": [
+              "node",
+              "lane"
+            ],
+            "title": "Target Kind"
+          },
+          "target_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Target Id"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "road",
+              "air"
+            ],
+            "title": "Mode"
+          },
+          "effect_type": {
+            "type": "string",
+            "enum": [
+              "additional_travel_minutes",
+              "additional_handling_minutes",
+              "closure",
+              "departure_cancellation"
+            ],
+            "title": "Effect Type"
+          },
+          "effect_minutes": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Effect Minutes"
+          },
+          "verification_status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "accepted"
+            ],
+            "title": "Verification Status"
+          },
+          "lifecycle_status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "withdrawn"
+            ],
+            "title": "Lifecycle Status"
+          },
+          "correlation_key": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Correlation Key"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 3,
+            "title": "Reason"
+          },
+          "applies_to_departure_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Applies To Departure At"
+          },
+          "observation_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Observation Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "source_kind",
+          "external_id",
+          "source_reference",
+          "observed_at",
+          "valid_from",
+          "target_kind",
+          "target_id",
+          "mode",
+          "effect_type",
+          "verification_status",
+          "lifecycle_status",
+          "correlation_key",
+          "reason"
+        ],
+        "title": "EventInput"
+      },
+      "EventList": {
+        "properties": {
+          "snapshot": {
+            "$ref": "#/components/schemas/Snapshot"
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/Event"
+            },
+            "type": "array",
+            "title": "Events"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "snapshot",
+          "events"
+        ],
+        "title": "EventList"
+      },
+      "EventMutationResult": {
+        "properties": {
+          "snapshot": {
+            "$ref": "#/components/schemas/Snapshot"
+          },
+          "event": {
+            "$ref": "#/components/schemas/Event"
+          },
+          "mutation_id": {
+            "type": "string",
+            "title": "Mutation Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "snapshot",
+          "event",
+          "mutation_id"
+        ],
+        "title": "EventMutationResult"
+      },
+      "Geometry": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "LineString",
+            "title": "Type"
+          },
+          "coordinates": {
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "type": "array",
+            "title": "Coordinates"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "type",
+          "coordinates"
+        ],
+        "title": "Geometry"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Health": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "degraded",
+              "unhealthy"
+            ],
+            "title": "Status"
+          },
+          "database": {
+            "type": "string",
+            "enum": [
+              "connected",
+              "error"
+            ],
+            "title": "Database"
+          },
+          "simulation_clock": {
+            "type": "string",
+            "title": "Simulation Clock"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "demo",
+              "live"
+            ],
+            "title": "Mode"
+          },
+          "dataset_id": {
+            "type": "string",
+            "title": "Dataset Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status",
+          "database",
+          "simulation_clock",
+          "mode",
+          "dataset_id"
+        ],
+        "title": "Health"
+      },
+      "Integrations": {
+        "properties": {
+          "snapshot": {
+            "$ref": "#/components/schemas/Snapshot"
+          },
+          "integrations_revision": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Integrations Revision"
+          },
+          "providers": {
+            "items": {
+              "$ref": "#/components/schemas/ProviderStatus"
+            },
+            "type": "array",
+            "title": "Providers"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "snapshot",
+          "integrations_revision"
+        ],
+        "title": "Integrations"
+      },
+      "Lane": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Id"
+          },
+          "from_node_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "From Node Id"
+          },
+          "to_node_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "To Node Id"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "road",
+              "air"
+            ],
+            "title": "Mode"
+          },
+          "duration_minutes": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Duration Minutes"
+          },
+          "active": {
+            "type": "boolean",
+            "title": "Active"
+          },
+          "valid_from": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "title": "Valid From"
+          },
+          "valid_to": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "title": "Valid To"
+          },
+          "departures": {
+            "items": {
+              "$ref": "#/components/schemas/DepartureRule"
+            },
+            "type": "array",
+            "title": "Departures"
+          },
+          "provenance": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Provenance"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "from_node_id",
+          "to_node_id",
+          "mode",
+          "duration_minutes",
+          "active",
+          "valid_from",
+          "valid_to",
+          "provenance"
+        ],
+        "title": "Lane"
+      },
+      "LaneGeometry": {
+        "properties": {
+          "lane_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Lane Id"
+          },
+          "departure_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Departure At"
+          },
+          "geometry_kind": {
+            "type": "string",
+            "enum": [
+              "schematic",
+              "provider_road"
+            ],
+            "title": "Geometry Kind"
+          },
+          "geometry": {
+            "$ref": "#/components/schemas/Geometry"
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Source"
+          },
+          "attribution": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Attribution"
+          },
+          "fetched_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fetched At"
+          },
+          "stale": {
+            "type": "boolean",
+            "title": "Stale"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "lane_id",
+          "geometry_kind",
+          "geometry",
+          "source",
+          "attribution",
+          "stale"
+        ],
+        "title": "LaneGeometry"
+      },
+      "LaneMutationResult": {
+        "properties": {
+          "snapshot": {
+            "$ref": "#/components/schemas/Snapshot"
+          },
+          "lane": {
+            "$ref": "#/components/schemas/Lane"
+          },
+          "mutation_id": {
+            "type": "string",
+            "title": "Mutation Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "snapshot",
+          "lane",
+          "mutation_id"
+        ],
+        "title": "LaneMutationResult"
+      },
+      "LaneUpdate": {
+        "properties": {
+          "mutation_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Mutation Id"
+          },
+          "expected_snapshot": {
+            "$ref": "#/components/schemas/Snapshot"
+          },
+          "active": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Active"
+          },
+          "duration_minutes": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Duration Minutes"
+          },
+          "departures": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/DepartureRule"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Departures"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mutation_id",
+          "expected_snapshot"
+        ],
+        "title": "LaneUpdate"
+      },
+      "MapGeometry": {
+        "properties": {
+          "snapshot": {
+            "$ref": "#/components/schemas/Snapshot"
+          },
+          "integrations_revision": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Integrations Revision"
+          },
+          "lanes": {
+            "items": {
+              "$ref": "#/components/schemas/LaneGeometry"
+            },
+            "type": "array",
+            "title": "Lanes"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "snapshot",
+          "integrations_revision"
+        ],
+        "title": "MapGeometry"
+      },
+      "Network": {
+        "properties": {
+          "snapshot": {
+            "$ref": "#/components/schemas/Snapshot"
+          },
+          "nodes": {
+            "items": {
+              "$ref": "#/components/schemas/Node"
+            },
+            "type": "array",
+            "title": "Nodes"
+          },
+          "lanes": {
+            "items": {
+              "$ref": "#/components/schemas/Lane"
+            },
+            "type": "array",
+            "title": "Lanes"
+          },
+          "calendar_rules": {
+            "items": {
+              "$ref": "#/components/schemas/CalendarRule"
+            },
+            "type": "array",
+            "title": "Calendar Rules"
+          },
+          "service_profiles": {
+            "items": {
+              "$ref": "#/components/schemas/ServiceProfile"
+            },
+            "type": "array",
+            "title": "Service Profiles"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "snapshot",
+          "nodes",
+          "lanes",
+          "calendar_rules",
+          "service_profiles"
+        ],
+        "title": "Network"
+      },
+      "Node": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Name"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "hub",
+              "branch",
+              "hand_over"
+            ],
+            "title": "Type"
+          },
+          "country": {
+            "type": "string",
+            "maxLength": 2,
+            "minLength": 2,
+            "title": "Country"
+          },
+          "timezone": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Timezone"
+          },
+          "latitude": {
+            "type": "number",
+            "title": "Latitude"
+          },
+          "longitude": {
+            "type": "number",
+            "title": "Longitude"
+          },
+          "processing_minutes": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Processing Minutes"
+          },
+          "active": {
+            "type": "boolean",
+            "title": "Active"
+          },
+          "provenance": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Provenance"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "type",
+          "country",
+          "timezone",
+          "latitude",
+          "longitude",
+          "processing_minutes",
+          "active",
+          "provenance"
+        ],
+        "title": "Node"
+      },
+      "NodeMutationResult": {
+        "properties": {
+          "snapshot": {
+            "$ref": "#/components/schemas/Snapshot"
+          },
+          "node": {
+            "$ref": "#/components/schemas/Node"
+          },
+          "mutation_id": {
+            "type": "string",
+            "title": "Mutation Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "snapshot",
+          "node",
+          "mutation_id"
+        ],
+        "title": "NodeMutationResult"
+      },
+      "NodeUpdate": {
+        "properties": {
+          "mutation_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Mutation Id"
+          },
+          "expected_snapshot": {
+            "$ref": "#/components/schemas/Snapshot"
+          },
+          "active": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Active"
+          },
+          "processing_minutes": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Processing Minutes"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mutation_id",
+          "expected_snapshot"
+        ],
+        "title": "NodeUpdate"
+      },
+      "Observation": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Id"
+          },
+          "provider": {
+            "type": "string",
+            "enum": [
+              "open_meteo",
+              "tomtom",
+              "operator_bulletins"
+            ],
+            "title": "Provider"
+          },
+          "target_kind": {
+            "type": "string",
+            "enum": [
+              "node",
+              "lane"
+            ],
+            "title": "Target Kind"
+          },
+          "target_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Target Id"
+          },
+          "intended_departure_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Intended Departure At"
+          },
+          "observed_at": {
+            "type": "string",
+            "title": "Observed At"
+          },
+          "fetched_at": {
+            "type": "string",
+            "title": "Fetched At"
+          },
+          "valid_from": {
+            "type": "string",
+            "title": "Valid From"
+          },
+          "valid_until": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Valid Until"
+          },
+          "metrics": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metrics"
+          },
+          "raw_digest": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Raw Digest"
+          },
+          "attribution": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Attribution"
+          },
+          "stale": {
+            "type": "boolean",
+            "title": "Stale"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "provider",
+          "target_kind",
+          "target_id",
+          "observed_at",
+          "fetched_at",
+          "valid_from",
+          "raw_digest",
+          "attribution",
+          "stale"
+        ],
+        "title": "Observation"
+      },
+      "ObservationList": {
+        "properties": {
+          "snapshot": {
+            "$ref": "#/components/schemas/Snapshot"
+          },
+          "integrations_revision": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Integrations Revision"
+          },
+          "observations": {
+            "items": {
+              "$ref": "#/components/schemas/Observation"
+            },
+            "type": "array",
+            "title": "Observations"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "snapshot",
+          "integrations_revision"
+        ],
+        "title": "ObservationList"
+      },
+      "OriginProgress": {
+        "properties": {
+          "plan_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Plan Id"
+          },
+          "recorded_at": {
+            "type": "string",
+            "title": "Recorded At"
+          },
+          "frozen_segments": {
+            "items": {
+              "$ref": "#/components/schemas/Segment"
+            },
+            "type": "array",
+            "title": "Frozen Segments"
+          },
+          "completed_work_minutes": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Completed Work Minutes"
+          },
+          "handling_complete": {
+            "type": "boolean",
+            "title": "Handling Complete"
+          },
+          "first_mode": {
+            "type": "string",
+            "enum": [
+              "road",
+              "air"
+            ],
+            "title": "First Mode"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "plan_id",
+          "recorded_at",
+          "completed_work_minutes",
+          "handling_complete",
+          "first_mode"
+        ],
+        "title": "OriginProgress"
+      },
+      "PlanList": {
+        "properties": {
+          "snapshot": {
+            "$ref": "#/components/schemas/Snapshot"
+          },
+          "plans_revision": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Plans Revision"
+          },
+          "plans": {
+            "items": {
+              "$ref": "#/components/schemas/PlanView"
+            },
+            "type": "array",
+            "title": "Plans"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "snapshot",
+          "plans_revision"
+        ],
+        "title": "PlanList"
+      },
+      "PlanView": {
+        "properties": {
+          "plan_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Plan Id"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Name"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "stable",
+              "review_required",
+              "blocked",
+              "outside_demo_scope"
+            ],
+            "title": "Status"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "title": "Updated At"
+          },
+          "request": {
+            "$ref": "#/components/schemas/SearchRequest"
+          },
+          "selected_itinerary": {
+            "$ref": "#/components/schemas/Route"
+          },
+          "selected_projection": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Route"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "alternative_recommendations": {
+            "items": {
+              "$ref": "#/components/schemas/Route"
+            },
+            "type": "array",
+            "title": "Alternative Recommendations"
+          },
+          "decisions_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Decisions Count",
+            "default": 0
+          },
+          "latest_decision": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Decision"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "plan_revision": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Plan Revision",
+            "default": 0
+          },
+          "review_reasons": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Review Reasons"
+          },
+          "origin_progress": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/OriginProgress"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "plan_id",
+          "name",
+          "status",
+          "created_at",
+          "updated_at",
+          "request",
+          "selected_itinerary"
+        ],
+        "title": "PlanView"
+      },
+      "ProviderStatus": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "enum": [
+              "open_meteo",
+              "tomtom",
+              "operator_bulletins"
+            ],
+            "title": "Name"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "not_configured",
+              "error",
+              "disabled",
+              "stale"
+            ],
+            "title": "Status"
+          },
+          "last_poll_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Poll At"
+          },
+          "last_successful_poll_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Successful Poll At"
+          },
+          "consecutive_errors": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Consecutive Errors",
+            "default": 0
+          },
+          "error_message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Message"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "demo",
+              "live"
+            ],
+            "title": "Mode"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name",
+          "status",
+          "mode"
+        ],
+        "title": "ProviderStatus"
+      },
+      "Reason": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "NODE_HANDLING",
+              "EVENT_HANDLING_DELAY",
+              "WAIT_DEPARTURE",
+              "MISSED_CUTOFF",
+              "LANE_TRAVEL",
+              "EVENT_TRAVEL_DELAY",
+              "CALENDAR_PAUSE"
+            ],
+            "title": "Code"
+          },
+          "minutes": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Minutes"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "event_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Event Ids"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "code",
+          "minutes",
+          "description"
+        ],
+        "title": "Reason"
+      },
+      "RefreshIntegrations": {
+        "properties": {
+          "mutation_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Mutation Id"
+          },
+          "expected_snapshot": {
+            "$ref": "#/components/schemas/Snapshot"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mutation_id",
+          "expected_snapshot"
+        ],
+        "title": "RefreshIntegrations"
+      },
+      "RefreshResult": {
+        "properties": {
+          "snapshot": {
+            "$ref": "#/components/schemas/Snapshot"
+          },
+          "integrations_revision": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Integrations Revision"
+          },
+          "refreshed_at": {
+            "type": "string",
+            "title": "Refreshed At"
+          },
+          "observations_created": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Observations Created"
+          },
+          "events_proposed": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Events Proposed"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "snapshot",
+          "integrations_revision",
+          "refreshed_at",
+          "observations_created",
+          "events_proposed"
+        ],
+        "title": "RefreshResult"
+      },
+      "ResetRequest": {
+        "properties": {
+          "confirm": {
+            "type": "string",
+            "const": "RESET_DEMO",
+            "title": "Confirm"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "confirm"
+        ],
+        "title": "ResetRequest"
+      },
+      "ReviewEvidence": {
+        "properties": {
+          "reviewed_snapshot": {
+            "$ref": "#/components/schemas/Snapshot"
+          },
+          "selected_itinerary": {
+            "$ref": "#/components/schemas/Route"
+          },
+          "selected_projection": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Route"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "proposed_itinerary": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Route"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "network_snapshot": {
+            "$ref": "#/components/schemas/Network"
+          },
+          "applied_event_versions": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Applied Event Versions"
+          },
+          "observation_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Observation Ids"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "reviewed_snapshot",
+          "selected_itinerary",
+          "network_snapshot"
+        ],
+        "title": "ReviewEvidence"
+      },
+      "ReviseEvent": {
+        "properties": {
+          "mutation_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Mutation Id"
+          },
+          "expected_snapshot": {
+            "$ref": "#/components/schemas/Snapshot"
+          },
+          "expected_version": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Expected Version"
+          },
+          "event": {
+            "$ref": "#/components/schemas/EventInput"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mutation_id",
+          "expected_snapshot",
+          "expected_version",
+          "event"
+        ],
+        "title": "ReviseEvent"
+      },
+      "Route": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 24,
+            "minLength": 24,
+            "title": "Id"
+          },
+          "lane_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Lane Ids"
+          },
+          "departure_times": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Departure Times"
+          },
+          "arrival_at": {
+            "type": "string",
+            "title": "Arrival At"
+          },
+          "total_minutes": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Total Minutes"
+          },
+          "transfer_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Transfer Count"
+          },
+          "segments": {
+            "items": {
+              "$ref": "#/components/schemas/Segment"
+            },
+            "type": "array",
+            "title": "Segments"
+          },
+          "explanation": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Explanation"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "lane_ids",
+          "departure_times",
+          "arrival_at",
+          "total_minutes",
+          "transfer_count",
+          "segments"
+        ],
+        "title": "Route"
+      },
+      "SearchRequest": {
+        "properties": {
+          "origin_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Origin Id"
+          },
+          "destination_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Destination Id"
+          },
+          "ready_at": {
+            "type": "string",
+            "title": "Ready At"
+          },
+          "service_profile_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Service Profile Id"
+          },
+          "max_results": {
+            "type": "integer",
+            "maximum": 10.0,
+            "minimum": 1.0,
+            "title": "Max Results",
+            "default": 3
+          },
+          "arrival_deadline": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Arrival Deadline"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "origin_id",
+          "destination_id",
+          "ready_at",
+          "service_profile_id"
+        ],
+        "title": "SearchRequest"
+      },
+      "SearchResponse": {
+        "properties": {
+          "snapshot": {
+            "$ref": "#/components/schemas/Snapshot"
+          },
+          "search_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Search Id"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "feasible",
+              "no_feasible_route"
+            ],
+            "title": "Status"
+          },
+          "routes": {
+            "items": {
+              "$ref": "#/components/schemas/Route"
+            },
+            "type": "array",
+            "title": "Routes"
+          },
+          "diagnostics": {
+            "items": {
+              "$ref": "#/components/schemas/Diagnostic"
+            },
+            "type": "array",
+            "title": "Diagnostics"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "snapshot",
+          "search_id",
+          "status"
+        ],
+        "title": "SearchResponse"
+      },
+      "Segment": {
+        "properties": {
+          "segment_index": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Segment Index"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "handle",
+              "travel",
+              "wait"
+            ],
+            "title": "Type"
+          },
+          "node_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Node Id"
+          },
+          "lane_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lane Id"
+          },
+          "start_at": {
+            "type": "string",
+            "title": "Start At"
+          },
+          "end_at": {
+            "type": "string",
+            "title": "End At"
+          },
+          "duration_minutes": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Duration Minutes"
+          },
+          "reasons": {
+            "items": {
+              "$ref": "#/components/schemas/Reason"
+            },
+            "type": "array",
+            "title": "Reasons"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "segment_index",
+          "type",
+          "start_at",
+          "end_at",
+          "duration_minutes"
+        ],
+        "title": "Segment"
+      },
+      "ServiceProfile": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Id"
+          },
+          "allowed_modes": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "road",
+                "air"
+              ]
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Allowed Modes"
+          },
+          "max_lanes": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Max Lanes"
+          },
+          "scope": {
+            "type": "string",
+            "const": "branch_to_branch",
+            "title": "Scope"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "allowed_modes",
+          "max_lanes",
+          "scope"
+        ],
+        "title": "ServiceProfile"
+      },
+      "Snapshot": {
+        "properties": {
+          "dataset_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Dataset Id"
+          },
+          "schedule_revision": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Schedule Revision"
+          },
+          "event_revision": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Event Revision"
+          },
+          "clock_revision": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Clock Revision"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "dataset_id",
+          "schedule_revision",
+          "event_revision",
+          "clock_revision"
+        ],
+        "title": "Snapshot"
+      },
+      "SourceSummary": {
+        "properties": {
+          "filename": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Filename"
+          },
+          "rows": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rows"
+          },
+          "date_from": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Date From"
+          },
+          "date_to": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Date To"
+          },
+          "issues": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Issues"
+          },
+          "sha256": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sha256"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "filename"
+        ],
+        "title": "SourceSummary"
+      },
+      "State": {
+        "properties": {
+          "api_version": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Api Version",
+            "default": "2.0.0"
+          },
+          "snapshot": {
+            "$ref": "#/components/schemas/Snapshot"
+          },
+          "simulation_clock": {
+            "type": "string",
+            "title": "Simulation Clock"
+          },
+          "demo_mode": {
+            "type": "boolean",
+            "title": "Demo Mode"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "demo",
+              "live"
+            ],
+            "title": "Mode"
+          },
+          "plans_revision": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Plans Revision",
+            "default": 0
+          },
+          "integrations_revision": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Integrations Revision",
+            "default": 0
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "snapshot",
+          "simulation_clock",
+          "demo_mode",
+          "mode"
+        ],
+        "title": "State"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

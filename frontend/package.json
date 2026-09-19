@@ -1,0 +1,30 @@
+{
+  "name": "transit-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "types": "openapi-typescript openapi.runtime.json -o src/schema.d.ts"
+  },
+  "dependencies": {
+    "@xyflow/react": "^12.8.0",
+    "lucide-react": "^0.468.0",
+    "luxon": "^3.6.0",
+    "maplibre-gl": "^5.6.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/luxon": "^3.6.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^4.5.0",
+    "openapi-typescript": "^7.8.0",
+    "prettier": "^3.9.8",
+    "typescript": "~5.8.3",
+    "vite": "^6.3.0"
+  }
+}
