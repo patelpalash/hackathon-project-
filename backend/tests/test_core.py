@@ -6,7 +6,7 @@ shutil.rmtree("/tmp/dachser_test_store", ignore_errors=True)
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 from fastapi.testclient import TestClient
-from app.main import app
+from app.main import app as test_app
 from app.restrictions import drive_with_restrictions
 
 BERLIN = ZoneInfo("Europe/Berlin")
@@ -29,22 +29,23 @@ def test_restriction_holiday_and_weekday():
 
 # --- real network + analytics ---
 def test_network_real_and_complete():
-    with TestClient(app) as c:
+    with TestClient(test_app) as c:
         net = c.get("/api/network").json()
         assert net["hub_id"] == "HN" and len(net["nodes"]) == 31
         assert {"Hamburg", "München", "Münster", "Heilbronn"} <= {n["name"] for n in net["nodes"]}
 
 
 def test_analytics_from_history():
-    with TestClient(app) as c:
+    with TestClient(test_app) as c:
         rows = c.get("/api/analytics/relations").json()["relations"]
         assert len(rows) == 30
         top = rows[0]
         assert top["samples"] > 100 and 0 <= top["spillover_rate"] <= 1 and top["avg_daily_cost_eur"] > 0
 
 
+# --- disruptions are historical ---
 def test_disruptions_are_historical():
-    with TestClient(app) as c:
+    with TestClient(test_app) as c:
         d = c.get("/api/disruptions").json()
         assert len(d["historical"]) == 7
         assert all(x["source"].endswith("(historical)") for x in d["historical"])
@@ -52,14 +53,14 @@ def test_disruptions_are_historical():
 
 # --- providers honesty ---
 def test_providers_honest():
-    with TestClient(app) as c:
+    with TestClient(test_app) as c:
         ps = {p["key"]: p["status"] for p in c.get("/api/providers").json()["providers"]}
         assert ps["traffic"] == "NOT_CONFIGURED" and ps["holidays"] == "LIVE"
 
 
 # --- shipment lifecycle ---
 def test_shipments_seed_and_high_value_risk():
-    with TestClient(app) as c:
+    with TestClient(test_app) as c:
         ships = c.get("/api/shipments").json()["shipments"]
         assert len(ships) >= 4
         hv = [s for s in ships if s["value_eur"] >= 800000]
@@ -67,7 +68,7 @@ def test_shipments_seed_and_high_value_risk():
 
 
 def test_schedule_feasibility_warning():
-    with TestClient(app) as c:
+    with TestClient(test_app) as c:
         risky = next(s for s in c.get("/api/shipments").json()["shipments"] if s["value_eur"] >= 800000)
         res = c.post(f"/api/shipments/{risky['id']}/schedule?option=0").json()
         assert res["scheduled"] is False and "misses delivery window" in res["warning"]
@@ -76,7 +77,7 @@ def test_schedule_feasibility_warning():
 
 
 def test_create_costs_and_cpk():
-    with TestClient(app) as c:
+    with TestClient(test_app) as c:
         s = c.post("/api/shipments", json={"origin": "R08", "destination": "R14", "weight_kg": 5000,
                                            "value_eur": 30000, "planned_departure": "2026-09-22T06:00:00Z",
                                            "required_delivery": "2026-09-24T12:00:00Z"}).json()
@@ -84,7 +85,7 @@ def test_create_costs_and_cpk():
 
 
 def test_dashboard_and_savings():
-    with TestClient(app) as c:
+    with TestClient(test_app) as c:
         dash = c.get("/api/dashboard").json()
         assert dash["total"] >= 4 and dash["high_value"] >= 1 and dash["next_holiday"]
         sv = c.get("/api/savings").json()
