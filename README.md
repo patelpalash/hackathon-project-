@@ -27,9 +27,9 @@ A logistics transit routing and disruption management backend adhering to the Tr
   - **Operator Bulletins**: JSON feed parser with server-side trust validation.
   - **Provider Orchestrator**: Request budget enforcement (max 20 per cycle, concurrency 3, 8s timeout).
 - **Persistence & Wire Contract**:
-  - SQLite with WAL mode, foreign keys, and atomic snapshot verification.
-  - Strict idempotency receipts for mutations.
-  - 100% compliance with `docs/contracts/openapi.json` and uniform `Error` envelopes.
+  - SQLite with WAL mode, foreign keys, and snapshot revision checks.
+  - Idempotency receipts for supported mutations.
+  - API models and handlers based on `docs/contracts/openapi.json`, with uniform `Error` envelopes for tested paths.
 
 ---
 
@@ -70,7 +70,7 @@ Interactive Swagger Docs: `http://127.0.0.1:8000/docs`
 
 ## Running Tests
 
-All 28 automated tests verify pure routing scenarios (S0–S7), engine rules, provider adapters, and audit regressions (F1–F6):
+The automated tests cover routing scenarios (S0–S7), engine rules, provider adapters, live-mode behavior, and audit regressions:
 
 ```powershell
 # Run complete test suite
@@ -79,6 +79,8 @@ All 28 automated tests verify pure routing scenarios (S0–S7), engine rules, pr
 # Run specification validator
 .\.venv\Scripts\python docs/tools/validate_spec.py
 ```
+
+For the current review, test results and remaining limitations, see [BACKEND_REVIEW.md](BACKEND_REVIEW.md).
 
 ---
 

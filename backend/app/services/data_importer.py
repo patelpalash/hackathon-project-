@@ -6,6 +6,8 @@ from pathlib import Path
 from typing import Optional
 import sqlite3
 import pandas as pd
+from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 
 from ..storage.database import init_db
 from ..engine.time_utils import to_iso_utc
@@ -173,6 +175,8 @@ def seed_network_and_geometries(
 ):
     """Seed initial network nodes, lanes, calendar rules, service profiles, and map geometries."""
     init_db(conn)
+    if mode == "live":
+        simulation_clock = to_iso_utc(datetime.now(timezone.utc))
 
     # Check if app_state exists
     cur = conn.execute("SELECT id FROM app_state WHERE id = 1;")
@@ -180,17 +184,19 @@ def seed_network_and_geometries(
         return
 
     # Clear operational tables on reset
-    conn.execute("DELETE FROM app_state;")
-    conn.execute("DELETE FROM nodes;")
-    conn.execute("DELETE FROM lanes;")
-    conn.execute("DELETE FROM calendar_rules;")
-    conn.execute("DELETE FROM service_profiles;")
-    conn.execute("DELETE FROM event_versions;")
-    conn.execute("DELETE FROM searches;")
-    conn.execute("DELETE FROM plans;")
     conn.execute("DELETE FROM decisions;")
+    conn.execute("DELETE FROM plans;")
+    conn.execute("DELETE FROM searches;")
+    conn.execute("DELETE FROM event_versions;")
+    conn.execute("DELETE FROM calendar_rules;")
+    conn.execute("DELETE FROM lanes;")
+    conn.execute("DELETE FROM nodes;")
+    conn.execute("DELETE FROM service_profiles;")
     conn.execute("DELETE FROM lane_geometries;")
+    conn.execute("DELETE FROM provider_observations;")
+    conn.execute("DELETE FROM provider_statuses;")
     conn.execute("DELETE FROM mutation_receipts;")
+    conn.execute("DELETE FROM app_state;")
 
     # Initialize app_state
     conn.execute(
@@ -232,6 +238,12 @@ def seed_network_and_geometries(
 
         for lane in raw_net["lanes"]:
             deps_json = json.dumps(lane["departures"])
+            valid_from, valid_to = lane["valid_from"], lane["valid_to"]
+            if mode == "live":
+                from_node = next(node for node in raw_net["nodes"] if node["id"] == lane["from_node_id"])
+                local_today = datetime.now(ZoneInfo(from_node["timezone"])).date()
+                valid_from = local_today.isoformat()
+                valid_to = (local_today + timedelta(days=60)).isoformat()
             conn.execute(
                 """
                 INSERT INTO lanes (
@@ -246,8 +258,8 @@ def seed_network_and_geometries(
                     lane["mode"],
                     lane["duration_minutes"],
                     1 if lane["active"] else 0,
-                    lane["valid_from"],
-                    lane["valid_to"],
+                    valid_from,
+                    valid_to,
                     deps_json,
                     lane["provenance"],
                 ),

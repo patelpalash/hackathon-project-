@@ -8,6 +8,10 @@ from backend.app.providers.open_meteo import OpenMeteoAdapter
 from backend.app.providers.tomtom import TomTomAdapter
 from backend.app.providers.operator_bulletins import OperatorBulletinAdapter
 from backend.app.providers.orchestrator import ProviderOrchestrator
+from backend.app.storage.repository import ConcurrencyError
+from backend.app.domain.models import SearchRequest
+from backend.app.engine.route_search import search_routes
+from backend.app.engine.time_utils import parse_iso_dt
 
 SAMPLE_NETWORK = {
     "nodes": [
@@ -194,12 +198,128 @@ async def test_operator_bulletin_trusted_vs_untrusted():
 async def test_orchestrator_ingestion(temp_db):
     repo = temp_db["repo"]
     orchestrator = temp_db["orchestrator"]
+    with pytest.raises(ConcurrencyError) as exc:
+        orchestrator.ingest_batches([])
+    assert exc.value.code == "MODE_MISMATCH"
+    assert repo.get_state().integrations_revision == 0
 
-    # Poll with mock/simulated batch
+
+@pytest.mark.asyncio
+async def test_live_traffic_ingestion_deduplicates_and_withdraws(temp_db):
+    repo = temp_db["repo"]
+    repo.conn.execute("UPDATE app_state SET mode = 'live' WHERE id = 1")
+    repo.conn.commit()
+    departure = "2026-09-21T16:00:00Z"
+    delay = {"seconds": 3660}
+    search = SearchRequest(
+        origin_id="FRA_HUB", destination_id="KEM_BRANCH",
+        ready_at="2026-09-21T08:00:00Z", service_profile_id="mixed", max_results=10,
+    )
+
+    def direct_arrival():
+        routes, _ = search_routes(repo.get_network(), search, repo.get_events(),
+                                  parse_iso_dt(repo.get_state().simulation_clock))
+        return parse_iso_dt(next(route.arrival_at for route in routes
+                                 if route.lane_ids == ["L_FRA_KEM"]))
+
+    baseline_arrival = direct_arrival()
+
+    def handler(request):
+        return httpx.Response(200, json={"routes": [{"summary": {
+            "trafficDelayInSeconds": delay["seconds"], "travelTimeInSeconds": 18000,
+        }, "legs": []}]})
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        adapter = TomTomAdapter(api_key="test-key", client=client)
+
+        async def batch():
+            state = repo.get_state()
+            return await adapter.poll(PollRequest(
+                provider="tomtom", dataset_id=state.snapshot.dataset_id,
+                schedule_revision=state.snapshot.schedule_revision,
+                evaluation_at=state.simulation_clock,
+                network=repo.get_network().model_dump(),
+                target_departures={"L_FRA_KEM": (departure,)},
+                weather_delay_policy="advisory_only",
+            ))
+
+        first = await batch()
+        assert first.proposed_events[0]["valid_until"] > departure
+        assert first.proposed_events[0]["review_due_at"] > first.proposed_events[0]["observed_at"]
+        assert temp_db["orchestrator"].ingest_batches([first]) == (1, 1)
+        assert repo.get_events()[0].effect_minutes == 61
+        assert (direct_arrival() - baseline_arrival).total_seconds() == 61 * 60
+        assert repo.get_integrations().providers[1].status == "ok"
+
+        repeat = await batch()
+        assert temp_db["orchestrator"].ingest_batches([repeat]) == (0, 0)
+        assert repo.get_events()[0].version == 1
+
+        delay["seconds"] = 120
+        updated = await batch()
+        assert temp_db["orchestrator"].ingest_batches([updated]) == (1, 1)
+        assert repo.get_events()[0].version == 2
+        assert repo.get_events()[0].effect_minutes == 2
+        assert (direct_arrival() - baseline_arrival).total_seconds() == 2 * 60
+
+        delay["seconds"] = 0
+        cleared = await batch()
+        assert temp_db["orchestrator"].ingest_batches([cleared]) == (1, 1)
+        assert repo.get_events()[0].version == 3
+        assert repo.get_events()[0].lifecycle_status == "withdrawn"
+        assert direct_arrival() == baseline_arrival
+
+        repo.conn.execute("UPDATE app_state SET schedule_revision = schedule_revision + 1 WHERE id = 1")
+        repo.conn.commit()
+        with pytest.raises(ConcurrencyError) as exc:
+            temp_db["orchestrator"].ingest_batches([cleared])
+        assert exc.value.code == "STALE_SNAPSHOT"
+
+
+@pytest.mark.asyncio
+async def test_provider_failure_and_missing_metric_do_not_create_zero_delay():
+    request = PollRequest(
+        provider="tomtom", dataset_id="live-test", schedule_revision=1,
+        evaluation_at="2026-09-21T07:00:00Z", network=SAMPLE_NETWORK,
+        target_departures={"L_FRA_KEM": ("2026-09-21T16:00:00Z",)},
+        weather_delay_policy="advisory_only",
+    )
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(
+        lambda req: httpx.Response(200, json={"routes": [{"summary": {}}]})
+    )) as client:
+        result = await TomTomAdapter(api_key="test-key", client=client).poll(request)
+        assert result.status["status"] == "stale"
+        assert result.observations == ()
+        assert result.proposed_events == ()
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(
+        lambda req: httpx.Response(503)
+    )) as client:
+        result = await OpenMeteoAdapter(client=client).poll(request)
+        assert result.status["status"] == "stale"
+        assert result.observations == ()
+
+
+@pytest.mark.asyncio
+async def test_crashed_adapter_is_reported(temp_db):
+    class CrashedAdapter:
+        async def poll(self, request):
+            raise RuntimeError("simulated adapter crash")
+
+    class EmptyAdapter:
+        async def poll(self, request):
+            return ProviderBatch(
+                provider=request.provider, dataset_id=request.dataset_id,
+                schedule_revision=request.schedule_revision, observations=(),
+                proposed_events=(), geometries=(), status={
+                    "name": request.provider, "status": "disabled", "last_poll_at": None,
+                    "last_successful_poll_at": None, "consecutive_errors": 0,
+                    "error_message": None, "mode": "demo",
+                }, warnings=(),
+            )
+
+    orchestrator = ProviderOrchestrator(temp_db["repo"], CrashedAdapter(), EmptyAdapter(), EmptyAdapter())
     batches = await orchestrator.poll_all()
-    assert len(batches) >= 1
-    obs_count, ev_count = orchestrator.ingest_batches(batches)
-    assert obs_count >= 0
-    # State integrations revision incremented
-    state = repo.get_state()
-    assert state.integrations_revision >= 1
+    assert [batch.provider for batch in batches] == ["open_meteo", "tomtom", "operator_bulletins"]
+    assert batches[0].status["status"] == "error"

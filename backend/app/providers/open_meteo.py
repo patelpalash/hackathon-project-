@@ -2,7 +2,7 @@
 import hashlib
 import json
 import math
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
 import httpx
 
@@ -24,8 +24,6 @@ class OpenMeteoAdapter:
 
         now_utc = datetime.now(timezone.utc)
         now_iso = to_iso_utc(now_utc)
-        eval_dt = parse_iso_dt(request.evaluation_at)
-
         client = self._client or httpx.AsyncClient(timeout=8.0)
         close_client = (self._client is None)
 
@@ -47,9 +45,7 @@ class OpenMeteoAdapter:
 
                 for dep_iso in occurrences:
                     dep_dt = parse_iso_dt(dep_iso)
-                    lane_dur = lane.get("duration_minutes", 60)
-                    arr_dt = dep_dt + (eval_dt - eval_dt) # preserve tz
-                    arr_iso = to_iso_utc(dep_dt + (eval_dt - eval_dt))
+                    arrival_dt = dep_dt + timedelta(minutes=lane.get("duration_minutes", 60))
 
                     # Simulated / mock or live query for endpoint weather
                     url = (
@@ -67,6 +63,7 @@ class OpenMeteoAdapter:
                             continue
                         elif resp.status_code != 200:
                             warnings.append(f"Open-Meteo HTTP {resp.status_code} for {lane_id}")
+                            status_code_str = "stale"
                             consecutive_errors += 1
                             continue
 
@@ -85,26 +82,30 @@ class OpenMeteoAdapter:
                         max_gust = 0.0
                         max_snow = 0.0
 
+                        covered_hours = 0
                         for t_str, p, g, s in zip(times, precips, gusts, snows):
                             try:
                                 t_dt = datetime.fromisoformat(t_str).replace(tzinfo=timezone.utc)
-                                if dep_dt <= t_dt <= (dep_dt + (eval_dt - eval_dt)):
+                                if t_dt < arrival_dt and t_dt + timedelta(hours=1) > dep_dt:
+                                    covered_hours += 1
                                     if p is not None and p > max_precip: max_precip = float(p)
                                     if g is not None and g > max_gust: max_gust = float(g)
                                     if s is not None and s > max_snow: max_snow = float(s)
                             except Exception:
                                 pass
 
-                    except Exception as exc:
-                        # Offline fallback or timeout
-                        warnings.append(f"Open-Meteo fetch failed ({exc}); offline/demo conditions applied")
-                        data = {"simulated": True}
-                        raw_digest = hashlib.sha256(f"offline-{lane_id}-{dep_iso}".encode()).hexdigest()
-                        max_precip = 0.0
-                        max_gust = 0.0
-                        max_snow = 0.0
+                        if covered_hours == 0:
+                            warnings.append(f"Open-Meteo forecast does not cover {lane_id} at {dep_iso}")
+                            status_code_str = "stale"
+                            continue
 
-                    obs_id = hashlib.sha256(f"open_meteo:{lane_id}:{dep_iso}".encode()).hexdigest()[:24]
+                    except Exception as exc:
+                        warnings.append(f"Open-Meteo fetch failed for {lane_id}: {exc}")
+                        status_code_str = "stale"
+                        consecutive_errors += 1
+                        continue
+
+                    obs_id = hashlib.sha256(f"open_meteo:{lane_id}:{dep_iso}:{raw_digest}".encode()).hexdigest()[:24]
                     obs = {
                         "id": obs_id,
                         "provider": "open_meteo",
@@ -114,7 +115,7 @@ class OpenMeteoAdapter:
                         "observed_at": now_iso,
                         "fetched_at": now_iso,
                         "valid_from": dep_iso,
-                        "valid_until": to_iso_utc(dep_dt + (eval_dt - eval_dt)),
+                        "valid_until": to_iso_utc(arrival_dt),
                         "metrics": {
                             "precipitation_mm": max_precip,
                             "wind_gusts_kmh": max_gust,
@@ -145,8 +146,8 @@ class OpenMeteoAdapter:
                                 "source_reference": "Open-Meteo Forecast",
                                 "observed_at": now_iso,
                                 "valid_from": dep_iso,
-                                "valid_until": to_iso_utc(dep_dt + (eval_dt - eval_dt)),
-                                "review_due_at": to_iso_utc(now_utc + (eval_dt - eval_dt)),
+                                "valid_until": to_iso_utc(arrival_dt + timedelta(hours=24)),
+                                "review_due_at": to_iso_utc(now_utc + timedelta(minutes=15)),
                                 "target_kind": "lane",
                                 "target_id": lane_id,
                                 "mode": "road",
@@ -160,6 +161,22 @@ class OpenMeteoAdapter:
                                 "observation_id": obs_id,
                             }
                             proposed_events.append(ev)
+                        else:
+                            # Withdraw an earlier automated penalty for this exact occurrence.
+                            proposed_events.append({
+                                "type": "weather", "source_kind": "provider",
+                                "external_id": f"meteo-{lane_id}-{dep_iso}",
+                                "source_reference": "Open-Meteo Forecast",
+                                "observed_at": now_iso, "valid_from": dep_iso,
+                                "valid_until": to_iso_utc(arrival_dt + timedelta(hours=24)),
+                                "review_due_at": to_iso_utc(now_utc + timedelta(minutes=15)),
+                                "target_kind": "lane", "target_id": lane_id, "mode": "road",
+                                "effect_type": "additional_travel_minutes", "effect_minutes": 0,
+                                "verification_status": "accepted", "lifecycle_status": "withdrawn",
+                                "correlation_key": f"road-conditions:{lane_id}:{dep_iso}",
+                                "reason": "Latest forecast is below the configured demo delay thresholds",
+                                "applies_to_departure_at": dep_iso, "observation_id": obs_id,
+                            })
 
         except Exception as e:
             consecutive_errors += 1

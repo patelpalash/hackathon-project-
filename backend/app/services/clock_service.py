@@ -1,5 +1,5 @@
 """Simulation clock service adhering to docs/BUILD_SPEC.md."""
-from datetime import datetime
+from datetime import datetime, timezone
 from ..domain.models import State, Snapshot
 from ..storage.repository import Repository, ConcurrencyError
 from ..engine.time_utils import parse_iso_dt, to_iso_utc
@@ -9,6 +9,19 @@ class ClockService:
     def __init__(self, repo: Repository, plan_service: PlanService):
         self.repo = repo
         self.plan_service = plan_service
+
+    def advance_live_clock(self) -> State:
+        """Advance a live dataset from the server clock, never from a GET request."""
+        state = self.repo.get_state()
+        if state.mode != "live":
+            raise ConcurrencyError("MODE_MISMATCH", "Live clock is only available in live mode")
+        now = datetime.now(timezone.utc).replace(second=0, microsecond=0)
+        if now <= parse_iso_dt(state.simulation_clock):
+            return state
+        self.repo.advance_clock(to_iso_utc(now))
+        self.plan_service.recompute_all_plans()
+        self.repo.conn.commit()
+        return self.repo.get_state()
 
     def advance_demo_clock(
         self,

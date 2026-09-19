@@ -216,6 +216,14 @@ def validate_event_input(event: Any, state: State, network: Network):
     if event.source_kind == "provider":
         raise ConcurrencyError("PROVIDER_SOURCE_RESERVED", "source_kind 'provider' is reserved for adapter-internal ingestion")
 
+    if len(event.reason.strip()) < 3 or not event.correlation_key.strip() or not event.external_id.strip() or not event.source_reference.strip():
+        raise ConcurrencyError("VALIDATION_ERROR", "Reason and source identity must be nonblank")
+    delay_effects = {"additional_travel_minutes", "additional_handling_minutes"}
+    if event.effect_type in delay_effects and event.effect_minutes is None:
+        raise ConcurrencyError("VALIDATION_ERROR", "Delay events require effect_minutes")
+    if event.effect_type not in delay_effects and event.effect_minutes is not None:
+        raise ConcurrencyError("VALIDATION_ERROR", "Closure and cancellation events require null effect_minutes")
+
     clock_dt = parse_iso_dt(state.simulation_clock)
     obs_dt = parse_iso_dt(event.observed_at)
     if obs_dt > clock_dt:
@@ -269,6 +277,8 @@ def post_event(
     state = repo.get_state()
     network = repo.get_network()
     validate_event_input(body.event, state, network)
+    if body.event.lifecycle_status != "active":
+        raise ConcurrencyError("VALIDATION_ERROR", "New events must be active")
 
     event_id = f"event-{uuid.uuid4().hex[:8]}"
     event = repo.insert_event_version(
@@ -318,6 +328,10 @@ def post_event_revision(
     state = repo.get_state()
     network = repo.get_network()
     validate_event_input(body.event, state, network)
+    identity_fields = ("type", "source_kind", "external_id", "source_reference",
+                       "target_kind", "target_id", "mode")
+    if any(getattr(existing, field) != getattr(body.event, field) for field in identity_fields):
+        raise ConcurrencyError("VALIDATION_ERROR", "Event identity and source cannot change in a revision")
 
     new_version = existing.version + 1
     event = repo.insert_event_version(
@@ -508,7 +522,6 @@ def get_observations(repo: Repository = Depends(get_repo)):
     )
 
 # 22. Integrations Refresh
-@router.post("/api/integrations/refresh", response_model=RefreshResult)
 @router.post("/integrations/refresh", response_model=RefreshResult)
 async def post_integrations_refresh(
     body: RefreshIntegrations,

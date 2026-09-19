@@ -1,6 +1,9 @@
 """FastAPI main application entrypoint with lifespan, CORS, and OpenAPI error envelope."""
 import uuid
 import os
+import asyncio
+import logging
+from datetime import datetime, timezone
 from pathlib import Path
 from contextlib import asynccontextmanager
 
@@ -21,6 +24,23 @@ from ..providers.orchestrator import ProviderOrchestrator
 from .routes import router
 
 FRONTEND_DIST = Path(__file__).resolve().parents[3] / "frontend" / "dist"
+logger = logging.getLogger(__name__)
+
+async def live_clock_worker(db_path: Path):
+    """Keep the live evaluation clock current without mutating state on reads."""
+    while True:
+        now = datetime.now(timezone.utc)
+        await asyncio.sleep(max(1, 60 - now.second))
+        worker_conn = None
+        try:
+            worker_conn = create_connection(db_path)
+            worker_repo = Repository(worker_conn)
+            ClockService(worker_repo, PlanService(worker_repo)).advance_live_clock()
+        except Exception:
+            logger.exception("Live clock update failed")
+        finally:
+            if worker_conn is not None:
+                worker_conn.close()
 
 STATUS_CODE_MAP = {
     "NOT_FOUND": 404,
@@ -47,7 +67,7 @@ async def lifespan(app: FastAPI):
     conn = create_connection(db_path)
     init_db(conn)
 
-    # Auto seed demo network and inspect data if empty
+    # Seed the selected mode's isolated database on first launch.
     cur = conn.execute("SELECT id FROM app_state WHERE id = 1;")
     if not cur.fetchone():
         seed_network_and_geometries(conn, dataset_id=f"{mode}-seed-1", mode=mode)
@@ -55,6 +75,9 @@ async def lifespan(app: FastAPI):
             inspect_and_import_csvs(conn, DATA_RAW_DIR)
 
     repo = Repository(conn)
+    if repo.get_state().mode != mode:
+        conn.close()
+        raise RuntimeError("TRANSIT_MODE does not match the selected database")
     plan_service = PlanService(repo)
     clock_service = ClockService(repo, plan_service)
     orchestrator = ProviderOrchestrator(repo)
@@ -65,9 +88,21 @@ async def lifespan(app: FastAPI):
     app.state.clock_service = clock_service
     app.state.orchestrator = orchestrator
 
-    yield
+    worker = None
+    if mode == "live":
+        clock_service.advance_live_clock()
+        worker = asyncio.create_task(live_clock_worker(db_path))
 
-    conn.close()
+    try:
+        yield
+    finally:
+        if worker is not None:
+            worker.cancel()
+            try:
+                await worker
+            except asyncio.CancelledError:
+                pass
+        conn.close()
 
 app = FastAPI(
     title="Transit Planner Prototype API",

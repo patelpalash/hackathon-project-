@@ -1,10 +1,10 @@
 # Specification validation record
 
-This records checks on the planning artifacts before handoff. It is not an application test report; no frontend/backend has been built as part of this planning request.
+This records checks on the planning artifacts before handoff. Runtime backend validation is recorded separately in [BACKEND_REVIEW.md](../BACKEND_REVIEW.md).
 
 Executed docs/tools/validate_spec.py successfully:
 
-- 18 API operations and 40 schemas: local references resolve and schema definitions validate.
+- 22 API operations and 52 schemas: local references resolve and schema definitions validate.
 - Network, baseline search request/response and preset events conform to the agreed JSON schemas.
 - Nine nodes and ten directed lanes have valid IDs/references and resolvable time zones.
 - All three baseline timelines have continuous timestamps, correct minute totals, reason contributions and deterministic route hashes.
