@@ -1,0 +1,8 @@
+von,bis,typ,beschreibung,effekt_volumen,nachholeffekt_folgetag
+2024-01-17,2024-01-18,Wetter,"Schnee/Glatteis Region Heilbronn – Nahverkehr eingeschränkt, Abholungen verschoben",-0.35,0.2
+2024-06-03,2024-06-04,Wetter,Hochwasser Süddeutschland – Zustellungen Richtung Bayern verzögert,-0.15,0.1
+2024-11-14,2024-11-14,Systemausfall,"TMS-Ausfall 09:00–16:00, Abholaufträge erst am Folgetag erfasst",-0.55,0.55
+2025-02-27,2025-02-27,Umschlagengpass,"Halle 2 gesperrt (Sprinkler-Wartung), Ausgang reduziert",-0.2,0.15
+2025-07-01,2025-07-02,Wetter,"Hitze >36°C – Nahverkehr reduziert, Fahrerausfälle",-0.1,0.05
+2026-01-12,2026-01-13,Wetter,"Schneefall – Linienverkehre Nord verspätet, Abholungen verschoben",-0.3,0.2
+2026-04-23,2026-04-23,Streik,Warnstreik Speditionsgewerbe BW – Ausgang stark reduziert,-0.5,0.35

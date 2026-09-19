@@ -1,0 +1,17 @@
+# Runtime and user-created operational data
+.runtime/
+backend/store/
+*.log
+# Python cache and environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+# Frontend packages and build output
+frontend/node_modules/
+frontend/dist/
+# Credentials
+.env
+.env.*
+!frontend/.env.example

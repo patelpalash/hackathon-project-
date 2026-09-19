@@ -23,10 +23,10 @@ def assess(journey, required_delivery, value_eur, lane_histories):
             score += 30
             reasons.append(f"Only {int(buffer_min//60)}h {int(buffer_min%60)}m of slack before the deadline")
 
-    lw = journey["components"].get("legal_wait", 0)
+    lw = journey["components"].get("legal_wait", 0) + journey["components"].get("weekend_hold", 0)
     if lw > 0:
         score += 20
-        reasons.append(f"Route crosses a driving ban → {lw//60}h legal waiting")
+        reasons.append(f"Calendar/business restriction → {lw//60}h legal waiting")
 
     if lane_histories:
         avg_spill = sum(h.get("spillover_rate", 0) for h in lane_histories) / len(lane_histories)

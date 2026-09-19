@@ -1,0 +1,4 @@
+import { useEffect, useState } from "react";
+import { BookOpen } from "lucide-react";
+import { api } from "../api/client";
+export function Assumptions(){const [items,setItems]=useState<{title:string;detail:string}[]>([]);const [error,setError]=useState("");useEffect(()=>{api.assumptions().then(r=>setItems(r.items)).catch(e=>setError(String(e)))},[]);return <><div className="page-heading"><div><span className="eyebrow">TRANSPARENT BY DESIGN</span><h1>Know what goes into a promise.</h1><p>Business rules, data sources and prototype boundaries.</p></div><BookOpen size={32}/></div>{error&&<div role="alert">{error}</div>}<div className="assumptions-grid">{items.map((item,i)=><article className="card assumption" key={item.title}><span className="assumption-number">{String(i+1).padStart(2,"0")}</span><h2>{item.title}</h2><p>{item.detail}</p></article>)}</div></>}

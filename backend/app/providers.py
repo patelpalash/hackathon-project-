@@ -8,13 +8,14 @@ Keyless-real providers (work with internet, no key):
   - holidays: provided kalender.csv (+ Nager.Date)  -> LIVE (regulatory/calendar data)
   - routing:  OSRM public server (geometry+duration) -> LIVE when reachable, else fallback
 Key-gated:
-  - traffic:  TomTom/HERE  -> NOT_CONFIGURED until TOMTOM_API_KEY / HERE_API_KEY set
+  - traffic:  TomTom -> NOT_CONFIGURED until TOMTOM_API_KEY is set
 """
 from __future__ import annotations
 
 import os
 import time
 from datetime import datetime, timezone
+from .live import Forecasts, TomTom
 
 STALE_AFTER_S = {"weather": 1800, "traffic": 600, "routing": 86400}
 
@@ -38,10 +39,10 @@ class Provider:
     def status(self) -> str:
         if not self.configured:
             return "NOT_CONFIGURED"
-        if self.error and not self.last_success:
-            return "ERROR"
+        if self.error:
+            return "STALE" if self.last_success else "ERROR"
         if self.last_success is None:
-            return "ERROR"
+            return "NOT_QUERIED"
         age = (_now() - self.last_success).total_seconds()
         if age > STALE_AFTER_S.get(self.key, 3600):
             return "STALE"
@@ -79,50 +80,42 @@ class WeatherProvider(Provider):
                     "visibility_m": cur.get("visibility"), "code": cur.get("weather_code"),
                     "source": "Open-Meteo", "timestamp": self.data_timestamp.isoformat(), "status": "LIVE"}
         except Exception as ex:
-            self.error = str(ex)[:160]
+            self.error = type(ex).__name__
             return {"observed": False, "status": self.status(), "error": self.error,
                     "last_success": self.last_success.isoformat() if self.last_success else None}
 
 
 class TrafficProvider(Provider):
     def __init__(self):
-        key = os.environ.get("TOMTOM_API_KEY") or os.environ.get("HERE_API_KEY") or ""
-        super().__init__("traffic", "TomTom / HERE", bool(key), "LIVE")
-        self._api_key = key
-
-    def leg(self, from_ll, to_ll):
-        """Live traffic-aware delay for a leg. NOT_CONFIGURED -> no delay, flagged."""
-        self.last_attempt = _now()
-        if not self.configured:
-            return {"status": "NOT_CONFIGURED", "delay_minutes": 0,
-                    "note": "Set TOMTOM_API_KEY / HERE_API_KEY for live traffic."}
-        # Real TomTom call would go here; kept behind the key gate.
-        try:
-            self.last_success = _now(); self.data_timestamp = _now(); self.error = None
-            return {"status": "LIVE", "delay_minutes": 0, "note": "traffic key configured"}
-        except Exception as ex:
-            self.error = str(ex)[:160]
-            return {"status": self.status(), "delay_minutes": 0}
+        super().__init__("traffic", "TomTom", bool(os.environ.get("TOMTOM_API_KEY")), "LIVE")
 
 
 class RoutingProvider(Provider):
     def __init__(self):
         super().__init__("routing", "OSRM (public)", True, "LIVE")
+        self.legs = {}
 
     def leg(self, from_ll, to_ll):
+        key = (tuple(from_ll), tuple(to_ll))
+        cached = self.legs.get(key)
+        if cached and time.time()-cached[0] < (86400 if cached[1].get("geometry") else 30):
+            return cached[1]
         self.last_attempt = _now()
         try:
             import httpx
             url = f"https://router.project-osrm.org/route/v1/driving/{from_ll[1]},{from_ll[0]};{to_ll[1]},{to_ll[0]}"
-            r = httpx.get(url, params={"overview": "simplified", "geometries": "geojson"}, timeout=2.0)
+            r = httpx.get(url, params={"overview": "full", "geometries": "geojson"}, timeout=3.0)
+            r.raise_for_status()
             route = r.json()["routes"][0]
             self.last_success = _now(); self.data_timestamp = _now(); self.error = None
-            return {"status": "LIVE", "duration_minutes": round(route["duration"] / 60),
-                    "distance_km": round(route["distance"] / 1000),
-                    "geometry": route["geometry"]["coordinates"], "source": "OSRM"}
+            result = {"status": "LIVE", "duration_minutes": max(1, round(route["duration"] / 60)),
+                      "distance_km": round(route["distance"] / 1000, 1),
+                      "geometry": route["geometry"]["coordinates"], "source": "OSRM road estimate (not truck-certified)"}
         except Exception as ex:
-            self.error = str(ex)[:160]
-            return {"status": self.status(), "geometry": None}
+            self.error = type(ex).__name__
+            result = {"status": "ERROR", "geometry": None, "source": "estimated fallback"}
+        self.legs[key] = (time.time(), result)
+        return result
 
 
 class HolidayProvider(Provider):
@@ -139,11 +132,22 @@ class HolidayProvider(Provider):
 
 class Providers:
     def __init__(self, holidays: dict):
+        self.forecasts = Forecasts()
+        self.tomtom = TomTom()
         self.weather = WeatherProvider()
         self.traffic = TrafficProvider()
         self.routing = RoutingProvider()
         self.holidays = HolidayProvider(holidays)
 
     def all(self):
+        self.weather.error = self.forecasts.error
+        if self.forecasts.last_success:
+            self.weather.last_success = datetime.fromisoformat(self.forecasts.last_success)
+            self.weather.data_timestamp = self.weather.last_success
+        if self.tomtom.key:
+            self.traffic.name = "TomTom"
+            self.traffic.configured = True
+            self.traffic.error = self.tomtom.error
+            if self.tomtom.last_success: self.traffic.last_success = datetime.fromisoformat(self.tomtom.last_success)
         return [self.weather.to_dict(), self.traffic.to_dict(),
                 self.routing.to_dict(), self.holidays.to_dict()]

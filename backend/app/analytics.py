@@ -49,6 +49,7 @@ def relation_history(data_dir: str, relationen: dict) -> dict:
             "special_trip_rate": round(avg_sonder, 3),
             "avg_line_trailers": round(avg_line, 2),
             "avg_daily_cost_eur": round(avg_cost),
+            "cost_per_ldm_eur": round(avg_cost * days / b["ldm"],4) if b["ldm"] else None,
             "avg_daily_fuel_l": round(avg_fuel),
             "avg_volume_ldm": round(b["ldm"] / days, 1),
             "reliability_pct": round(100 * (1 - b["spill_days"] / days), 1),

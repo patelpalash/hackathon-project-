@@ -1,131 +1,85 @@
-"""
-ETA engine. Composes the COMPLETE realistic journey and explains every component:
-  transport time + hub transfer (historical proxy) + current hub delays
-  + traffic impact (when live) + legal waiting time (dynamic) .
-
-Route model on the provided star network: a branch->branch shipment routes via the
-Heilbronn hub (origin -> HN -> destination); origin/destination == HN is a single leg.
-"""
-from __future__ import annotations
-
+"""One ETA engine shared by route search, saved shipments and manager replanning."""
 import math
-from datetime import datetime, timedelta, timezone
-
+from datetime import timedelta
 from .restrictions import drive_with_restrictions
+from .weekend import hub_release
+from .weather_rules import at_hub
+from .operations import parse
+from .live import DEFAULT_TRUCK
 
-HUB_HANDLING_MIN = 120  # central-hub transfer baseline (labelled)
+def _haversine_km(a,b):
+    dlat=math.radians(b[0]-a[0]); dlon=math.radians(b[1]-a[1])
+    x=math.sin(dlat/2)**2+math.cos(math.radians(a[0]))*math.cos(math.radians(b[0]))*math.sin(dlon/2)**2
+    return 12742*math.asin(min(1,math.sqrt(x)))
 
-
-def _haversine_km(a, b):
-    R = 6371.0
-    dlat = math.radians(b[0] - a[0]); dlon = math.radians(b[1] - a[1])
-    x = (math.sin(dlat / 2) ** 2 + math.cos(math.radians(a[0])) * math.cos(math.radians(b[0])) * math.sin(dlon / 2) ** 2)
-    return 2 * R * math.asin(math.sqrt(x))
-
-
-def _path(network, origin, dest):
-    hub = network["hub_id"]
-    if origin == hub or dest == hub:
-        return [origin, dest]
-    return [origin, hub, dest]
-
-
-def _handling_for(network, transfer, node_id):
-    """Transfer minutes + its source for a node."""
-    node = network["nodes"][node_id]
-    if node["type"] == "hub":
-        return HUB_HANDLING_MIN, "hub baseline (labelled)"
-    rel = node.get("relation")
-    st = transfer.get(rel)
-    if st:
-        return st["avg_transfer_minutes"], st["source"]
-    return 120, "default"
-
-
-def compute_journey(network, holidays, transfer, hub_delays, providers,
-                    origin, dest, depart_utc: datetime):
-    path = _path(network, origin, dest)
-    rows = []
-    cur = depart_utc
-    comp = {"transport": 0, "transfer": 0, "hub_delay": 0, "traffic": 0, "legal_wait": 0}
-    weather_notes = []
-
-    def add(kind, loc, start, end, minutes, detail, source):
-        rows.append({"type": kind, "location": loc, "location_name": network["nodes"][loc]["name"] if loc in network["nodes"] else loc,
-                     "start": start.isoformat(), "end": end.isoformat(),
-                     "minutes": int(minutes), "detail": detail, "source": source})
-
-    # origin handling (load/prep)
-    h, hsrc = _handling_for(network, transfer, origin)
-    add("handling", origin, cur, cur + timedelta(minutes=h), h,
-        "Loading & handling (historical proxy)", hsrc)
-    comp["transfer"] += h
-    cur += timedelta(minutes=h)
-    hd = hub_delays.get(origin)
-    if hd and hd.get("minutes"):
-        add("hub_delay", origin, cur, cur + timedelta(minutes=hd["minutes"]), hd["minutes"],
-            f"Operational delay: {hd.get('reason','')}", "MANAGER INPUT")
-        comp["hub_delay"] += hd["minutes"]; cur += timedelta(minutes=hd["minutes"])
-
-    # legs
-    for i in range(len(path) - 1):
-        a, b = path[i], path[i + 1]
-        edge = network["edges"].get(f"{a}-{b}")
-        if not edge:  # symmetric fallback
-            na, nb = network["nodes"][a], network["nodes"][b]
-            km = round(_haversine_km((na["lat"], na["lon"]), (nb["lat"], nb["lon"])) * 1.25)
-            drive = round(km / 65 * 60)
-            src = "estimated (no scheduled lane)"
-        else:
-            km, drive, src = edge["km"], edge["base_drive_minutes"], edge["source"]
-
-        # live traffic (key-gated)
-        tr = providers.traffic.leg((network["nodes"][a]["lat"], network["nodes"][a]["lon"]),
-                                   (network["nodes"][b]["lat"], network["nodes"][b]["lon"]))
-        traffic_delay = tr.get("delay_minutes", 0)
-        comp["traffic"] += traffic_delay
-        drive_total = drive + traffic_delay
-
-        # legal restrictions (dynamic) applied across the drive
-        leg = drive_with_restrictions(cur, drive_total, holidays)
-        # interleave drive chunks and legal-wait pauses into timeline rows
-        t = cur; driven = 0
-        for p in leg["pauses"]:
-            before = int((p["start"] - t).total_seconds() // 60)
-            if before > 0:
-                add("drive", a, t, p["start"], before, f"Road {network['nodes'][a]['name']} → {network['nodes'][b]['name']} ({km} km){' · +'+str(traffic_delay)+'m traffic' if traffic_delay else ''}", src)
-                driven += before
-            add("legal_wait", a, p["start"], p["end"], p["minutes"], p["reason"], "REGULATORY DATA")
-            t = p["end"]
-        rest = drive_total - driven
-        if rest > 0:
-            add("drive", a, t, leg["arrival"], rest, f"Road {network['nodes'][a]['name']} → {network['nodes'][b]['name']} ({km} km){' · +'+str(traffic_delay)+'m traffic' if traffic_delay else ''}", src)
-        comp["transport"] += drive
-        comp["legal_wait"] += leg["waiting_minutes"]
-        cur = leg["arrival"]
-
-        # handling at intermediate hub (not at final destination)
-        if b != dest:
-            hb, hbsrc = _handling_for(network, transfer, b)
-            add("handling", b, cur, cur + timedelta(minutes=hb), hb, "Hub transfer (historical proxy)", hbsrc)
-            comp["transfer"] += hb; cur += timedelta(minutes=hb)
-            hdb = hub_delays.get(b)
-            if hdb and hdb.get("minutes"):
-                add("hub_delay", b, cur, cur + timedelta(minutes=hdb["minutes"]), hdb["minutes"],
-                    f"Operational delay: {hdb.get('reason','')}", "MANAGER INPUT")
-                comp["hub_delay"] += hdb["minutes"]; cur += timedelta(minutes=hdb["minutes"])
-
-    total = int((cur - depart_utc).total_seconds() // 60)
-    return {
-        "origin": origin, "destination": dest, "path": path,
-        "depart_at": depart_utc.isoformat(), "eta": cur.isoformat(),
-        "total_minutes": total, "components": comp, "steps": rows,
-        "weather_notes": weather_notes,
-        "data_sources": {
-            "transport": "relationen.csv (km) + road average",
-            "transfer": "HISTORICAL (derived proxy from disposition.csv)",
-            "hub_delay": "MANAGER INPUT",
-            "traffic": providers.traffic.status(),
-            "legal_wait": "REGULATORY DATA (kalender.csv + German rules)",
-        },
-    }
+def compute_journey(network, holidays, transfer, hub_delays, providers, origin, dest, depart_utc, path=None, operations=None, truck=None):
+    path = path or [origin,dest]
+    rows=[]; cur=depart_utc; geometry=[]; all_geometry=True; leg_data=[]; alerts=[]; forecasts=[]; traffic_sections=[]
+    comp={k:0 for k in ("transport","transfer","hub_delay","traffic","legal_wait","weekend_hold","weather")}
+    def add(kind,loc,start,end,detail,source):
+        rows.append({"type":kind,"location":loc,"location_name":network["nodes"][loc]["name"],"start":start.isoformat(),"end":end.isoformat(),"minutes":round((end-start).total_seconds()/60),"detail":detail,"source":source})
+    for i,(a,b) in enumerate(zip(path,path[1:])):
+        na,nb=network["nodes"][a],network["nodes"][b]
+        arrival=cur
+        h=transfer.get(na.get("relation"),{}).get("avg_transfer_minutes",120)
+        add("handling",a,cur,cur+timedelta(minutes=h),"Loading & handling" if i==0 else "Intermediate hub transfer","Historical proxy / 120-minute baseline")
+        comp["transfer"]+=h; cur+=timedelta(minutes=h)
+        release=hub_release(arrival,cur,intermediate=i>0)
+        if release>cur:
+            add("weekend_hold",a,cur,release,"Weekend Hold · Sunday — no movement. Next eligible movement: Monday; calendar restrictions still apply.","BUSINESS POLICY")
+            comp["weekend_hold"]+=round((release-cur).total_seconds()/60); cur=release
+        hd=hub_delays.get(a)
+        if hd and hd.get("minutes",0)>0:
+            end=cur+timedelta(minutes=hd["minutes"]); add("hub_delay",a,cur,end,hd.get("reason","Hub congestion"),"MANAGER INPUT"); comp["hub_delay"]+=hd["minutes"]; cur=end
+        if operations:
+            for ev in operations.data["events"]:
+                if ev.get("node")!=a or not operations.overlaps(ev,cur,cur+timedelta(minutes=1)): continue
+                end=max(cur,parse(ev["end"])) if ev["kind"]=="closure" else cur+timedelta(minutes=ev["minutes"])
+                add("hub_delay",a,cur,end,ev["reason"],"SIMULATED EVENT / MANAGER INPUT"); comp["hub_delay"]+=round((end-cur).total_seconds()/60); cur=end
+        road=providers.tomtom.route((na["lat"],na["lon"]),(nb["lat"],nb["lon"]),cur,truck or DEFAULT_TRUCK) if hasattr(providers,"tomtom") else None
+        road=road or providers.routing.leg((na["lat"],na["lon"]),(nb["lat"],nb["lon"]))
+        km=road.get("distance_km") or round(_haversine_km((na["lat"],na["lon"]),(nb["lat"],nb["lon"]))*1.25,1)
+        # OSRM is a car-profile estimate; conservative 65 km/h prototype floor.
+        drive=road["duration_minutes"]-road.get("traffic_minutes",0) if "traffic_minutes" in road else max(road.get("duration_minutes",0),math.ceil(km/65*60))
+        traffic_sections.extend(road.get("traffic_sections",[]))
+        src=road.get("source","estimated fallback")
+        if road.get("geometry"): geometry.extend(road["geometry"])
+        else: all_geometry=False
+        leg_data.append({"from":a,"to":b,"km":km,"source":src})
+        live=[]
+        if hasattr(providers,"forecasts") and road.get("geometry"):
+            coords=road["geometry"]
+            fractions=[0,.5,1]
+            points=[tuple(reversed(coords[round((len(coords)-1)*f)])) for f in fractions]
+            times=[drive_with_restrictions(cur,max(1,round((drive+road.get("traffic_minutes",0))*f)),holidays)["arrival"] for f in fractions]
+            live=providers.forecasts.fetch(points,times)
+            forecasts.extend(live)
+        if operations:
+            observations=at_hub(operations,a,cur)
+            observations += at_hub(operations,b,cur,cur+timedelta(minutes=drive))
+            active=[r for r in observations if r["alert"]]+[r for r in live if r.get("alert") and r["status"]=="FORECAST"]
+            if active:
+                # Use the worst observation per leg, not the sum of duplicate records.
+                worst=max(active,key=lambda r:r["delay_minutes"]); delay=worst["delay_minutes"]
+                end=cur+timedelta(minutes=delay); add("weather",a,cur,end,worst["message"],worst["source"]+" · estimated weather impact"); comp["weather"]+=delay; cur=end
+                alerts.extend(active)
+        traffic=road.get("traffic_minutes",0)  # already separated from provider total; count once
+        if operations:
+            for ev in operations.data["events"]:
+                if ev["kind"]=="traffic" and ev.get("origin")==a and ev.get("destination")==b and operations.overlaps(ev,cur,cur+timedelta(minutes=drive)):
+                    traffic+=ev["minutes"]
+        comp["traffic"]+=traffic
+        leg=drive_with_restrictions(cur,drive+traffic,holidays)
+        t=cur
+        for pause in leg["pauses"]:
+            if pause["start"]>t: add("drive",a,t,pause["start"],f"{na['name']} → {nb['name']} · {km} km"+(f" · +{traffic}m traffic" if traffic else ""),src)
+            kind="weekend_hold" if "Weekend Hold" in pause["reason"] else "legal_wait"
+            # A pause after driving is roadside, not falsely shown as still at the hub.
+            add(kind,a,pause["start"],pause["end"],pause["reason"]+(" · safe stopping point en route" if pause["start"]>cur else " · at departure station"),"BUSINESS POLICY" if kind=="weekend_hold" else "CALENDAR RULE (prototype)")
+            comp[kind]+=pause["minutes"]; t=pause["end"]
+        if leg["arrival"]>t: add("drive",a,t,leg["arrival"],f"{na['name']} → {nb['name']} · {km} km"+(f" · +{traffic}m traffic" if traffic else ""),src)
+        cur=leg["arrival"]; comp["transport"]+=drive
+    return {"origin":origin,"destination":dest,"path":path,"depart_at":depart_utc.isoformat(),"eta":cur.isoformat(),
+            "total_minutes":round((cur-depart_utc).total_seconds()/60),"components":comp,"steps":rows,
+            "geometry":geometry if all_geometry else None,"road_legs":leg_data,"weather_alerts":list({r["id"]:r for r in alerts}.values()),"live_weather":forecasts,"traffic_sections":traffic_sections,"traffic_status":"LIVE_OR_PREDICTED" if any("TomTom" in l["source"] for l in leg_data) else "NOT_CONFIGURED" if not getattr(getattr(providers,"tomtom",None),"key",None) else "UNAVAILABLE",
+            "data_sources":{"transport":" + ".join(sorted({l["source"] for l in leg_data})),"transfer":"disposition.csv derived proxy","weather":"Open-Meteo forecasts + manual samples; impact is a prototype rule","weekend":"Full Sunday business hold","traffic":providers.traffic.status()}}

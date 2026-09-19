@@ -32,6 +32,9 @@ def restriction_at(instant_utc: datetime, holidays: dict):
     """Is driving restricted at this instant? -> (bool, reason, window_end_utc)."""
     local = instant_utc.astimezone(BERLIN)
     is_day, reason = _restricted_day(local.date(), holidays)
+    if local.weekday() == 6:
+        end_local = (local + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
+        return True, "Weekend Hold — Sunday no movement (business policy); next movement Monday", end_local.astimezone(timezone.utc)
     if is_day and local.hour < RESTRICTION_END_HOUR:
         end_local = local.replace(hour=RESTRICTION_END_HOUR, minute=0, second=0, microsecond=0)
         return True, reason, end_local.astimezone(timezone.utc)
@@ -58,7 +61,7 @@ def drive_with_restrictions(depart_utc: datetime, drive_minutes: int, holidays: 
     restricted windows. Returns {arrival, driving_minutes, waiting_minutes, pauses}.
     """
     cur = depart_utc
-    remaining = int(drive_minutes)
+    remaining = int(drive_minutes) * 60
     pauses = []
     guard = 0
     while remaining > 0 and guard < 60:
@@ -70,13 +73,15 @@ def drive_with_restrictions(depart_utc: datetime, drive_minutes: int, holidays: 
             continue
         nxt = _next_restriction_start(cur, holidays)
         if nxt is None:
-            cur = cur + timedelta(minutes=remaining)
+            cur = cur + timedelta(seconds=remaining)
             remaining = 0
         else:
-            avail = int((nxt - cur).total_seconds() // 60)
+            avail = int((nxt - cur).total_seconds())
             take = min(remaining, avail)
-            cur = cur + timedelta(minutes=take)
+            cur = cur + timedelta(seconds=take)
             remaining -= take
+    if remaining > 0:
+        raise ValueError("Journey exceeds restriction-planning horizon")
     return {
         "arrival": cur,
         "driving_minutes": int(drive_minutes),

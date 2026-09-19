@@ -1,14 +1,7 @@
-"""
-Real DACHSER operational data loader.
-
-Builds the live route network from the PROVIDED dataset:
-  - relationen.csv   -> hub-and-spoke network (Heilbronn central hub + 30 branches)
-  - kalender.csv     -> real German (Baden-Württemberg) public-holiday calendar
-  - disposition.csv  -> historical operational stats -> hub transfer-time proxy
-
-Nothing here is invented: km/cost/capacity come straight from relationen.csv,
-holidays from kalender.csv. Transfer times are a DERIVED PROXY (the files carry
-no measured handling timestamps) and are labelled as such everywhere.
+"""Load supplied lane metrics and label prototype network assumptions.
+Branch names, tariffs and capacities come from CSV. The Heilbronn central-hub
+mapping, approximate city-centre coordinates and transfer eligibility are model
+assumptions; Stuttgart is a supplementary demonstration facility.
 """
 from __future__ import annotations
 
@@ -70,6 +63,11 @@ def load_network(data_dir: str) -> dict:
                     "capacity_ldm": float(row["kapazitaet_ldm"]),
                     "source": "relationen.csv",
                 }
+    nodes["STU"] = {"id": "STU", "name": "Stuttgart", "type": "hub", "lat": 48.7758, "lon": 9.1829,
+                    "source": "supplementary demo facility; city-centre coordinates"}
+    for node in nodes.values():
+        node.update({"operational": True, "transfer_enabled": True, "capacity_ldm": 13.6})
+    nodes[HUB_ID]["source"] = "assumed central hub; not explicitly identified by CSV"
     return {"hub_id": HUB_ID, "nodes": nodes, "edges": edges}
 
 

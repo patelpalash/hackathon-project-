@@ -1,0 +1,49 @@
+{
+  "title": "Planning assumptions & data provenance",
+  "items": [
+    {
+      "title": "Sunday business hold",
+      "detail": "An intermediate-hub arrival on Saturday stays through Sunday. Sunday movement is paused until Monday 00:00 Europe/Berlin. This customer policy is distinct from the existing holiday rule; consecutive restrictions still apply."
+    },
+    {
+      "title": "Next eligible movement",
+      "detail": "The CSVs contain no departure timetable. The prototype resumes at the next eligible instant, not a guaranteed booked departure. Hub handling and calendar constraints remain active."
+    },
+    {
+      "title": "Dynamic intermediate hubs",
+      "detail": "Road-corridor proximity within 35 km, operational availability, 13.6 loading-metre capacity and detour limits filter hubs. Candidates are then ranked nearest the destination. Maximum detour: 25% with a 15 km tolerance, capped at 100 km. Heilbronn is not mandatory."
+    },
+    {
+      "title": "Facility provenance",
+      "detail": "Thirty branch names and lane tariffs come from relationen.csv. Heilbronn as the original central hub and city-centre coordinates are assumptions. Stuttgart is a supplementary demo facility. Transfer eligibility at branches is a prototype assumption."
+    },
+    {
+      "title": "Road routes",
+      "detail": "With TOMTOM_API_KEY, routing uses traffic-aware truck routes with editable dimensions and gross vehicle weight. Defaults: 4 m high, 2.55 m wide, 16.5 m long, 40,000 kg including cargo. Traffic delay is counted once. OSRM fallback is not truck-certified; it uses the longer of OSRM duration and a 65 km/h average. Offline distance is approximate and does not invent intermediate hubs."
+    },
+    {
+      "title": "Forecast weather and manual observations",
+      "detail": "Open-Meteo hourly forecasts are sampled at estimated passage times along each leg, cached for 15 minutes and displayed with source/validity. Missing or stale data is labelled. Manual observations remain supported. Worst active condition per leg determines assumed weather impact: HIGH severity, visibility below 1000 m, wind at least 60 km/h or heavy snow adds 120 minutes; medium conditions add 45 minutes. These delays are prototype rules, not measured impacts."
+    },
+    {
+      "title": "Calendar coverage",
+      "detail": "kalender.csv contains Baden-Württemberg holidays, applied uniformly as a prototype simplification. This is not a complete country/state legal compliance engine. Sunday is a full-day business restriction; other stored holiday windows end at 22:00."
+    },
+    {
+      "title": "Costs and historical reliability",
+      "detail": "Known lanes use supplied tariffs; new connections estimate €2.60/km allocated by load. Fuel and transfer durations are proxies. Historical reliability is a spillover proxy, not a measured on-time arrival probability. Savings are signed comparisons, not guaranteed benefits."
+    },
+    {
+      "title": "Scenario and manager workflow",
+      "detail": "TomTom supplies traffic-aware routes, current flow tiles and sampled nearby incidents when a backend key is configured. Incident sampling does not cover every road segment. Future map previews hide current traffic. Scenario Studio traffic and political/hub closures are simulations. Planner estimates refresh every 2 minutes while active; saved decisions still require human approval. No login or production dispatch integration is provided."
+    },
+    {
+      "title": "Prototype storage",
+      "detail": "Shipments, weather, events and decisions persist in local JSON files with atomic writes. Use one backend process. This is not a multi-user production database. Additional rules should extend the existing services."
+    },
+    {
+      "title": "Optimization and historical comparisons",
+      "detail": "Fastest, lowest cost or balanced ranking considers deadline-feasible options first. Balanced uses transport cost plus €50 per transit hour as an explicit ranking assumption. Signed savings compare the selected plan with a direct route under the same conditions. Historical daily costs are normalized by loading metres and allocated to this shipment. Reference lanes via the assumed central hub are labelled when the selected route is unmatched. CSVs do not contain actual arrival timestamps, so historical time savings cannot be measured. Quotes expire after 5 minutes."
+    }
+  ]
+}

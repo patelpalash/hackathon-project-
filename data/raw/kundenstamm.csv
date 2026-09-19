@@ -1,0 +1,821 @@
+kunde_id,segment,branche,groessenklasse,plz2,vertragsbeginn,vertragsende,verlustgrund,top30
+K0001,Top,C29 Automotive-Zulieferer,A (>250 MA),74,2022-02-15,,,1
+K0002,Top,G46 Großhandel Konsumgüter,A (>250 MA),75,2022-03-10,,,1
+K0003,Top,C28 Maschinenbau,A (>250 MA),71,2016-04-01,2025-06-30,Ausschreibung verloren (Preis),1
+K0004,Top,G47 Einzelhandel / E-Commerce,A (>250 MA),71,2023-02-09,,,1
+K0005,Top,F/G23 Baustoffhandel,A (>250 MA),73,2015-10-13,,,1
+K0006,Top,C29 Automotive-Zulieferer,A (>250 MA),97,2017-02-28,,,1
+K0007,Top,C31 Möbel / Einrichtung,A (>250 MA),74,2022-09-08,,,1
+K0008,Top,C20 Chemie / Farben,A (>250 MA),71,2021-05-27,,,1
+K0009,Top,G46 Großhandel Konsumgüter,A (>250 MA),71,2020-03-04,,,1
+K0010,Top,G46 Großhandel Konsumgüter,A (>250 MA),71,2015-09-08,,,1
+K0011,Top,C27 Elektro / Elektronik,A (>250 MA),73,2015-07-03,,,1
+K0012,Top,C29 Automotive-Zulieferer,A (>250 MA),74,2015-08-16,,,1
+K0013,Top,Sonstige,A (>250 MA),73,2021-08-03,,,1
+K0014,Top,C20 Chemie / Farben,A (>250 MA),71,2023-02-21,,,1
+K0015,Top,C20 Chemie / Farben,A (>250 MA),74,2019-07-14,,,1
+K0016,Mittel,F/G23 Baustoffhandel,B (50-250 MA),74,2025-10-01,,,1
+K0017,Mittel,C29 Automotive-Zulieferer,B (50-250 MA),73,2015-07-22,,,1
+K0018,Mittel,C27 Elektro / Elektronik,B (50-250 MA),71,2021-11-04,,,1
+K0019,Mittel,F/G23 Baustoffhandel,B (50-250 MA),75,2015-03-22,,,1
+K0020,Mittel,F/G23 Baustoffhandel,B (50-250 MA),74,2021-08-23,,,1
+K0021,Mittel,C20 Chemie / Farben,B (50-250 MA),75,2021-06-01,,,1
+K0022,Mittel,C27 Elektro / Elektronik,B (50-250 MA),75,2018-08-11,,,1
+K0023,Mittel,Sonstige,B (50-250 MA),73,2016-01-22,,,1
+K0024,Mittel,C25 Metallverarbeitung,B (50-250 MA),73,2015-12-30,2025-08-10,Preis / Wettbewerb,1
+K0025,Mittel,C31 Möbel / Einrichtung,B (50-250 MA),69,2017-07-15,2026-06-17,Preis / Wettbewerb,1
+K0026,Mittel,F/G23 Baustoffhandel,B (50-250 MA),74,2023-07-24,,,1
+K0027,Mittel,C28 Maschinenbau,B (50-250 MA),71,2023-10-29,,,1
+K0028,Mittel,F/G23 Baustoffhandel,B (50-250 MA),71,2019-11-22,,,1
+K0029,Mittel,G47 Einzelhandel / E-Commerce,B (50-250 MA),74,2020-11-24,,,1
+K0030,Mittel,C27 Elektro / Elektronik,B (50-250 MA),74,2016-11-13,,,1
+K0031,Klein,C25 Metallverarbeitung,D (<10 MA),71,2021-03-05,,,0
+K0032,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2015-05-13,,,0
+K0033,Klein,G46 Großhandel Konsumgüter,D (<10 MA),97,2017-07-26,,,0
+K0034,Klein,C29 Automotive-Zulieferer,C (10-49 MA),71,2015-06-09,,,0
+K0035,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),73,2016-03-07,2024-04-16,Preis / Wettbewerb,0
+K0036,Klein,C29 Automotive-Zulieferer,D (<10 MA),74,2025-04-26,,,0
+K0037,Klein,C29 Automotive-Zulieferer,D (<10 MA),71,2026-02-20,,,0
+K0038,Klein,C29 Automotive-Zulieferer,D (<10 MA),73,2026-04-22,,,0
+K0039,Klein,Sonstige,C (10-49 MA),71,2023-05-04,2025-08-16,Preis / Wettbewerb,0
+K0040,Klein,C28 Maschinenbau,C (10-49 MA),74,2018-05-19,,,0
+K0041,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),75,2025-07-21,,,0
+K0042,Klein,C28 Maschinenbau,C (10-49 MA),74,2024-03-02,,,0
+K0043,Klein,C28 Maschinenbau,C (10-49 MA),71,2017-05-19,,,0
+K0044,Klein,C20 Chemie / Farben,C (10-49 MA),74,2020-05-27,,,0
+K0045,Klein,C25 Metallverarbeitung,C (10-49 MA),74,2023-06-09,,,0
+K0046,Klein,C31 Möbel / Einrichtung,C (10-49 MA),97,2016-05-24,,,0
+K0047,Klein,C28 Maschinenbau,C (10-49 MA),71,2017-05-05,,,0
+K0048,Klein,C29 Automotive-Zulieferer,D (<10 MA),71,2025-01-28,,,0
+K0049,Klein,C29 Automotive-Zulieferer,D (<10 MA),74,2021-06-26,,,0
+K0050,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2022-02-12,,,0
+K0051,Klein,Sonstige,C (10-49 MA),74,2021-04-26,,,0
+K0052,Klein,C20 Chemie / Farben,C (10-49 MA),73,2019-11-14,,,0
+K0053,Klein,C25 Metallverarbeitung,C (10-49 MA),97,2015-11-29,,,0
+K0054,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2015-11-30,2026-05-29,Volumen eingestellt,0
+K0055,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),74,2025-02-05,,,0
+K0056,Klein,Sonstige,D (<10 MA),75,2016-09-02,,,0
+K0057,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2023-10-04,2025-06-18,Preis / Wettbewerb,0
+K0058,Klein,C29 Automotive-Zulieferer,C (10-49 MA),69,2017-03-28,,,0
+K0059,Klein,C29 Automotive-Zulieferer,C (10-49 MA),71,2021-10-16,,,0
+K0060,Klein,C29 Automotive-Zulieferer,C (10-49 MA),71,2017-07-16,,,0
+K0061,Klein,C29 Automotive-Zulieferer,D (<10 MA),74,2016-08-27,,,0
+K0062,Klein,C28 Maschinenbau,C (10-49 MA),74,2022-02-16,,,0
+K0063,Klein,Sonstige,C (10-49 MA),74,2021-10-05,,,0
+K0064,Klein,C29 Automotive-Zulieferer,D (<10 MA),74,2018-05-30,,,0
+K0065,Klein,C25 Metallverarbeitung,D (<10 MA),74,2016-10-19,,,0
+K0066,Klein,C29 Automotive-Zulieferer,D (<10 MA),74,2024-05-28,,,0
+K0067,Klein,C25 Metallverarbeitung,C (10-49 MA),74,2019-02-15,,,0
+K0068,Klein,C27 Elektro / Elektronik,C (10-49 MA),75,2026-06-16,,,0
+K0069,Klein,F/G23 Baustoffhandel,C (10-49 MA),74,2023-01-07,2024-07-22,Preis / Wettbewerb,0
+K0070,Klein,C28 Maschinenbau,D (<10 MA),74,2019-06-07,2026-06-20,Insolvenz,0
+K0071,Klein,Sonstige,C (10-49 MA),74,2016-07-31,,,0
+K0072,Klein,C29 Automotive-Zulieferer,C (10-49 MA),71,2024-09-30,,,0
+K0073,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),71,2017-02-19,,,0
+K0074,Klein,C28 Maschinenbau,C (10-49 MA),74,2017-06-01,2025-08-07,Volumen eingestellt,0
+K0075,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),74,2020-09-09,2026-04-24,Standortverlagerung,0
+K0076,Klein,C28 Maschinenbau,C (10-49 MA),74,2024-11-06,,,0
+K0077,Klein,C28 Maschinenbau,C (10-49 MA),97,2023-02-20,,,0
+K0078,Klein,C28 Maschinenbau,C (10-49 MA),73,2015-06-26,,,0
+K0079,Klein,C27 Elektro / Elektronik,C (10-49 MA),69,2023-12-31,,,0
+K0080,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2026-06-28,,,0
+K0081,Klein,Sonstige,C (10-49 MA),75,2017-12-30,,,0
+K0082,Klein,F/G23 Baustoffhandel,D (<10 MA),69,2021-08-08,,,0
+K0083,Klein,Sonstige,D (<10 MA),71,2020-04-12,,,0
+K0084,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),73,2018-12-05,2026-04-20,Preis / Wettbewerb,0
+K0085,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),71,2020-02-21,,,0
+K0086,Klein,C25 Metallverarbeitung,C (10-49 MA),75,2018-07-06,,,0
+K0087,Klein,C31 Möbel / Einrichtung,D (<10 MA),74,2018-06-24,,,0
+K0088,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2018-07-24,,,0
+K0089,Klein,F/G23 Baustoffhandel,C (10-49 MA),74,2019-10-01,,,0
+K0090,Klein,F/G23 Baustoffhandel,C (10-49 MA),97,2023-09-28,,,0
+K0091,Klein,C25 Metallverarbeitung,C (10-49 MA),71,2019-06-26,,,0
+K0092,Klein,C27 Elektro / Elektronik,D (<10 MA),73,2026-03-17,,,0
+K0093,Klein,F/G23 Baustoffhandel,C (10-49 MA),74,2022-11-18,2025-03-28,Preis / Wettbewerb,0
+K0094,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),71,2021-10-10,,,0
+K0095,Klein,F/G23 Baustoffhandel,D (<10 MA),97,2016-09-14,,,0
+K0096,Klein,C29 Automotive-Zulieferer,D (<10 MA),74,2017-05-16,,,0
+K0097,Klein,C20 Chemie / Farben,D (<10 MA),71,2022-05-13,,,0
+K0098,Klein,F/G23 Baustoffhandel,C (10-49 MA),74,2021-08-29,,,0
+K0099,Klein,C25 Metallverarbeitung,C (10-49 MA),74,2018-09-24,,,0
+K0100,Klein,Sonstige,D (<10 MA),74,2022-08-15,,,0
+K0101,Klein,F/G23 Baustoffhandel,C (10-49 MA),71,2021-02-09,,,0
+K0102,Klein,F/G23 Baustoffhandel,C (10-49 MA),97,2019-01-06,,,0
+K0103,Klein,C28 Maschinenbau,C (10-49 MA),74,2019-04-08,2026-06-28,Volumen eingestellt,0
+K0104,Klein,F/G23 Baustoffhandel,D (<10 MA),97,2021-03-13,2025-03-14,Standortverlagerung,0
+K0105,Klein,C29 Automotive-Zulieferer,C (10-49 MA),75,2021-09-13,,,0
+K0106,Klein,F/G23 Baustoffhandel,D (<10 MA),74,2021-06-27,,,0
+K0107,Klein,C28 Maschinenbau,D (<10 MA),74,2022-04-21,,,0
+K0108,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2019-07-26,,,0
+K0109,Klein,F/G23 Baustoffhandel,C (10-49 MA),74,2015-05-22,,,0
+K0110,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),73,2024-03-18,,,0
+K0111,Klein,G46 Großhandel Konsumgüter,D (<10 MA),74,2016-09-20,,,0
+K0112,Klein,C28 Maschinenbau,D (<10 MA),97,2020-11-11,,,0
+K0113,Klein,G46 Großhandel Konsumgüter,D (<10 MA),74,2016-10-06,,,0
+K0114,Klein,G46 Großhandel Konsumgüter,D (<10 MA),73,2019-03-26,,,0
+K0115,Klein,G46 Großhandel Konsumgüter,D (<10 MA),71,2020-06-12,,,0
+K0116,Klein,C28 Maschinenbau,D (<10 MA),74,2021-06-04,,,0
+K0117,Klein,C27 Elektro / Elektronik,D (<10 MA),71,2025-02-23,,,0
+K0118,Klein,C25 Metallverarbeitung,C (10-49 MA),69,2016-10-14,,,0
+K0119,Klein,F/G23 Baustoffhandel,C (10-49 MA),75,2020-02-23,,,0
+K0120,Klein,F/G23 Baustoffhandel,C (10-49 MA),71,2020-05-06,,,0
+K0121,Klein,C20 Chemie / Farben,D (<10 MA),75,2022-07-20,,,0
+K0122,Klein,C27 Elektro / Elektronik,D (<10 MA),73,2018-04-21,,,0
+K0123,Klein,C28 Maschinenbau,D (<10 MA),74,2022-06-04,2024-12-16,Preis / Wettbewerb,0
+K0124,Klein,C25 Metallverarbeitung,D (<10 MA),71,2015-02-20,,,0
+K0125,Klein,Sonstige,D (<10 MA),75,2025-09-11,,,0
+K0126,Klein,C27 Elektro / Elektronik,D (<10 MA),71,2020-11-15,,,0
+K0127,Klein,C27 Elektro / Elektronik,D (<10 MA),74,2021-01-02,,,0
+K0128,Klein,C29 Automotive-Zulieferer,C (10-49 MA),73,2016-06-18,,,0
+K0129,Klein,Sonstige,C (10-49 MA),75,2021-01-24,,,0
+K0130,Klein,C29 Automotive-Zulieferer,C (10-49 MA),97,2022-04-30,,,0
+K0131,Klein,F/G23 Baustoffhandel,C (10-49 MA),71,2015-10-03,,,0
+K0132,Klein,G46 Großhandel Konsumgüter,D (<10 MA),75,2015-10-30,,,0
+K0133,Klein,C20 Chemie / Farben,C (10-49 MA),71,2021-04-24,2024-10-12,Preis / Wettbewerb,0
+K0134,Klein,C25 Metallverarbeitung,D (<10 MA),75,2018-10-09,,,0
+K0135,Klein,Sonstige,C (10-49 MA),75,2023-12-01,,,0
+K0136,Klein,C27 Elektro / Elektronik,D (<10 MA),71,2023-05-16,,,0
+K0137,Klein,C27 Elektro / Elektronik,C (10-49 MA),74,2016-06-12,,,0
+K0138,Klein,C31 Möbel / Einrichtung,C (10-49 MA),75,2021-10-15,,,0
+K0139,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2016-07-17,,,0
+K0140,Klein,C25 Metallverarbeitung,D (<10 MA),69,2020-08-31,,,0
+K0141,Klein,C28 Maschinenbau,C (10-49 MA),74,2017-08-20,,,0
+K0142,Klein,C31 Möbel / Einrichtung,C (10-49 MA),74,2019-07-25,,,0
+K0143,Klein,F/G23 Baustoffhandel,D (<10 MA),97,2018-02-28,,,0
+K0144,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2016-04-23,,,0
+K0145,Klein,C28 Maschinenbau,C (10-49 MA),71,2016-01-14,,,0
+K0146,Klein,C27 Elektro / Elektronik,C (10-49 MA),71,2018-04-03,,,0
+K0147,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),74,2020-07-19,,,0
+K0148,Klein,F/G23 Baustoffhandel,C (10-49 MA),74,2025-07-17,,,0
+K0149,Klein,C28 Maschinenbau,D (<10 MA),75,2018-05-21,,,0
+K0150,Klein,C25 Metallverarbeitung,C (10-49 MA),74,2020-07-01,,,0
+K0151,Klein,Sonstige,C (10-49 MA),74,2025-05-20,,,0
+K0152,Klein,C29 Automotive-Zulieferer,C (10-49 MA),73,2018-09-11,,,0
+K0153,Klein,C28 Maschinenbau,C (10-49 MA),74,2025-08-28,,,0
+K0154,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),74,2018-04-25,2025-12-14,Standortverlagerung,0
+K0155,Klein,C27 Elektro / Elektronik,C (10-49 MA),75,2017-08-10,,,0
+K0156,Klein,C31 Möbel / Einrichtung,D (<10 MA),71,2015-11-30,,,0
+K0157,Klein,C20 Chemie / Farben,C (10-49 MA),74,2021-05-27,,,0
+K0158,Klein,Sonstige,C (10-49 MA),75,2023-10-18,,,0
+K0159,Klein,F/G23 Baustoffhandel,C (10-49 MA),97,2016-09-15,,,0
+K0160,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),75,2017-05-26,,,0
+K0161,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2019-01-08,,,0
+K0162,Klein,Sonstige,C (10-49 MA),97,2017-03-23,,,0
+K0163,Klein,C20 Chemie / Farben,C (10-49 MA),75,2021-01-16,,,0
+K0164,Klein,C28 Maschinenbau,D (<10 MA),74,2020-06-13,2026-06-01,Standortverlagerung,0
+K0165,Klein,C29 Automotive-Zulieferer,C (10-49 MA),71,2022-03-23,,,0
+K0166,Klein,G46 Großhandel Konsumgüter,D (<10 MA),73,2017-06-17,2025-08-15,Insolvenz,0
+K0167,Klein,C27 Elektro / Elektronik,C (10-49 MA),73,2018-06-15,,,0
+K0168,Klein,G46 Großhandel Konsumgüter,D (<10 MA),69,2015-10-31,,,0
+K0169,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),73,2021-12-17,,,0
+K0170,Klein,C28 Maschinenbau,C (10-49 MA),97,2019-10-22,,,0
+K0171,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),71,2025-06-08,,,0
+K0172,Klein,C29 Automotive-Zulieferer,C (10-49 MA),71,2017-01-26,,,0
+K0173,Klein,C28 Maschinenbau,C (10-49 MA),74,2018-08-04,,,0
+K0174,Klein,C28 Maschinenbau,C (10-49 MA),74,2018-07-27,,,0
+K0175,Klein,C28 Maschinenbau,C (10-49 MA),75,2019-04-11,,,0
+K0176,Klein,F/G23 Baustoffhandel,D (<10 MA),71,2019-12-25,,,0
+K0177,Klein,F/G23 Baustoffhandel,C (10-49 MA),74,2021-07-01,,,0
+K0178,Klein,C20 Chemie / Farben,C (10-49 MA),97,2018-07-21,,,0
+K0179,Klein,Sonstige,D (<10 MA),97,2021-03-14,,,0
+K0180,Klein,Sonstige,C (10-49 MA),71,2023-06-16,,,0
+K0181,Klein,C28 Maschinenbau,C (10-49 MA),74,2019-07-06,2025-11-11,Preis / Wettbewerb,0
+K0182,Klein,G46 Großhandel Konsumgüter,D (<10 MA),71,2022-09-27,,,0
+K0183,Klein,C28 Maschinenbau,C (10-49 MA),97,2025-06-02,,,0
+K0184,Klein,C28 Maschinenbau,D (<10 MA),71,2019-08-26,,,0
+K0185,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),74,2020-10-02,,,0
+K0186,Klein,G46 Großhandel Konsumgüter,D (<10 MA),71,2016-09-21,,,0
+K0187,Klein,G46 Großhandel Konsumgüter,D (<10 MA),74,2020-08-03,,,0
+K0188,Klein,F/G23 Baustoffhandel,C (10-49 MA),71,2025-06-08,,,0
+K0189,Klein,F/G23 Baustoffhandel,C (10-49 MA),74,2019-02-23,,,0
+K0190,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2023-10-30,,,0
+K0191,Klein,Sonstige,D (<10 MA),74,2023-08-30,2026-02-01,Insolvenz,0
+K0192,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),71,2017-08-28,,,0
+K0193,Klein,C20 Chemie / Farben,D (<10 MA),75,2016-06-29,,,0
+K0194,Klein,C27 Elektro / Elektronik,D (<10 MA),71,2019-10-24,,,0
+K0195,Klein,C31 Möbel / Einrichtung,C (10-49 MA),74,2016-09-01,,,0
+K0196,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),69,2025-03-22,,,0
+K0197,Klein,C28 Maschinenbau,D (<10 MA),71,2020-06-29,,,0
+K0198,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2022-08-09,,,0
+K0199,Klein,Sonstige,C (10-49 MA),71,2016-08-07,,,0
+K0200,Klein,C28 Maschinenbau,D (<10 MA),71,2019-06-03,,,0
+K0201,Klein,C27 Elektro / Elektronik,C (10-49 MA),74,2021-01-11,,,0
+K0202,Klein,C31 Möbel / Einrichtung,D (<10 MA),74,2019-02-08,,,0
+K0203,Klein,C20 Chemie / Farben,C (10-49 MA),71,2021-12-07,,,0
+K0204,Klein,Sonstige,C (10-49 MA),73,2021-07-09,,,0
+K0205,Klein,C20 Chemie / Farben,C (10-49 MA),73,2022-02-02,,,0
+K0206,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),73,2018-11-09,,,0
+K0207,Klein,C28 Maschinenbau,C (10-49 MA),97,2019-02-26,,,0
+K0208,Klein,F/G23 Baustoffhandel,D (<10 MA),97,2017-11-07,,,0
+K0209,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2022-10-27,,,0
+K0210,Klein,C28 Maschinenbau,C (10-49 MA),71,2015-01-21,2025-03-07,Preis / Wettbewerb,0
+K0211,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),71,2020-03-07,,,0
+K0212,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),71,2024-06-13,,,0
+K0213,Klein,C20 Chemie / Farben,D (<10 MA),97,2015-05-09,,,0
+K0214,Klein,C20 Chemie / Farben,D (<10 MA),75,2016-10-16,,,0
+K0215,Klein,C29 Automotive-Zulieferer,D (<10 MA),71,2026-03-02,,,0
+K0216,Klein,C20 Chemie / Farben,D (<10 MA),71,2024-05-09,,,0
+K0217,Klein,C31 Möbel / Einrichtung,C (10-49 MA),73,2026-05-23,,,0
+K0218,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2025-08-14,,,0
+K0219,Klein,C29 Automotive-Zulieferer,D (<10 MA),74,2022-02-12,,,0
+K0220,Klein,F/G23 Baustoffhandel,D (<10 MA),71,2020-01-12,,,0
+K0221,Klein,C28 Maschinenbau,D (<10 MA),74,2017-11-20,,,0
+K0222,Klein,C25 Metallverarbeitung,C (10-49 MA),73,2021-08-02,,,0
+K0223,Klein,F/G23 Baustoffhandel,D (<10 MA),73,2017-11-25,2025-04-23,Volumen eingestellt,0
+K0224,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2024-03-04,,,0
+K0225,Klein,C20 Chemie / Farben,D (<10 MA),73,2023-01-13,,,0
+K0226,Klein,C20 Chemie / Farben,C (10-49 MA),74,2018-04-12,,,0
+K0227,Klein,F/G23 Baustoffhandel,D (<10 MA),73,2018-06-08,,,0
+K0228,Klein,C20 Chemie / Farben,C (10-49 MA),71,2018-03-31,,,0
+K0229,Klein,C29 Automotive-Zulieferer,D (<10 MA),75,2019-05-16,,,0
+K0230,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2023-09-21,,,0
+K0231,Klein,Sonstige,C (10-49 MA),69,2023-07-23,,,0
+K0232,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),73,2022-10-31,,,0
+K0233,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),73,2025-07-19,,,0
+K0234,Klein,G46 Großhandel Konsumgüter,D (<10 MA),75,2022-01-21,,,0
+K0235,Klein,C28 Maschinenbau,D (<10 MA),75,2019-10-05,,,0
+K0236,Klein,C25 Metallverarbeitung,C (10-49 MA),74,2017-06-14,,,0
+K0237,Klein,Sonstige,D (<10 MA),74,2016-09-30,,,0
+K0238,Klein,C31 Möbel / Einrichtung,C (10-49 MA),71,2022-04-07,,,0
+K0239,Klein,G46 Großhandel Konsumgüter,D (<10 MA),74,2026-07-31,,,0
+K0240,Klein,C27 Elektro / Elektronik,C (10-49 MA),74,2020-12-19,,,0
+K0241,Klein,C20 Chemie / Farben,C (10-49 MA),74,2016-12-17,,,0
+K0242,Klein,G46 Großhandel Konsumgüter,D (<10 MA),71,2025-09-27,,,0
+K0243,Klein,C28 Maschinenbau,D (<10 MA),74,2020-11-27,2024-12-29,Preis / Wettbewerb,0
+K0244,Klein,Sonstige,D (<10 MA),75,2024-07-02,,,0
+K0245,Klein,F/G23 Baustoffhandel,C (10-49 MA),71,2015-03-05,,,0
+K0246,Klein,C25 Metallverarbeitung,C (10-49 MA),97,2017-09-18,,,0
+K0247,Klein,C20 Chemie / Farben,D (<10 MA),74,2016-11-28,,,0
+K0248,Klein,C20 Chemie / Farben,C (10-49 MA),71,2020-05-25,,,0
+K0249,Klein,C28 Maschinenbau,C (10-49 MA),97,2015-09-04,,,0
+K0250,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),97,2018-04-14,,,0
+K0251,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2019-06-02,,,0
+K0252,Klein,C27 Elektro / Elektronik,C (10-49 MA),97,2016-01-24,,,0
+K0253,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),97,2015-09-19,,,0
+K0254,Klein,C31 Möbel / Einrichtung,D (<10 MA),74,2016-09-21,,,0
+K0255,Klein,C27 Elektro / Elektronik,C (10-49 MA),74,2022-09-24,,,0
+K0256,Klein,G46 Großhandel Konsumgüter,D (<10 MA),71,2021-09-21,,,0
+K0257,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),97,2022-11-30,,,0
+K0258,Klein,F/G23 Baustoffhandel,D (<10 MA),74,2019-02-28,,,0
+K0259,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),97,2020-06-16,,,0
+K0260,Klein,F/G23 Baustoffhandel,D (<10 MA),74,2023-06-09,,,0
+K0261,Klein,G46 Großhandel Konsumgüter,D (<10 MA),74,2018-04-13,,,0
+K0262,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),75,2016-01-17,,,0
+K0263,Klein,F/G23 Baustoffhandel,D (<10 MA),97,2017-07-06,,,0
+K0264,Klein,Sonstige,C (10-49 MA),74,2019-09-10,,,0
+K0265,Klein,C25 Metallverarbeitung,C (10-49 MA),74,2022-07-18,,,0
+K0266,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),97,2021-10-26,,,0
+K0267,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),75,2022-06-14,,,0
+K0268,Klein,G46 Großhandel Konsumgüter,D (<10 MA),73,2020-09-28,,,0
+K0269,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),97,2017-07-16,,,0
+K0270,Klein,C20 Chemie / Farben,C (10-49 MA),74,2016-06-06,,,0
+K0271,Klein,C28 Maschinenbau,D (<10 MA),97,2021-11-07,,,0
+K0272,Klein,C28 Maschinenbau,C (10-49 MA),74,2015-07-19,,,0
+K0273,Klein,G46 Großhandel Konsumgüter,D (<10 MA),74,2015-05-05,,,0
+K0274,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),97,2020-10-12,,,0
+K0275,Klein,F/G23 Baustoffhandel,D (<10 MA),74,2025-10-03,,,0
+K0276,Klein,C28 Maschinenbau,D (<10 MA),73,2025-09-28,,,0
+K0277,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2023-12-06,,,0
+K0278,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),69,2021-10-21,,,0
+K0279,Klein,G46 Großhandel Konsumgüter,D (<10 MA),97,2018-12-12,,,0
+K0280,Klein,G46 Großhandel Konsumgüter,D (<10 MA),74,2023-02-21,,,0
+K0281,Klein,C20 Chemie / Farben,C (10-49 MA),71,2022-06-01,,,0
+K0282,Klein,Sonstige,D (<10 MA),71,2018-03-01,,,0
+K0283,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),74,2016-07-05,,,0
+K0284,Klein,F/G23 Baustoffhandel,D (<10 MA),74,2020-11-05,,,0
+K0285,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),71,2016-06-20,,,0
+K0286,Klein,C25 Metallverarbeitung,D (<10 MA),97,2024-08-19,,,0
+K0287,Klein,G46 Großhandel Konsumgüter,D (<10 MA),74,2015-11-04,,,0
+K0288,Klein,C25 Metallverarbeitung,C (10-49 MA),73,2021-03-15,,,0
+K0289,Klein,C29 Automotive-Zulieferer,D (<10 MA),71,2017-08-24,,,0
+K0290,Klein,F/G23 Baustoffhandel,C (10-49 MA),73,2023-10-02,,,0
+K0291,Klein,F/G23 Baustoffhandel,C (10-49 MA),75,2021-12-13,,,0
+K0292,Klein,C28 Maschinenbau,D (<10 MA),74,2018-03-30,2026-02-12,Preis / Wettbewerb,0
+K0293,Klein,G46 Großhandel Konsumgüter,D (<10 MA),97,2021-01-23,,,0
+K0294,Klein,C29 Automotive-Zulieferer,C (10-49 MA),73,2022-02-26,,,0
+K0295,Klein,C28 Maschinenbau,D (<10 MA),73,2023-02-08,,,0
+K0296,Klein,C25 Metallverarbeitung,D (<10 MA),73,2020-11-16,,,0
+K0297,Klein,F/G23 Baustoffhandel,C (10-49 MA),74,2021-03-09,,,0
+K0298,Klein,F/G23 Baustoffhandel,C (10-49 MA),75,2016-05-20,,,0
+K0299,Klein,C28 Maschinenbau,C (10-49 MA),74,2023-11-01,,,0
+K0300,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),74,2016-03-30,,,0
+K0301,Klein,F/G23 Baustoffhandel,C (10-49 MA),75,2020-01-19,2024-08-07,Volumen eingestellt,0
+K0302,Klein,G46 Großhandel Konsumgüter,D (<10 MA),75,2023-09-29,,,0
+K0303,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2022-11-04,,,0
+K0304,Klein,F/G23 Baustoffhandel,D (<10 MA),74,2023-08-30,,,0
+K0305,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),71,2020-10-09,2025-01-25,Preis / Wettbewerb,0
+K0306,Klein,C31 Möbel / Einrichtung,C (10-49 MA),97,2023-07-05,,,0
+K0307,Klein,C29 Automotive-Zulieferer,D (<10 MA),73,2017-07-14,,,0
+K0308,Klein,C20 Chemie / Farben,D (<10 MA),69,2016-11-25,,,0
+K0309,Klein,C27 Elektro / Elektronik,C (10-49 MA),74,2017-01-20,,,0
+K0310,Klein,F/G23 Baustoffhandel,C (10-49 MA),74,2019-03-07,,,0
+K0311,Klein,C31 Möbel / Einrichtung,C (10-49 MA),74,2023-05-17,,,0
+K0312,Klein,C29 Automotive-Zulieferer,D (<10 MA),74,2019-06-14,,,0
+K0313,Klein,C31 Möbel / Einrichtung,C (10-49 MA),74,2023-12-01,,,0
+K0314,Klein,C20 Chemie / Farben,C (10-49 MA),73,2016-01-01,,,0
+K0315,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),74,2015-01-05,,,0
+K0316,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),74,2021-09-25,,,0
+K0317,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2016-05-27,,,0
+K0318,Klein,F/G23 Baustoffhandel,D (<10 MA),71,2023-08-05,2025-11-18,Preis / Wettbewerb,0
+K0319,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),74,2022-06-10,,,0
+K0320,Klein,C25 Metallverarbeitung,D (<10 MA),71,2022-06-12,,,0
+K0321,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2019-05-15,,,0
+K0322,Klein,Sonstige,D (<10 MA),73,2020-05-16,,,0
+K0323,Klein,C28 Maschinenbau,C (10-49 MA),74,2018-12-20,,,0
+K0324,Klein,F/G23 Baustoffhandel,C (10-49 MA),74,2024-10-03,,,0
+K0325,Klein,F/G23 Baustoffhandel,D (<10 MA),74,2022-01-13,,,0
+K0326,Klein,C25 Metallverarbeitung,C (10-49 MA),71,2025-03-13,,,0
+K0327,Klein,C25 Metallverarbeitung,D (<10 MA),74,2024-11-30,,,0
+K0328,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),73,2021-01-02,,,0
+K0329,Klein,C27 Elektro / Elektronik,D (<10 MA),74,2018-07-27,,,0
+K0330,Klein,C28 Maschinenbau,D (<10 MA),71,2021-10-30,,,0
+K0331,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),75,2023-06-27,2025-11-12,Preis / Wettbewerb,0
+K0332,Klein,F/G23 Baustoffhandel,C (10-49 MA),74,2023-12-23,,,0
+K0333,Klein,F/G23 Baustoffhandel,D (<10 MA),97,2015-11-03,,,0
+K0334,Klein,C28 Maschinenbau,C (10-49 MA),74,2015-08-03,,,0
+K0335,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2022-10-06,,,0
+K0336,Klein,C27 Elektro / Elektronik,C (10-49 MA),71,2017-10-05,,,0
+K0337,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),73,2025-10-31,,,0
+K0338,Klein,C28 Maschinenbau,C (10-49 MA),97,2021-08-02,2026-03-31,Standortverlagerung,0
+K0339,Klein,F/G23 Baustoffhandel,D (<10 MA),71,2024-10-16,,,0
+K0340,Klein,C29 Automotive-Zulieferer,C (10-49 MA),73,2017-08-04,,,0
+K0341,Klein,G46 Großhandel Konsumgüter,D (<10 MA),71,2025-11-10,,,0
+K0342,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2015-08-19,,,0
+K0343,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),71,2018-04-27,,,0
+K0344,Klein,C28 Maschinenbau,C (10-49 MA),97,2024-04-23,,,0
+K0345,Klein,C27 Elektro / Elektronik,C (10-49 MA),75,2023-09-24,,,0
+K0346,Klein,C28 Maschinenbau,D (<10 MA),71,2023-01-25,,,0
+K0347,Klein,C20 Chemie / Farben,C (10-49 MA),71,2020-08-21,,,0
+K0348,Klein,G46 Großhandel Konsumgüter,D (<10 MA),97,2018-03-06,,,0
+K0349,Klein,C28 Maschinenbau,D (<10 MA),69,2015-04-14,,,0
+K0350,Klein,F/G23 Baustoffhandel,C (10-49 MA),74,2016-08-07,,,0
+K0351,Klein,C20 Chemie / Farben,D (<10 MA),74,2022-02-21,2025-04-07,Standortverlagerung,0
+K0352,Klein,C20 Chemie / Farben,C (10-49 MA),69,2016-08-09,2025-12-28,Preis / Wettbewerb,0
+K0353,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2022-04-11,2025-09-21,Standortverlagerung,0
+K0354,Klein,C28 Maschinenbau,C (10-49 MA),74,2022-12-11,2025-01-24,Preis / Wettbewerb,0
+K0355,Klein,C28 Maschinenbau,C (10-49 MA),71,2017-09-19,,,0
+K0356,Klein,C20 Chemie / Farben,D (<10 MA),74,2019-05-21,,,0
+K0357,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),97,2021-12-12,,,0
+K0358,Klein,F/G23 Baustoffhandel,D (<10 MA),75,2025-05-19,,,0
+K0359,Klein,C27 Elektro / Elektronik,C (10-49 MA),74,2016-06-07,,,0
+K0360,Klein,C31 Möbel / Einrichtung,C (10-49 MA),71,2021-06-14,,,0
+K0361,Klein,C20 Chemie / Farben,D (<10 MA),74,2025-04-07,,,0
+K0362,Klein,C25 Metallverarbeitung,D (<10 MA),71,2017-11-02,,,0
+K0363,Klein,C28 Maschinenbau,D (<10 MA),74,2021-02-25,,,0
+K0364,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2019-01-29,,,0
+K0365,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),73,2022-01-23,,,0
+K0366,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),73,2025-07-10,,,0
+K0367,Klein,C28 Maschinenbau,D (<10 MA),74,2020-04-23,,,0
+K0368,Klein,C28 Maschinenbau,D (<10 MA),71,2015-08-13,2025-07-08,Insolvenz,0
+K0369,Klein,G46 Großhandel Konsumgüter,D (<10 MA),74,2023-08-16,,,0
+K0370,Klein,F/G23 Baustoffhandel,D (<10 MA),74,2021-11-01,,,0
+K0371,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),69,2022-07-02,,,0
+K0372,Klein,C28 Maschinenbau,C (10-49 MA),74,2019-07-25,,,0
+K0373,Klein,C27 Elektro / Elektronik,C (10-49 MA),73,2018-12-15,,,0
+K0374,Klein,C28 Maschinenbau,D (<10 MA),74,2022-09-30,,,0
+K0375,Klein,G46 Großhandel Konsumgüter,D (<10 MA),74,2025-10-14,,,0
+K0376,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),74,2025-04-14,,,0
+K0377,Klein,F/G23 Baustoffhandel,D (<10 MA),74,2015-03-10,,,0
+K0378,Klein,C29 Automotive-Zulieferer,D (<10 MA),71,2017-09-29,2025-03-02,Insolvenz,0
+K0379,Klein,F/G23 Baustoffhandel,D (<10 MA),71,2020-01-24,,,0
+K0380,Klein,C27 Elektro / Elektronik,D (<10 MA),74,2020-12-16,,,0
+K0381,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2019-04-07,,,0
+K0382,Klein,F/G23 Baustoffhandel,C (10-49 MA),74,2015-08-13,,,0
+K0383,Klein,F/G23 Baustoffhandel,C (10-49 MA),74,2015-04-27,,,0
+K0384,Klein,C28 Maschinenbau,D (<10 MA),73,2015-11-18,,,0
+K0385,Klein,C20 Chemie / Farben,D (<10 MA),74,2016-07-22,,,0
+K0386,Klein,G46 Großhandel Konsumgüter,D (<10 MA),97,2022-11-25,,,0
+K0387,Klein,C28 Maschinenbau,C (10-49 MA),71,2026-03-15,,,0
+K0388,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),71,2015-12-03,,,0
+K0389,Klein,C28 Maschinenbau,C (10-49 MA),73,2023-04-05,2025-12-12,Preis / Wettbewerb,0
+K0390,Klein,C28 Maschinenbau,C (10-49 MA),74,2020-06-22,,,0
+K0391,Klein,F/G23 Baustoffhandel,C (10-49 MA),74,2021-12-13,,,0
+K0392,Klein,C25 Metallverarbeitung,D (<10 MA),74,2022-06-01,,,0
+K0393,Klein,C28 Maschinenbau,D (<10 MA),97,2018-01-17,,,0
+K0394,Klein,C25 Metallverarbeitung,C (10-49 MA),75,2017-01-12,,,0
+K0395,Klein,C28 Maschinenbau,C (10-49 MA),73,2018-08-06,,,0
+K0396,Klein,C27 Elektro / Elektronik,D (<10 MA),75,2023-06-13,,,0
+K0397,Klein,C28 Maschinenbau,C (10-49 MA),75,2026-04-15,,,0
+K0398,Klein,C28 Maschinenbau,D (<10 MA),73,2017-05-05,,,0
+K0399,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),97,2022-12-29,,,0
+K0400,Klein,C27 Elektro / Elektronik,C (10-49 MA),74,2016-09-12,,,0
+K0401,Klein,C20 Chemie / Farben,D (<10 MA),74,2015-11-02,,,0
+K0402,Klein,Sonstige,D (<10 MA),74,2015-05-07,,,0
+K0403,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),97,2023-02-27,,,0
+K0404,Klein,F/G23 Baustoffhandel,D (<10 MA),69,2023-09-30,,,0
+K0405,Klein,F/G23 Baustoffhandel,C (10-49 MA),74,2025-02-06,,,0
+K0406,Klein,Sonstige,D (<10 MA),74,2022-06-24,,,0
+K0407,Klein,G46 Großhandel Konsumgüter,D (<10 MA),75,2020-03-21,2026-06-26,Preis / Wettbewerb,0
+K0408,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),75,2017-06-29,,,0
+K0409,Klein,C29 Automotive-Zulieferer,D (<10 MA),97,2021-11-03,2024-03-06,Insolvenz,0
+K0410,Klein,C20 Chemie / Farben,C (10-49 MA),74,2019-11-02,2025-09-17,Preis / Wettbewerb,0
+K0411,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),71,2015-10-04,,,0
+K0412,Klein,C25 Metallverarbeitung,C (10-49 MA),73,2016-05-03,,,0
+K0413,Klein,Sonstige,D (<10 MA),74,2020-09-28,,,0
+K0414,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2017-03-29,,,0
+K0415,Klein,C28 Maschinenbau,D (<10 MA),71,2019-02-12,,,0
+K0416,Klein,Sonstige,D (<10 MA),74,2017-08-26,,,0
+K0417,Klein,C31 Möbel / Einrichtung,D (<10 MA),74,2019-10-24,,,0
+K0418,Klein,F/G23 Baustoffhandel,C (10-49 MA),73,2022-05-09,,,0
+K0419,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),71,2021-07-22,,,0
+K0420,Klein,C27 Elektro / Elektronik,C (10-49 MA),74,2018-12-29,,,0
+K0421,Klein,F/G23 Baustoffhandel,D (<10 MA),75,2025-09-22,,,0
+K0422,Klein,C28 Maschinenbau,D (<10 MA),71,2015-05-03,,,0
+K0423,Klein,C20 Chemie / Farben,C (10-49 MA),69,2015-01-01,,,0
+K0424,Klein,C25 Metallverarbeitung,C (10-49 MA),97,2026-01-02,,,0
+K0425,Klein,C25 Metallverarbeitung,D (<10 MA),73,2023-07-12,,,0
+K0426,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),74,2016-01-31,,,0
+K0427,Klein,Sonstige,C (10-49 MA),97,2020-04-27,,,0
+K0428,Klein,C28 Maschinenbau,C (10-49 MA),97,2023-05-27,,,0
+K0429,Klein,C31 Möbel / Einrichtung,C (10-49 MA),71,2023-01-11,,,0
+K0430,Klein,C31 Möbel / Einrichtung,C (10-49 MA),74,2019-08-10,,,0
+K0431,Klein,C25 Metallverarbeitung,C (10-49 MA),75,2019-07-30,,,0
+K0432,Klein,C20 Chemie / Farben,C (10-49 MA),74,2020-09-21,,,0
+K0433,Klein,C28 Maschinenbau,D (<10 MA),75,2022-12-03,,,0
+K0434,Klein,F/G23 Baustoffhandel,D (<10 MA),73,2022-12-30,,,0
+K0435,Klein,F/G23 Baustoffhandel,D (<10 MA),71,2016-02-17,,,0
+K0436,Klein,C25 Metallverarbeitung,C (10-49 MA),75,2017-04-10,2025-05-29,Volumen eingestellt,0
+K0437,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2025-10-23,,,0
+K0438,Klein,C29 Automotive-Zulieferer,D (<10 MA),74,2021-01-02,,,0
+K0439,Klein,C29 Automotive-Zulieferer,D (<10 MA),71,2025-11-15,,,0
+K0440,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2020-12-25,2026-01-11,Preis / Wettbewerb,0
+K0441,Klein,F/G23 Baustoffhandel,C (10-49 MA),71,2018-10-04,,,0
+K0442,Klein,C28 Maschinenbau,D (<10 MA),75,2022-08-11,,,0
+K0443,Klein,C25 Metallverarbeitung,C (10-49 MA),97,2022-05-17,,,0
+K0444,Klein,C25 Metallverarbeitung,C (10-49 MA),97,2021-07-02,,,0
+K0445,Klein,C31 Möbel / Einrichtung,D (<10 MA),75,2015-04-27,,,0
+K0446,Klein,C27 Elektro / Elektronik,C (10-49 MA),75,2023-04-27,,,0
+K0447,Klein,C29 Automotive-Zulieferer,D (<10 MA),74,2015-03-03,,,0
+K0448,Klein,Sonstige,D (<10 MA),74,2026-06-29,,,0
+K0449,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2017-06-22,,,0
+K0450,Klein,C28 Maschinenbau,D (<10 MA),75,2017-03-19,,,0
+K0451,Klein,Sonstige,C (10-49 MA),97,2024-07-24,,,0
+K0452,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2019-04-13,,,0
+K0453,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),71,2016-08-08,,,0
+K0454,Klein,G46 Großhandel Konsumgüter,D (<10 MA),75,2016-03-24,,,0
+K0455,Klein,C28 Maschinenbau,C (10-49 MA),69,2020-01-06,,,0
+K0456,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2019-11-09,,,0
+K0457,Klein,C20 Chemie / Farben,D (<10 MA),97,2017-09-24,,,0
+K0458,Klein,C29 Automotive-Zulieferer,D (<10 MA),74,2022-12-22,2025-03-02,Preis / Wettbewerb,0
+K0459,Klein,Sonstige,C (10-49 MA),74,2022-09-11,,,0
+K0460,Klein,C27 Elektro / Elektronik,D (<10 MA),74,2019-05-23,,,0
+K0461,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),74,2020-02-06,,,0
+K0462,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),97,2015-10-28,,,0
+K0463,Klein,C31 Möbel / Einrichtung,C (10-49 MA),74,2026-07-11,,,0
+K0464,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),71,2024-11-21,,,0
+K0465,Klein,C29 Automotive-Zulieferer,C (10-49 MA),71,2017-08-06,2025-12-19,Preis / Wettbewerb,0
+K0466,Klein,F/G23 Baustoffhandel,D (<10 MA),71,2016-11-05,,,0
+K0467,Klein,C25 Metallverarbeitung,D (<10 MA),74,2023-08-22,,,0
+K0468,Klein,C28 Maschinenbau,C (10-49 MA),75,2015-01-27,,,0
+K0469,Klein,C25 Metallverarbeitung,D (<10 MA),74,2019-11-27,,,0
+K0470,Klein,C27 Elektro / Elektronik,C (10-49 MA),74,2021-12-11,,,0
+K0471,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),74,2016-08-10,,,0
+K0472,Klein,C28 Maschinenbau,D (<10 MA),74,2021-05-26,,,0
+K0473,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),97,2020-11-01,,,0
+K0474,Klein,C28 Maschinenbau,C (10-49 MA),71,2022-04-19,,,0
+K0475,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),71,2020-06-06,,,0
+K0476,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),74,2018-03-12,,,0
+K0477,Klein,Sonstige,D (<10 MA),74,2020-11-16,,,0
+K0478,Klein,C29 Automotive-Zulieferer,D (<10 MA),74,2024-12-23,,,0
+K0479,Klein,C20 Chemie / Farben,C (10-49 MA),74,2019-12-07,,,0
+K0480,Klein,C25 Metallverarbeitung,D (<10 MA),74,2018-06-02,,,0
+K0481,Klein,Sonstige,D (<10 MA),73,2021-08-22,,,0
+K0482,Klein,C27 Elektro / Elektronik,D (<10 MA),69,2018-06-02,,,0
+K0483,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2017-03-16,,,0
+K0484,Klein,C31 Möbel / Einrichtung,D (<10 MA),74,2021-05-11,,,0
+K0485,Klein,G46 Großhandel Konsumgüter,D (<10 MA),74,2019-08-05,,,0
+K0486,Klein,F/G23 Baustoffhandel,C (10-49 MA),71,2019-03-20,2024-09-01,Volumen eingestellt,0
+K0487,Klein,G46 Großhandel Konsumgüter,D (<10 MA),97,2020-03-30,,,0
+K0488,Klein,C25 Metallverarbeitung,C (10-49 MA),74,2025-04-23,,,0
+K0489,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),75,2019-05-21,,,0
+K0490,Klein,F/G23 Baustoffhandel,C (10-49 MA),75,2016-01-18,,,0
+K0491,Klein,C28 Maschinenbau,C (10-49 MA),71,2021-12-19,,,0
+K0492,Klein,C28 Maschinenbau,C (10-49 MA),74,2020-10-03,2025-08-13,Preis / Wettbewerb,0
+K0493,Klein,C28 Maschinenbau,C (10-49 MA),73,2019-02-12,,,0
+K0494,Klein,F/G23 Baustoffhandel,D (<10 MA),71,2023-07-23,,,0
+K0495,Klein,C25 Metallverarbeitung,C (10-49 MA),74,2017-05-04,,,0
+K0496,Klein,C20 Chemie / Farben,C (10-49 MA),74,2022-03-24,,,0
+K0497,Klein,F/G23 Baustoffhandel,D (<10 MA),73,2022-06-22,,,0
+K0498,Klein,C29 Automotive-Zulieferer,C (10-49 MA),75,2022-08-09,,,0
+K0499,Klein,C28 Maschinenbau,D (<10 MA),71,2019-12-13,,,0
+K0500,Klein,C20 Chemie / Farben,D (<10 MA),97,2016-11-06,,,0
+K0501,Klein,G46 Großhandel Konsumgüter,D (<10 MA),71,2017-10-01,,,0
+K0502,Klein,C28 Maschinenbau,C (10-49 MA),73,2018-05-06,,,0
+K0503,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),75,2017-02-09,,,0
+K0504,Klein,C25 Metallverarbeitung,C (10-49 MA),74,2021-10-13,,,0
+K0505,Klein,C28 Maschinenbau,C (10-49 MA),74,2019-05-26,,,0
+K0506,Klein,C28 Maschinenbau,D (<10 MA),74,2016-01-20,,,0
+K0507,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2016-08-04,,,0
+K0508,Klein,F/G23 Baustoffhandel,D (<10 MA),74,2024-08-01,,,0
+K0509,Klein,C29 Automotive-Zulieferer,C (10-49 MA),97,2020-05-06,,,0
+K0510,Klein,C28 Maschinenbau,C (10-49 MA),97,2015-01-14,,,0
+K0511,Klein,C29 Automotive-Zulieferer,D (<10 MA),74,2017-06-18,,,0
+K0512,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2020-10-21,,,0
+K0513,Klein,C27 Elektro / Elektronik,C (10-49 MA),71,2017-12-05,,,0
+K0514,Klein,C20 Chemie / Farben,D (<10 MA),73,2023-04-09,,,0
+K0515,Klein,F/G23 Baustoffhandel,C (10-49 MA),71,2017-11-11,,,0
+K0516,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),75,2023-02-23,,,0
+K0517,Klein,C25 Metallverarbeitung,D (<10 MA),74,2022-03-23,,,0
+K0518,Klein,G46 Großhandel Konsumgüter,D (<10 MA),75,2023-07-31,,,0
+K0519,Klein,Sonstige,C (10-49 MA),74,2016-07-31,,,0
+K0520,Klein,C31 Möbel / Einrichtung,C (10-49 MA),73,2024-04-24,,,0
+K0521,Klein,C20 Chemie / Farben,D (<10 MA),74,2020-12-11,,,0
+K0522,Klein,F/G23 Baustoffhandel,D (<10 MA),74,2023-06-30,,,0
+K0523,Klein,F/G23 Baustoffhandel,C (10-49 MA),74,2015-06-18,,,0
+K0524,Klein,C28 Maschinenbau,D (<10 MA),97,2025-06-08,,,0
+K0525,Klein,Sonstige,D (<10 MA),74,2015-05-02,,,0
+K0526,Klein,G46 Großhandel Konsumgüter,D (<10 MA),71,2015-02-26,,,0
+K0527,Klein,C31 Möbel / Einrichtung,C (10-49 MA),74,2018-09-13,,,0
+K0528,Klein,C27 Elektro / Elektronik,C (10-49 MA),75,2015-08-06,,,0
+K0529,Klein,C28 Maschinenbau,D (<10 MA),74,2020-04-12,,,0
+K0530,Klein,F/G23 Baustoffhandel,D (<10 MA),74,2016-02-21,,,0
+K0531,Klein,C20 Chemie / Farben,C (10-49 MA),71,2022-01-08,,,0
+K0532,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2015-05-05,,,0
+K0533,Klein,Sonstige,C (10-49 MA),74,2019-11-16,,,0
+K0534,Klein,C25 Metallverarbeitung,D (<10 MA),69,2022-10-31,,,0
+K0535,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2016-02-22,,,0
+K0536,Klein,F/G23 Baustoffhandel,D (<10 MA),74,2025-06-26,,,0
+K0537,Klein,C28 Maschinenbau,C (10-49 MA),71,2017-07-20,,,0
+K0538,Klein,C29 Automotive-Zulieferer,D (<10 MA),71,2021-05-12,,,0
+K0539,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),71,2016-11-30,2024-07-24,Volumen eingestellt,0
+K0540,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),97,2019-12-25,2026-02-08,Insolvenz,0
+K0541,Klein,C27 Elektro / Elektronik,D (<10 MA),73,2024-08-25,,,0
+K0542,Klein,F/G23 Baustoffhandel,C (10-49 MA),75,2021-09-04,,,0
+K0543,Klein,C28 Maschinenbau,C (10-49 MA),74,2024-11-03,,,0
+K0544,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),74,2024-04-24,,,0
+K0545,Klein,Sonstige,C (10-49 MA),74,2016-09-03,,,0
+K0546,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2019-06-21,,,0
+K0547,Klein,C25 Metallverarbeitung,C (10-49 MA),74,2018-11-29,,,0
+K0548,Klein,C27 Elektro / Elektronik,C (10-49 MA),74,2022-02-15,,,0
+K0549,Klein,C20 Chemie / Farben,C (10-49 MA),75,2023-10-20,,,0
+K0550,Klein,C20 Chemie / Farben,D (<10 MA),75,2015-03-10,,,0
+K0551,Klein,C27 Elektro / Elektronik,C (10-49 MA),74,2016-06-09,,,0
+K0552,Klein,C20 Chemie / Farben,D (<10 MA),74,2023-03-18,,,0
+K0553,Klein,G46 Großhandel Konsumgüter,D (<10 MA),74,2017-01-12,,,0
+K0554,Klein,C29 Automotive-Zulieferer,D (<10 MA),71,2023-07-15,,,0
+K0555,Klein,C28 Maschinenbau,C (10-49 MA),74,2023-11-15,,,0
+K0556,Klein,C28 Maschinenbau,C (10-49 MA),74,2020-10-11,,,0
+K0557,Klein,C28 Maschinenbau,D (<10 MA),74,2022-10-14,,,0
+K0558,Klein,C25 Metallverarbeitung,C (10-49 MA),75,2019-03-31,,,0
+K0559,Klein,Sonstige,C (10-49 MA),75,2017-10-25,,,0
+K0560,Klein,C28 Maschinenbau,C (10-49 MA),74,2023-08-15,,,0
+K0561,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),71,2016-07-31,,,0
+K0562,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),97,2024-04-22,,,0
+K0563,Klein,Sonstige,D (<10 MA),69,2017-06-02,2025-01-18,Preis / Wettbewerb,0
+K0564,Klein,C29 Automotive-Zulieferer,D (<10 MA),71,2026-04-29,,,0
+K0565,Klein,F/G23 Baustoffhandel,C (10-49 MA),97,2018-08-12,,,0
+K0566,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2025-01-23,,,0
+K0567,Klein,Sonstige,D (<10 MA),74,2015-02-08,,,0
+K0568,Klein,C28 Maschinenbau,D (<10 MA),97,2023-10-18,2024-06-13,Preis / Wettbewerb,0
+K0569,Klein,C25 Metallverarbeitung,D (<10 MA),74,2023-06-28,,,0
+K0570,Klein,C29 Automotive-Zulieferer,D (<10 MA),69,2018-07-23,,,0
+K0571,Klein,C31 Möbel / Einrichtung,C (10-49 MA),74,2026-03-27,,,0
+K0572,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2024-08-18,,,0
+K0573,Klein,C25 Metallverarbeitung,D (<10 MA),74,2020-10-31,,,0
+K0574,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),74,2017-08-01,,,0
+K0575,Klein,C25 Metallverarbeitung,C (10-49 MA),74,2021-06-06,,,0
+K0576,Klein,C31 Möbel / Einrichtung,D (<10 MA),71,2016-11-02,,,0
+K0577,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),71,2022-04-12,,,0
+K0578,Klein,C25 Metallverarbeitung,D (<10 MA),74,2023-05-18,,,0
+K0579,Klein,G46 Großhandel Konsumgüter,D (<10 MA),69,2023-03-18,,,0
+K0580,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),71,2020-11-05,,,0
+K0581,Klein,C28 Maschinenbau,C (10-49 MA),74,2018-05-01,,,0
+K0582,Klein,C29 Automotive-Zulieferer,D (<10 MA),74,2022-11-06,,,0
+K0583,Klein,C20 Chemie / Farben,C (10-49 MA),73,2021-04-09,,,0
+K0584,Klein,F/G23 Baustoffhandel,D (<10 MA),74,2020-06-17,,,0
+K0585,Klein,C20 Chemie / Farben,C (10-49 MA),71,2022-09-12,,,0
+K0586,Klein,C28 Maschinenbau,C (10-49 MA),75,2015-05-25,,,0
+K0587,Klein,C25 Metallverarbeitung,C (10-49 MA),74,2023-04-22,,,0
+K0588,Klein,C28 Maschinenbau,C (10-49 MA),71,2017-11-18,,,0
+K0589,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2015-04-03,,,0
+K0590,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),97,2019-05-01,,,0
+K0591,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),74,2021-03-04,,,0
+K0592,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2018-10-31,,,0
+K0593,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),74,2019-08-01,,,0
+K0594,Klein,G46 Großhandel Konsumgüter,D (<10 MA),74,2017-10-04,,,0
+K0595,Klein,G46 Großhandel Konsumgüter,D (<10 MA),71,2025-09-21,,,0
+K0596,Klein,C20 Chemie / Farben,C (10-49 MA),73,2021-01-18,,,0
+K0597,Klein,G46 Großhandel Konsumgüter,D (<10 MA),74,2021-08-16,,,0
+K0598,Klein,F/G23 Baustoffhandel,D (<10 MA),71,2026-04-25,,,0
+K0599,Klein,C29 Automotive-Zulieferer,D (<10 MA),74,2023-10-03,,,0
+K0600,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),97,2022-09-14,2025-09-12,Standortverlagerung,0
+K0601,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),74,2019-08-23,2025-03-23,Preis / Wettbewerb,0
+K0602,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2025-06-04,,,0
+K0603,Klein,C25 Metallverarbeitung,C (10-49 MA),69,2018-08-15,,,0
+K0604,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),71,2023-12-26,,,0
+K0605,Klein,Sonstige,C (10-49 MA),74,2017-10-14,,,0
+K0606,Klein,C31 Möbel / Einrichtung,C (10-49 MA),73,2024-10-27,,,0
+K0607,Klein,C27 Elektro / Elektronik,C (10-49 MA),73,2020-07-13,,,0
+K0608,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2025-08-06,,,0
+K0609,Klein,C27 Elektro / Elektronik,C (10-49 MA),74,2022-12-30,,,0
+K0610,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),74,2020-11-02,2026-03-28,Preis / Wettbewerb,0
+K0611,Klein,C28 Maschinenbau,C (10-49 MA),74,2020-11-04,,,0
+K0612,Klein,C27 Elektro / Elektronik,C (10-49 MA),97,2015-01-26,,,0
+K0613,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),75,2015-11-10,,,0
+K0614,Klein,C29 Automotive-Zulieferer,C (10-49 MA),75,2016-08-25,,,0
+K0615,Klein,C29 Automotive-Zulieferer,D (<10 MA),74,2015-06-14,2025-02-25,Preis / Wettbewerb,0
+K0616,Klein,Sonstige,D (<10 MA),75,2020-01-14,,,0
+K0617,Klein,G46 Großhandel Konsumgüter,D (<10 MA),75,2020-04-04,,,0
+K0618,Klein,C25 Metallverarbeitung,C (10-49 MA),75,2015-11-29,,,0
+K0619,Klein,C28 Maschinenbau,C (10-49 MA),73,2015-12-02,,,0
+K0620,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),74,2023-02-24,,,0
+K0621,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2019-02-07,,,0
+K0622,Klein,G46 Großhandel Konsumgüter,D (<10 MA),73,2015-06-08,,,0
+K0623,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),71,2022-10-30,,,0
+K0624,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),73,2019-03-23,,,0
+K0625,Klein,C28 Maschinenbau,C (10-49 MA),74,2024-05-27,,,0
+K0626,Klein,C28 Maschinenbau,C (10-49 MA),73,2026-01-14,,,0
+K0627,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2023-03-14,,,0
+K0628,Klein,C29 Automotive-Zulieferer,D (<10 MA),74,2022-05-19,,,0
+K0629,Klein,F/G23 Baustoffhandel,D (<10 MA),97,2019-08-16,2025-05-10,Preis / Wettbewerb,0
+K0630,Klein,G46 Großhandel Konsumgüter,D (<10 MA),74,2015-03-20,,,0
+K0631,Klein,C28 Maschinenbau,C (10-49 MA),74,2022-06-06,,,0
+K0632,Klein,C27 Elektro / Elektronik,D (<10 MA),69,2019-09-02,,,0
+K0633,Klein,C28 Maschinenbau,C (10-49 MA),74,2022-03-14,,,0
+K0634,Klein,C31 Möbel / Einrichtung,C (10-49 MA),74,2021-01-09,,,0
+K0635,Klein,C29 Automotive-Zulieferer,D (<10 MA),74,2016-07-19,,,0
+K0636,Klein,F/G23 Baustoffhandel,D (<10 MA),73,2025-03-02,,,0
+K0637,Klein,F/G23 Baustoffhandel,C (10-49 MA),74,2017-03-20,,,0
+K0638,Klein,C20 Chemie / Farben,D (<10 MA),73,2021-10-27,,,0
+K0639,Klein,C29 Automotive-Zulieferer,C (10-49 MA),75,2025-07-24,,,0
+K0640,Klein,G46 Großhandel Konsumgüter,D (<10 MA),74,2015-11-25,,,0
+K0641,Klein,C25 Metallverarbeitung,D (<10 MA),74,2017-07-21,,,0
+K0642,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),97,2018-10-10,,,0
+K0643,Klein,C28 Maschinenbau,D (<10 MA),74,2022-01-12,,,0
+K0644,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),71,2016-06-08,,,0
+K0645,Klein,C29 Automotive-Zulieferer,D (<10 MA),74,2019-04-20,,,0
+K0646,Klein,F/G23 Baustoffhandel,C (10-49 MA),74,2016-10-31,,,0
+K0647,Klein,C28 Maschinenbau,C (10-49 MA),97,2020-04-08,,,0
+K0648,Klein,C28 Maschinenbau,D (<10 MA),75,2020-02-09,,,0
+K0649,Klein,C27 Elektro / Elektronik,D (<10 MA),71,2024-02-29,,,0
+K0650,Klein,C20 Chemie / Farben,D (<10 MA),74,2026-07-02,,,0
+K0651,Klein,F/G23 Baustoffhandel,C (10-49 MA),74,2018-04-08,,,0
+K0652,Klein,C28 Maschinenbau,C (10-49 MA),74,2021-12-26,,,0
+K0653,Klein,C29 Automotive-Zulieferer,C (10-49 MA),71,2017-11-10,,,0
+K0654,Klein,C28 Maschinenbau,C (10-49 MA),71,2019-08-21,2025-06-11,Preis / Wettbewerb,0
+K0655,Klein,C20 Chemie / Farben,C (10-49 MA),71,2026-07-18,,,0
+K0656,Klein,C20 Chemie / Farben,C (10-49 MA),73,2025-08-06,,,0
+K0657,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2016-05-17,,,0
+K0658,Klein,G46 Großhandel Konsumgüter,D (<10 MA),74,2017-04-04,,,0
+K0659,Klein,G46 Großhandel Konsumgüter,D (<10 MA),71,2022-10-06,,,0
+K0660,Klein,C28 Maschinenbau,C (10-49 MA),71,2019-09-28,,,0
+K0661,Klein,F/G23 Baustoffhandel,C (10-49 MA),75,2015-06-17,,,0
+K0662,Klein,C20 Chemie / Farben,C (10-49 MA),74,2017-09-02,,,0
+K0663,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),73,2019-10-21,,,0
+K0664,Klein,C28 Maschinenbau,C (10-49 MA),75,2016-06-25,2025-06-04,Insolvenz,0
+K0665,Klein,C28 Maschinenbau,D (<10 MA),71,2022-08-21,,,0
+K0666,Klein,C28 Maschinenbau,C (10-49 MA),74,2016-06-13,,,0
+K0667,Klein,Sonstige,D (<10 MA),69,2020-07-08,,,0
+K0668,Klein,Sonstige,D (<10 MA),71,2020-08-18,,,0
+K0669,Klein,C28 Maschinenbau,D (<10 MA),71,2015-03-11,,,0
+K0670,Klein,C25 Metallverarbeitung,D (<10 MA),73,2017-09-09,,,0
+K0671,Klein,C20 Chemie / Farben,C (10-49 MA),97,2023-08-09,,,0
+K0672,Klein,C31 Möbel / Einrichtung,D (<10 MA),74,2025-12-29,,,0
+K0673,Klein,Sonstige,C (10-49 MA),74,2026-01-06,,,0
+K0674,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),97,2020-01-16,2026-01-21,Standortverlagerung,0
+K0675,Klein,C28 Maschinenbau,C (10-49 MA),73,2022-07-23,,,0
+K0676,Klein,C31 Möbel / Einrichtung,D (<10 MA),74,2024-08-08,,,0
+K0677,Klein,C28 Maschinenbau,C (10-49 MA),74,2021-07-09,,,0
+K0678,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),74,2016-06-20,,,0
+K0679,Klein,C28 Maschinenbau,C (10-49 MA),97,2022-03-26,,,0
+K0680,Klein,C31 Möbel / Einrichtung,D (<10 MA),75,2015-01-26,,,0
+K0681,Klein,C27 Elektro / Elektronik,C (10-49 MA),74,2020-11-26,2025-12-09,Preis / Wettbewerb,0
+K0682,Klein,C27 Elektro / Elektronik,D (<10 MA),97,2019-11-10,2025-04-29,Standortverlagerung,0
+K0683,Klein,C27 Elektro / Elektronik,D (<10 MA),73,2015-02-05,,,0
+K0684,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),71,2020-05-27,,,0
+K0685,Klein,Sonstige,C (10-49 MA),74,2024-09-04,,,0
+K0686,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),74,2022-12-23,,,0
+K0687,Klein,F/G23 Baustoffhandel,D (<10 MA),71,2021-01-27,2026-06-26,Insolvenz,0
+K0688,Klein,Sonstige,C (10-49 MA),74,2017-07-01,,,0
+K0689,Klein,F/G23 Baustoffhandel,D (<10 MA),74,2019-09-14,,,0
+K0690,Klein,C31 Möbel / Einrichtung,D (<10 MA),97,2018-03-25,2024-04-05,Insolvenz,0
+K0691,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),75,2022-02-08,,,0
+K0692,Klein,Sonstige,D (<10 MA),74,2019-09-04,,,0
+K0693,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),74,2015-02-12,,,0
+K0694,Klein,C28 Maschinenbau,D (<10 MA),71,2015-06-22,,,0
+K0695,Klein,F/G23 Baustoffhandel,D (<10 MA),74,2018-04-09,,,0
+K0696,Klein,F/G23 Baustoffhandel,C (10-49 MA),71,2016-01-29,2025-10-20,Preis / Wettbewerb,0
+K0697,Klein,C20 Chemie / Farben,C (10-49 MA),74,2018-03-19,,,0
+K0698,Klein,C27 Elektro / Elektronik,D (<10 MA),97,2025-03-27,,,0
+K0699,Klein,G46 Großhandel Konsumgüter,D (<10 MA),71,2018-12-04,,,0
+K0700,Klein,Sonstige,C (10-49 MA),73,2025-03-21,,,0
+K0701,Klein,C20 Chemie / Farben,C (10-49 MA),74,2024-03-31,,,0
+K0702,Klein,F/G23 Baustoffhandel,D (<10 MA),75,2016-08-23,,,0
+K0703,Klein,C20 Chemie / Farben,D (<10 MA),69,2018-02-20,,,0
+K0704,Klein,Sonstige,D (<10 MA),97,2015-09-08,,,0
+K0705,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),71,2023-07-19,,,0
+K0706,Klein,C28 Maschinenbau,D (<10 MA),74,2021-12-28,,,0
+K0707,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),71,2019-11-25,,,0
+K0708,Klein,C28 Maschinenbau,C (10-49 MA),74,2016-03-20,,,0
+K0709,Klein,C28 Maschinenbau,C (10-49 MA),74,2023-09-19,,,0
+K0710,Klein,G46 Großhandel Konsumgüter,D (<10 MA),69,2017-04-28,,,0
+K0711,Klein,C27 Elektro / Elektronik,C (10-49 MA),74,2019-05-28,,,0
+K0712,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2025-01-03,,,0
+K0713,Klein,C20 Chemie / Farben,C (10-49 MA),74,2022-09-27,,,0
+K0714,Klein,C25 Metallverarbeitung,C (10-49 MA),71,2024-08-19,,,0
+K0715,Klein,Sonstige,C (10-49 MA),97,2023-07-22,,,0
+K0716,Klein,C20 Chemie / Farben,D (<10 MA),71,2020-10-22,,,0
+K0717,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),97,2022-12-13,,,0
+K0718,Klein,C25 Metallverarbeitung,C (10-49 MA),74,2021-07-19,,,0
+K0719,Klein,C28 Maschinenbau,C (10-49 MA),74,2018-01-23,,,0
+K0720,Klein,C28 Maschinenbau,D (<10 MA),74,2025-04-28,,,0
+K0721,Klein,F/G23 Baustoffhandel,D (<10 MA),71,2015-06-05,,,0
+K0722,Klein,C29 Automotive-Zulieferer,C (10-49 MA),71,2015-11-02,,,0
+K0723,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),74,2023-07-15,,,0
+K0724,Klein,C28 Maschinenbau,D (<10 MA),73,2016-07-16,,,0
+K0725,Klein,G46 Großhandel Konsumgüter,D (<10 MA),74,2023-10-01,,,0
+K0726,Klein,C20 Chemie / Farben,D (<10 MA),75,2018-05-21,,,0
+K0727,Klein,C27 Elektro / Elektronik,D (<10 MA),74,2023-11-12,,,0
+K0728,Klein,C28 Maschinenbau,C (10-49 MA),75,2017-11-05,,,0
+K0729,Klein,C27 Elektro / Elektronik,D (<10 MA),69,2016-10-09,,,0
+K0730,Klein,C29 Automotive-Zulieferer,C (10-49 MA),73,2021-12-25,,,0
+K0731,Klein,C28 Maschinenbau,C (10-49 MA),73,2015-11-11,,,0
+K0732,Klein,C27 Elektro / Elektronik,C (10-49 MA),74,2021-06-27,,,0
+K0733,Klein,F/G23 Baustoffhandel,C (10-49 MA),74,2019-08-03,,,0
+K0734,Klein,Sonstige,C (10-49 MA),74,2025-03-10,,,0
+K0735,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2015-04-19,2026-03-08,Preis / Wettbewerb,0
+K0736,Klein,Sonstige,D (<10 MA),71,2016-11-29,,,0
+K0737,Klein,G46 Großhandel Konsumgüter,D (<10 MA),71,2016-06-10,,,0
+K0738,Klein,C28 Maschinenbau,C (10-49 MA),97,2019-12-19,,,0
+K0739,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2020-04-12,,,0
+K0740,Klein,C29 Automotive-Zulieferer,D (<10 MA),74,2025-11-01,,,0
+K0741,Klein,C27 Elektro / Elektronik,C (10-49 MA),71,2016-05-11,,,0
+K0742,Klein,C27 Elektro / Elektronik,C (10-49 MA),73,2019-03-02,,,0
+K0743,Klein,Sonstige,D (<10 MA),73,2019-06-03,,,0
+K0744,Klein,C29 Automotive-Zulieferer,C (10-49 MA),97,2024-10-30,,,0
+K0745,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2018-08-20,,,0
+K0746,Klein,F/G23 Baustoffhandel,D (<10 MA),74,2020-06-09,2024-09-08,Volumen eingestellt,0
+K0747,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),97,2020-12-02,,,0
+K0748,Klein,G46 Großhandel Konsumgüter,D (<10 MA),74,2025-02-11,,,0
+K0749,Klein,C28 Maschinenbau,D (<10 MA),74,2022-12-15,,,0
+K0750,Klein,C28 Maschinenbau,D (<10 MA),73,2018-08-01,,,0
+K0751,Klein,Sonstige,C (10-49 MA),73,2023-04-04,,,0
+K0752,Klein,C25 Metallverarbeitung,C (10-49 MA),74,2020-08-10,,,0
+K0753,Klein,C25 Metallverarbeitung,C (10-49 MA),75,2015-07-26,,,0
+K0754,Klein,G46 Großhandel Konsumgüter,D (<10 MA),71,2015-07-03,,,0
+K0755,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),74,2023-06-19,,,0
+K0756,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),73,2026-03-23,,,0
+K0757,Klein,Sonstige,C (10-49 MA),75,2025-07-31,,,0
+K0758,Klein,C20 Chemie / Farben,C (10-49 MA),71,2023-04-11,,,0
+K0759,Klein,G46 Großhandel Konsumgüter,D (<10 MA),71,2015-01-01,,,0
+K0760,Klein,C28 Maschinenbau,D (<10 MA),74,2018-07-22,2025-10-11,Preis / Wettbewerb,0
+K0761,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),75,2026-06-21,,,0
+K0762,Klein,F/G23 Baustoffhandel,C (10-49 MA),75,2021-12-07,,,0
+K0763,Klein,F/G23 Baustoffhandel,C (10-49 MA),74,2022-05-21,,,0
+K0764,Klein,C29 Automotive-Zulieferer,C (10-49 MA),97,2015-07-02,2024-11-24,Standortverlagerung,0
+K0765,Klein,C29 Automotive-Zulieferer,D (<10 MA),71,2016-02-24,,,0
+K0766,Klein,Sonstige,C (10-49 MA),71,2018-11-07,,,0
+K0767,Klein,C27 Elektro / Elektronik,C (10-49 MA),74,2024-03-09,,,0
+K0768,Klein,Sonstige,C (10-49 MA),97,2023-02-24,,,0
+K0769,Klein,C27 Elektro / Elektronik,D (<10 MA),74,2019-08-20,,,0
+K0770,Klein,F/G23 Baustoffhandel,D (<10 MA),74,2024-03-05,,,0
+K0771,Klein,C20 Chemie / Farben,C (10-49 MA),74,2024-04-24,,,0
+K0772,Klein,C28 Maschinenbau,C (10-49 MA),74,2015-11-17,,,0
+K0773,Klein,Sonstige,C (10-49 MA),74,2021-08-05,,,0
+K0774,Klein,C27 Elektro / Elektronik,C (10-49 MA),75,2020-05-28,,,0
+K0775,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2022-06-04,,,0
+K0776,Klein,C28 Maschinenbau,D (<10 MA),69,2020-09-13,,,0
+K0777,Klein,Sonstige,C (10-49 MA),74,2018-08-08,,,0
+K0778,Klein,C29 Automotive-Zulieferer,D (<10 MA),71,2022-05-10,,,0
+K0779,Klein,C25 Metallverarbeitung,C (10-49 MA),73,2015-08-02,,,0
+K0780,Klein,C29 Automotive-Zulieferer,C (10-49 MA),97,2023-08-14,,,0
+K0781,Klein,C28 Maschinenbau,C (10-49 MA),97,2019-09-28,,,0
+K0782,Klein,F/G23 Baustoffhandel,D (<10 MA),69,2015-04-18,,,0
+K0783,Klein,C28 Maschinenbau,C (10-49 MA),74,2017-06-04,,,0
+K0784,Klein,C25 Metallverarbeitung,D (<10 MA),74,2023-08-08,2025-11-18,Preis / Wettbewerb,0
+K0785,Klein,C20 Chemie / Farben,D (<10 MA),71,2020-04-06,,,0
+K0786,Klein,C28 Maschinenbau,C (10-49 MA),71,2021-10-18,,,0
+K0787,Klein,C29 Automotive-Zulieferer,D (<10 MA),74,2015-07-30,,,0
+K0788,Klein,G47 Einzelhandel / E-Commerce,D (<10 MA),69,2024-06-05,,,0
+K0789,Klein,C28 Maschinenbau,D (<10 MA),71,2019-09-17,,,0
+K0790,Klein,C29 Automotive-Zulieferer,C (10-49 MA),75,2019-06-20,,,0
+K0791,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2020-01-05,,,0
+K0792,Klein,C31 Möbel / Einrichtung,D (<10 MA),74,2022-12-28,,,0
+K0793,Klein,C28 Maschinenbau,C (10-49 MA),74,2017-05-28,,,0
+K0794,Klein,Sonstige,C (10-49 MA),74,2018-11-27,,,0
+K0795,Klein,C29 Automotive-Zulieferer,D (<10 MA),74,2020-01-29,,,0
+K0796,Klein,C29 Automotive-Zulieferer,C (10-49 MA),74,2019-07-22,,,0
+K0797,Klein,C28 Maschinenbau,D (<10 MA),71,2024-03-13,,,0
+K0798,Klein,C25 Metallverarbeitung,C (10-49 MA),73,2025-12-25,,,0
+K0799,Klein,C20 Chemie / Farben,C (10-49 MA),74,2018-07-13,,,0
+K0800,Klein,Sonstige,C (10-49 MA),71,2018-07-07,,,0
+K0801,Klein,C28 Maschinenbau,D (<10 MA),73,2016-12-31,,,0
+K0802,Klein,C29 Automotive-Zulieferer,C (10-49 MA),69,2016-11-19,,,0
+K0803,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2020-07-01,,,0
+K0804,Klein,C29 Automotive-Zulieferer,C (10-49 MA),73,2021-06-06,2026-02-03,Preis / Wettbewerb,0
+K0805,Klein,F/G23 Baustoffhandel,D (<10 MA),74,2023-12-20,,,0
+K0806,Klein,C28 Maschinenbau,C (10-49 MA),74,2022-10-05,,,0
+K0807,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),74,2020-11-10,,,0
+K0808,Klein,C28 Maschinenbau,C (10-49 MA),73,2021-08-14,,,0
+K0809,Klein,G46 Großhandel Konsumgüter,C (10-49 MA),74,2023-01-01,,,0
+K0810,Klein,G47 Einzelhandel / E-Commerce,C (10-49 MA),97,2017-09-13,,,0
+K0811,Klein,C28 Maschinenbau,D (<10 MA),71,2019-01-18,,,0
+K0812,Klein,C27 Elektro / Elektronik,D (<10 MA),74,2015-03-13,,,0
+K0813,Klein,C25 Metallverarbeitung,C (10-49 MA),71,2023-01-14,2025-12-24,Standortverlagerung,0
+K0814,Klein,F/G23 Baustoffhandel,C (10-49 MA),71,2023-02-04,,,0
+K0815,Klein,C25 Metallverarbeitung,D (<10 MA),73,2021-06-13,,,0
+K0816,Klein,C28 Maschinenbau,D (<10 MA),73,2024-10-13,,,0
+K0817,Klein,C25 Metallverarbeitung,C (10-49 MA),71,2015-03-18,,,0
+K0818,Klein,C28 Maschinenbau,C (10-49 MA),74,2017-07-03,,,0
+K0819,Klein,Sonstige,C (10-49 MA),69,2019-01-11,,,0
+K0820,Top,C29 Automotive-Zulieferer,A (>250 MA),73,2026-07-01,,,1
