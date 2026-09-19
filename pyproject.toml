@@ -31,3 +31,8 @@ pythonpath = ["."]
 
 [tool.vercel]
 entrypoint = "backend.app.main:app"
+
+
+[tool.setuptools.packages.find]
+include = ["backend*"]
+exclude = ["reference*", "docs*", "data*", "scripts*"]
