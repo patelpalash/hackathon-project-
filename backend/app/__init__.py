@@ -1,1 +1,1 @@
-"""Transit Planner backend package."""
+"""DACHSER Live Transit Planner backend."""
