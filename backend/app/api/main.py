@@ -5,7 +5,7 @@ from pathlib import Path
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request, status
-from fastapi.responses import JSONResponse, FileResponse
+from fastapi.responses import JSONResponse, FileResponse, HTMLResponse
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -209,6 +209,31 @@ async def api_404_catchall(request: Request, path: str):
         )
     )
     return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content=body.model_dump())
+
+# Minimal landing page when no compiled frontend is present
+if not FRONTEND_DIST.exists():
+    @app.get("/", response_class=HTMLResponse)
+    async def landing_page():
+        return """<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Transit Planner</title>
+  <style>
+    body{font-family:system-ui,-apple-system,sans-serif;margin:0;background:#0b1020;color:#eef2ff;display:grid;min-height:100vh;place-items:center}
+    main{max-width:760px;padding:48px}
+    h1{font-size:clamp(2.4rem,7vw,4.8rem);margin:0 0 16px}
+    p{color:#b9c2dd;font-size:1.1rem;line-height:1.6}
+    a{display:inline-block;margin:10px 10px 0 0;padding:12px 18px;border-radius:10px;background:#eef2ff;color:#0b1020;text-decoration:none;font-weight:700}
+  </style>
+</head>
+<body><main>
+  <h1>Transit Planner</h1>
+  <p>Hackathon routing and disruption-management prototype. The FastAPI backend is live and ready for demo traffic.</p>
+  <a href="/docs">Open API Docs</a><a href="/api/health">Health Check</a>
+</main></body>
+</html>"""
 
 # Static frontend fallback for packaged demo
 if FRONTEND_DIST.exists():
