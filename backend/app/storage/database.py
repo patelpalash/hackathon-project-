@@ -13,6 +13,12 @@ def get_db_path(mode: str = "demo") -> Path:
         p = Path(override)
         p.parent.mkdir(parents=True, exist_ok=True)
         return p
+
+    # Vercel Functions have a read-only deployment filesystem; /tmp is writable.
+    if os.environ.get("VERCEL"):
+        filename = "transit-live.db" if mode == "live" else "transit-demo.db"
+        return Path("/tmp") / filename
+
     target = DEFAULT_LIVE_DB if mode == "live" else DEFAULT_DEMO_DB
     target.parent.mkdir(parents=True, exist_ok=True)
     return target
@@ -24,7 +30,7 @@ def create_connection(db_path: Path) -> sqlite3.Connection:
     conn.execute("PRAGMA journal_mode = WAL;")
     return conn
 
-SCHEMA_SQL = """
+SCHEMA_SQL = """ 
 CREATE TABLE IF NOT EXISTS app_state (
     id INTEGER PRIMARY KEY CHECK (id = 1),
     dataset_id TEXT NOT NULL,
