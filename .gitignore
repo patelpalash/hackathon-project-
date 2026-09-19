@@ -1,31 +1,17 @@
-# Python
+# Runtime and user-created operational data
+.runtime/
+backend/store/
+*.log
+# Python cache and environments
 __pycache__/
 *.py[cod]
-*$py.class
+.pytest_cache/
 .venv/
 venv/
-ENV/
-build/
-dist/
-*.egg-info/
-.pytest_cache/
-
-# Runtime SQLite and temporary files
-data/runtime/*.db
-data/runtime/*.db-wal
-data/runtime/*.db-shm
-tmp/
-
-# Frontend dependencies and builds
+# Frontend packages and build output
 frontend/node_modules/
-frontend/dist/
-frontend/.vite/
-
-# OS and IDE
-.DS_Store
-Thumbs.db
-.idea/
-.vscode/
-*.swp
-*.swo
+# frontend/dist/ included for Vercel deployment
+# Credentials
 .env
+.env.*
+!frontend/.env.example
