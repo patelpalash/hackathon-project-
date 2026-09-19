@@ -28,3 +28,6 @@ dev = [
 asyncio_mode = "auto"
 testpaths = ["backend/tests"]
 pythonpath = ["."]
+
+[tool.vercel]
+entrypoint = "backend.app.main:app"
